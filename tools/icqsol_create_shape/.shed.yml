@@ -1,0 +1,14 @@
+name: icqsol_create_shape
+owner: iuc
+description: |
+  Contains a tool that creates a new selected primitive shape or a clone of a selected
+  shape.
+homepage_url: https://github.com/pletzer/icqsol
+long_description: |
+  Contains a tool that creates a selected primitive shape where shapes are Box, Cone,
+  Cylinder and Sphere with defined origin, edge lengths, radius, etc.  This tool also
+  creates a new copy of a shape selected from your history by cloning it.
+remote_repository_url:
+type: unrestricted
+categories:
+- Constructive Solid Geometry

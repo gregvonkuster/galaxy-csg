@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<tool id="icqsol_add_surface_field_from_expression" name="Add surface field" version="1.0.0">
+    <description>from expression</description>
+    <macros>
+        <import>icqsol_macros.xml</import>
+    </macros>
+    <expand macro="requirements" />
+    <command>
+<![CDATA[
+    python $__tool_directory__/icqsol_add_surface_field_from_expression.py
+    --input "$input"
+    --input_file_format_and_type $input.ext
+    --input_dataset_type $input.metadata.dataset_type
+    --field_name "$field_name"
+    --expression "$expression"
+    #for $tp in $time_points:
+        --time_point ${tp.time_point}
+    #end for
+    #if $refine_shape_cond.refine_shape == "yes":
+        --max_edge_length $refine_shape_cond.max_edge_length
+    #end if
+    --output "$output"
+    --output_vtk_type $output_vtk_type
+]]>
+    </command>
+    <inputs>
+        <param name="input" type="data" format="plyascii,plybinary,vtkascii,vtkbinary" label="Shape">
+            <validator type="dataset_ok_validator" />
+        </param>
+        <param name="field_name" type="text" value="surface_field" label="Surface field name" help="Spaces will be converted to underscore character."/>
+        <param name="expression" type="text" value="(x**2 * sin(y*pi) + z**4) * exp(t)" label="Expression" help="Legal variables are x,y,z (point coordinates) and t (time)."/>
+        <repeat name="time_points" title="Points in time" min="1" help="Provides snapshots of surface field over time sequence.">
+            <param name="time_point" type="float" value="0" label="Time point" help="Floating point number"/>
+        </repeat>
+        <conditional name="refine_shape_cond">
+            <param name="refine_shape" type="select" label="Refine shape?" help="Points will be added to the shape's edges restricting their length to the maximum.">
+                <option value="no" selected="True">No</option>
+                <option value="yes">Yes</option>
+            </param>
+            <when value="no" />
+            <when value="yes">
+                <param name="max_edge_length" type="float" value="0" label="Maximum edge length" help="Floating point number, 0 results in no refinement."/>
+            </when>
+        </conditional>
+        <expand macro="output_vtk_type_params" />
+    </inputs>
+    <outputs>
+        <data name="output" format="vtkascii" label="${tool.name} ${on_string}">
+            <actions>
+                <action type="format">
+                    <option type="from_param" name="output_vtk_type" />
+                </action>
+            </actions>
+        </data>
+    </outputs>
+    <tests>
+        <test>
+            <param name="input" value="box.vtkascii" ftype="vtkascii" />
+            <param name="input_file_format_and_type" value="vtkascii" />
+            <param name="input_dataset_type" value="POLYDATA" />
+            <param name="field_name" value="surface_field" />
+            <param name="expression" value="(x**2 * sin(y*pi) + z**4) * exp(t)" />
+            <repeat name="time_points">
+                <param name="time_point" value="0.1" />
+            </repeat>
+            <output name="output" file="box_with_surface_field.vtkascii" ftype="vtkascii" />
+            <param name="output_vtk_type" value="vtkascii" />
+        </test>
+    </tests>
+    <help>
+**What it does**
+
+<![CDATA[
+
+Adds a surface field to a selected shape based on a given mathematical expression consisting of
+variables x, y, z (shape point coordinates) and t (time).  This tool will generate VTK POLYDATA
+files, so input PLY files or VTK files with a different dataset type will automatically be converted
+to VTK POLYDATA during tool execution.
+
+* **Shape** - Shape to which a surface field will be added.
+* **Surface field name** - Name of the surface field to be added to the shape.
+* **Expression** - Mathematical expression consisting of variables x, y, z (shape point coordinates) and t (time) that defines the surface field.
+* **Time point** - A floating point value that defines a time point where multiple time points define a sequence of time snapshots for the surface field.
+* **Refine shape** - Select yes to refine the shape by shortening the edge lengths to a defined maximum.
+* **Maximum edge length** - Points are added to the shape's edges that are longer than the defined maximum length.
+]]>
+    </help>
+</tool>

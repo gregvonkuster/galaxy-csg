@@ -1,0 +1,205 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<tool id="icqsol_create_shape" name="Create 3D shape" version="1.0.0">
+    <description></description>
+    <macros>
+        <import>icqsol_macros.xml</import>
+    </macros>
+    <expand macro="requirements" />
+    <command>
+<![CDATA[
+    python $__tool_directory__/icqsol_create_shape.py
+    --create_process $create_process_cond.create_process
+    #if $create_process_cond.create_process == 'create':
+        --shape $create_process_cond.shape_cond.shape
+        #if $create_process_cond.shape_cond.shape == 'box':
+            @origin_cmd_args@
+            @lengths_cmd_args@
+        #else if $create_process_cond.shape_cond.shape == 'cone':
+            @radius_cmd_args@
+            @origin_cmd_args@
+            @lengths_cmd_args@
+            @n_theta_cmd_args@
+        #else if $create_process_cond.shape_cond.shape == 'cylinder':
+            @radius_cmd_args@
+            @origin_cmd_args@
+            @lengths_cmd_args@
+            @n_theta_cmd_args@
+        #else if $create_process_cond.shape_cond.shape == 'sphere':
+            @radius_cmd_args@
+            @origin_cmd_args@
+            @n_theta_cmd_args@
+            @n_phi_cmd_args@
+        #end if
+        --output_vtk_type $create_process_cond.output_vtk_type
+        --output "$output_create"
+    #else:
+        --shape_input "$create_process_cond.shape_input"
+        --rotate $create_process_cond.rotate_cond.rotate
+        #if $create_process_cond.rotate_cond.rotate == 'yes':
+            --rotation_axis_x $create_process_cond.rotate_cond.rotation_axis_x
+            --rotation_axis_y $create_process_cond.rotate_cond.rotation_axis_y
+            --rotation_axis_z $create_process_cond.rotate_cond.rotation_axis_z
+            --rotation_degree $create_process_cond.rotate_cond.rotation_degree
+        #end if
+        #if $create_process_cond.translate_cond.translate == 'yes':
+            --translate $create_process_cond.translate_cond.translate
+            --origin_x $create_process_cond.translate_cond.translate_origin_x
+            --origin_y $create_process_cond.translate_cond.translate_origin_y
+            --origin_z $create_process_cond.translate_cond.translate_origin_z
+        #end if
+        --output_vtk_type $create_process_cond.shape_input.ext
+        --output "$output_clone"
+    #end if
+]]>
+    </command>
+    <inputs>
+        <conditional name="create_process_cond">
+            <param name="create_process" type="select" label="Create or clone?" help="Create a new shape or clone a shape in your history.">
+                <option value="create" selected="True">Create a shape</option>
+                <option value="clone">Clone a shape in your history</option>
+            </param>
+            <when value="create">
+                <conditional name="shape_cond">
+                    <param name="shape" type="select" label="Select shape">
+                        <option value="box" selected="True">Box</option>
+                        <option value="cone">Cone</option>
+                        <option value="cylinder">Cylinder</option>
+                        <option value="sphere">Sphere</option>
+                    </param>
+                    <when value="box">
+                        <expand macro="origin_params" />
+                        <expand macro="lengths_exclude_min_params" />
+                    </when>
+                    <when value="cone">
+                        <expand macro="radius_params" />
+                        <expand macro="origin_params" />
+                        <expand macro="lengths_params" />
+                        <expand macro="n_theta_params" />
+                    </when>
+                    <when value="cylinder">
+                        <expand macro="radius_params" />
+                        <expand macro="origin_params" />
+                        <expand macro="lengths_params" />
+                        <expand macro="n_theta_params" />
+                    </when>
+                    <when value="sphere">
+                        <expand macro="radius_params" />
+                        <expand macro="origin_params" />
+                        <expand macro="n_theta_params" />
+                        <expand macro="n_phi_params" />
+                    </when>
+                </conditional>
+                <expand macro="output_vtk_type_params" />
+            </when>
+            <when value="clone">
+                <param name="shape_input" type="data" format="plyascii,plybinary,vtkascii,vtkbinary" label="Shape to clone" help="Select shape for cloning.">
+                    <validator type="dataset_ok_validator" />
+                </param>
+                <conditional name="rotate_cond">
+                    <param name="rotate" type="select" label="Rotate cloned shape?">
+                        <option value="no" selected="True">No</option>
+                        <option value="yes">Yes</option>
+                    </param>
+                    <when value="no"/>
+                    <when value="yes">
+                        <param name="rotation_axis_x" type="float" value="0.0" label="X component of rotation axis" help="Floating point number"/>
+                        <param name="rotation_axis_y" type="float" value="0.0" label="Y component of rotation axis" help="Floating point number"/>
+                        <param name="rotation_axis_z" type="float" value="0.0" label="Z component of rotation axis" help="Floating point number"/>
+                        <param name="rotation_degree" type="float" value="0.0" label="Degree of rotation" help="Floating point number"/>
+                    </when>
+                </conditional>
+                <conditional name="translate_cond">
+                    <param name="translate" type="select" label="Translate cloned shape?">
+                        <option value="no" selected="True">No</option>
+                        <option value="yes">Yes</option>
+                    </param>
+                    <when value="no"/>
+                    <when value="yes">
+                        <param name="translate_origin_x" type="float" value="0.0" label="X coordinate of new origin" help="Floating point number"/>
+                        <param name="translate_origin_y" type="float" value="0.0" label="Y coordinate of new origin" help="Floating point number"/>
+                        <param name="translate_origin_z" type="float" value="0.0" label="Z coordinate of new origin" help="Floating point number"/>
+                    </when>
+                </conditional>
+            </when>
+        </conditional>
+    </inputs>
+    <outputs>
+        <data name="output_create" format="vtkascii" label="${tool.name} ${on_string}: ${create_process_cond.shape_cond.shape}">
+            <filter>create_process_cond['create_process'] == "create"</filter>
+            <actions>
+                <action type="format">
+                    <option type="from_param" name="create_process_cond.output_vtk_type" />
+                </action>
+            </actions>
+        </data>
+        <data name="output_clone" format_source="shape_input" label="${tool.name}: Cloned ${on_string}">
+            <filter>create_process_cond['create_process'] == "clone"</filter>
+        </data>
+    </outputs>
+    <tests>
+        <test>
+            <param name="shape" value="cone" />
+            <param name="radius" value="0.25" />
+            <param name="origin_x" value="-0.06" />
+            <param name="length_x" value="0.14" />
+            <param name="output_vtk_type" value="vtkascii" />
+            <output name="output" file="head.vtkascii" />
+        </test>
+        <test>
+            <param name="shape" value="box" />
+            <param name="origin_x" value="-0.06" />
+            <param name="origin_y" value="-0.015" />
+            <param name="origin_z" value="-0.015" />
+            <param name="length_x" value="0.03" />
+            <param name="length_y" value="0.03" />
+            <param name="length_z" value="0.30" />
+            <param name="output_vtk_type" value="vtkascii" />
+            <output name="output" file="notch1.vtkascii" />
+        </test>
+        <test>
+            <param name="shape" value="cylinder" />
+            <param name="radius" value="0.1" />
+            <param name="origin_x" value="0.0" />
+            <param name="origin_y" value="0.0" />
+            <param name="origin_z" value="0.0" />
+            <param name="length_x" value="1.0" />
+            <param name="length_y" value="0.0" />
+            <param name="length_z" value="0.0" />
+            <param name="n_theta" value="16" />
+            <param name="output_vtk_type" value="vtkascii" />
+            <output name="output" file="shaft.vtkascii" />
+        </test>
+        <test>
+            <param name="create_process" value="clone" />
+            <param name="shape_input" value="notch1.vtkascii" ftype="vtkascii" />
+            <param name="rotate" value="yes" />
+            <param name="rotation_axis_x" value="1.0" />
+            <param name="rotation_degree" value="90.0" />
+            <output name="output" file="notch2.vtkascii" ftype="vtkascii" />
+        </test>
+    </tests>
+    <help>
+**What it does**
+
+**Create a shape** - creates a selected primitive shape where shapes are Box, Cone, Cylinder and Sphere.
+
+- **Origin X,Y,Z** - Origin coordinate for all shapes.
+- **Lengths X,Y,Z** - Edge lengths for Box, Cone and Cylinder.
+- **Radius** - Radius length for Cone, Cylinder and Sphere.
+- **Number of slices** - Controls the tessellation along the longitude direction for all shapes.
+- **Number of stacks** - Controls the tessellation along the latitude direction for all shapes.
+- **Output format and file type** - Choose the output format **ply** or **vtk** and file type **ascii** or **binary**.
+
+-----
+
+**Clone a shape from your history** - creates a new copy of a shape selected from your history.
+
+- **Shape to clone** - Shape selected from your history for cloning.
+- **Rotate cloned shape** - Enables rotation of the cloned shape around a defined axis.
+- **Rotation axis X,Y,Z?** - The axis of rotation for the cloned shape.
+- **Degree of rotation** - The degree of rotation around the axis.
+- **Translate cloned shape?** - Enables resetting the origin of the cloned shape, moving the shape.
+- **New origin X,Y,Z** - Translated origin of cloned shape.
+
+    </help>
+</tool>

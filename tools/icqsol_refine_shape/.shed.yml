@@ -1,0 +1,13 @@
+name: icqsol_refine_shape
+owner: iuc
+description: |
+  Contains a tool that refines a shape to a specified level resulting in a more detailed shape.
+homepage_url: https://github.com/pletzer/icqsol
+long_description: |
+  Contains a tool that refines a shape to a specified level resulting in a more detailed shape.
+  A middle point is added to each edge and to the center of each of the shape's polygons for
+  each level of refinement.
+remote_repository_url:
+type: unrestricted
+categories:
+- Constructive Solid Geometry

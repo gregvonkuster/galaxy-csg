@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<tool id="icqsol_refine_shape" name="Refine shape" version="1.0.0">
+    <description></description>
+    <macros>
+        <import>icqsol_macros.xml</import>
+    </macros>
+    <expand macro="requirements" />
+    <command>
+<![CDATA[
+    python $__tool_directory__/icqsol_refine_shape.py
+    --input "$input"
+    --input_file_format_and_type $input.ext
+    --input_dataset_type $input.metadata.dataset_type
+    --max_edge_length $max_edge_length
+    --output "$output"
+    --output_vtk_type $output_vtk_type
+]]>
+    </command>
+    <inputs>
+        <param name="input" type="data" format="plyascii,plybinary,vtkascii,vtkbinary" label="Shape">
+            <validator type="dataset_ok_validator" />
+        </param>
+        <param name="max_edge_length" type="float" value="0" label="Maximum edge length" help="Floating point number.">
+            <validator type="in_range" min="0" exclude_min="true" />
+        </param>
+        <expand macro="output_vtk_type_params" />
+    </inputs>
+    <outputs>
+        <data name="output" format="vtkascii" label="${tool.name} ${on_string} Max edge length: ${max_edge_length}">
+            <actions>
+                <action type="format">
+                    <option type="from_param" name="output_vtk_type" />
+                </action>
+            </actions>
+        </data>
+    </outputs>
+    <tests>
+        <test>
+            <param name="input" value="box_with_surface_field.vtkascii" ftype="vtkascii" />
+            <param name="input_file_format_and_type" value="vtkascii" />
+            <param name="input_dataset_type" value="POLYDATA" />
+            <param name="max_edge_length" value="0.1" />
+            <output name="output" file="box_refined.vtkascii" ftype="vtkascii" />
+            <param name="output_vtk_type" value="vtkascii" />
+        </test>
+    </tests>
+    <help>
+**What it does**
+
+<![CDATA[
+
+Refines a shape to a specified level resulting in a more detailed shape.
+
+* **Shape** - Shape to be refined.
+* **Maximum edge length** - Points are added to the shape's edges that are longer than the defined maximum length.
+]]>
+    </help>
+</tool>

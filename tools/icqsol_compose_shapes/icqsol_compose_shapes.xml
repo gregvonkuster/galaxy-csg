@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<tool id="icqsol_compose_shapes" name="Compose 3D shapes" version="1.0.0">
+    <description></description>
+    <macros>
+        <import>icqsol_macros.xml</import>
+    </macros>
+    <expand macro="requirements" />
+    <command>
+<![CDATA[
+    python $__tool_directory__/icqsol_compose_shapes.py
+    --expression "$expression"
+    #for $i in $input_shapes:
+        --shape_dataset "${i.expression_var}" "${i.input_shape}" "${i.input_shape.ext}" "${i.input_shape.metadata.dataset_type}"
+    #end for
+    --output "$output"
+    --output_vtk_type $output_vtk_type
+]]>
+    </command>
+    <inputs>
+        <param name="expression" type="text" value="" label="Composition expression" help="Example: A + B - C - D"/>
+        <repeat name="input_shapes" title="Expression variable and shape" min="2">
+            <param name="expression_var" type="text" value="" label="Expression variable" help="The selected shape will be associated with this variable in the expression."/>
+            <param name="input_shape" type="data" format="plyascii,plybinary,vtkascii,vtkbinary" label="Shape">
+                <validator type="dataset_ok_validator" />
+            </param>
+        </repeat>
+        <expand macro="output_vtk_type_params" />
+    </inputs>
+    <outputs>
+        <data name="output" format="vtkascii" label="${tool.name} ${on_string}">
+            <actions>
+                <action type="format">
+                    <option type="from_param" name="output_vtk_type" />
+                </action>
+            </actions>
+        </data>
+    </outputs>
+    <tests>
+        <test>
+            <param name="expression" value="head + shaft - notch1 - notch2" />
+            <repeat name="input_shapes">
+                <param name="expression_var" value="head" />
+                <param name="input_shape" value="head.vtkascii" ftype="vtkascii" />
+            </repeat>
+            <repeat name="input_shapes">
+                <param name="expression_var" value="shaft" />
+                <param name="input_shape" value="shaft.vtkascii" ftype="vtkascii" />
+            </repeat>
+            <repeat name="input_shapes">
+                <param name="expression_var" value="notch1" />
+                <param name="input_shape" value="notch1.vtkascii" ftype="vtkascii" />
+            </repeat>
+            <repeat name="input_shapes">
+                <param name="expression_var" value="notch2" />
+                <param name="input_shape" value="notch2.vtkascii" ftype="vtkascii" />
+            </repeat>
+            <output name="output" file="philips_bolt.vtkascii" ftype="vtkascii" />
+            <param name="output_vtk_type" value="vtkascii" />
+        </test>
+    </tests>
+    <help>
+**What it does**
+
+<![CDATA[
+Creates a shape composed of any number of selected shapes where the composition is based on a mathematical
+expression consisting of **+**, **-** and ***** operations.  The **+** results in a union of shapes, the
+**-** operator removes a shape and the ***** operator results in an intersection of shapes.
+
+For example, if the **Composition expression** is **A + B - C - D**, selecting 4 shapes from your history
+and associating each shape with a variable from the expression will result in a shape composed of the shapes
+associated with A and B, but eliminating the shapes associated with C and D.
+
+]]>
+    </help>
+</tool>
