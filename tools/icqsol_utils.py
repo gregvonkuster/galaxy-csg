@@ -45,6 +45,7 @@ def get_tempfilename( dir=None, suffix=None ):
     """
     fd, name = tempfile.mkstemp( suffix=suffix, dir=dir )
     os.close( fd )
+    return name
 
 def get_temporary_file_path( tmp_dir, file_extension ):
     """
