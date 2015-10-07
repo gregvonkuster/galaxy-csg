@@ -37,7 +37,8 @@
 
                 // Scene
                 scene = new THREE.Scene();
-                scene.fog = new THREE.Fog(0x808080, 2000, 4000);
+                // Color, near, far
+                scene.fog = new THREE.Fog(0x808080, 0.1, 1000);
 
                 // Data format and loader
                 var hdaExt  = '${hda.ext}';
@@ -174,14 +175,20 @@
 
                     // GUI
                     gui = new dat.GUI();
-                    parameters = {'shininess': 100,
+                    parameters = {'background': '#000000',
+                                  'shininess': 100,
                                   'color': '#aaaaaa',
                                   'emissive': '#000000',
                                   'specular': '#111111',
                                   'wireframe': false,
                                   'lightX': lightX,
                                   'lightY': lightY,
-                                  'lightZ': lightZ}
+                                  'lightZ': lightZ};
+
+                    var sceneFolder = gui.addFolder('scene');
+                    
+                    var backgroundGui = sceneFolder.addColor(parameters, 'background').name('background').listen();
+                    backgroundGui.onChange( function(value) {renderer.setClearColor(value);} );
 
                     var materialFolder = gui.addFolder('material');
 
