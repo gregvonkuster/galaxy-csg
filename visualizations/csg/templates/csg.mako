@@ -54,7 +54,10 @@
 
                     var material = new THREE.MeshPhongMaterial({shading: THREE.SmoothShading,
                                                                 side: THREE.DoubleSide,
-                                                                shininess: 100});
+                                                                shininess: 100,
+                                                                emissive: 0x000000,
+                                                                specular: 0x111111,
+                                                                wireframe: false});
                     geometry.receiveShadow = true;
                     geometry.computeFaceNormals();
 
@@ -173,8 +176,9 @@
                                   'lightY': lightY,
                                   'lightZ': lightZ}
 
-                    var isoShininess = gui.add(parameters, 'shininess').min(0).max(100).step(2).name('shininess').listen();
-                    isoShininess.onChange( function(value) {material.shininess = value} );
+                    materialFolder = gui.addFolder('material');
+                    materialShininessGui = materialFolder.add(parameters, 'shininess').min(0).max(100).step(5).listen();
+                    materialShininessGui.onChange( function(value) {material.shininess = value} );
 
                     lightPositionFolder = gui.addFolder('light position');
                     lightXGui = lightPositionFolder.add(parameters, 'lightX' ).min(xmid-10*xlen).max(xmid+10*xlen).step(xlen/10.).listen();
