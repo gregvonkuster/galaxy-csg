@@ -29,8 +29,6 @@
             var controls;
             var bbHelper;
 
-            var isoMeshes = [];
-            
             init();
             //animate();
 
@@ -39,7 +37,8 @@
 
                 // Scene
                 scene = new THREE.Scene();
-                scene.fog = new THREE.Fog(0x808080, 2000, 4000);
+                // Color, near, far
+                scene.fog = new THREE.Fog(0x808080, 0.1, 1000);
 
                 // Data format and loader
                 var hdaExt  = '${hda.ext}';
@@ -56,7 +55,10 @@
 
                     var material = new THREE.MeshPhongMaterial({shading: THREE.SmoothShading,
                                                                 side: THREE.DoubleSide,
-                                                                shininess: 100});
+                                                                shininess: 100,
+                                                                emissive: 0x000000,
+                                                                specular: 0x111111,
+                                                                wireframe: false});
                     geometry.receiveShadow = true;
                     geometry.computeFaceNormals();
 
@@ -67,15 +69,18 @@
 
                     }
 
+                    var geometryHasColor = false;
                     if ( geometry.type == "BufferGeometry" && 
                          geometry.getAttribute( 'color' ) ) {
+
+                        geometryHasColor = true;
 
                         // Color vertices
                         material[ 'vertexColors' ] = THREE.VertexColors;
 
                     } else {
 
-                        // No color, use some grey shade
+                        // No color, use gui input
                         material[ 'color' ] = new THREE.Color( 0xAAAAAA );
 
                     }
@@ -144,7 +149,7 @@
                     controls = new THREE.OrbitControls(camera, renderer.domElement);
 
                     // Light
-                    var light = new THREE.SpotLight( 0xBBBBBB );
+                    var light = new THREE.SpotLight(0xBBBBBB);
                     light.castShadow = true;
                     light.position.set(xmid + 5*xlen, ymid + 5*ylen, zmid + 5*zlen);
                     light.target.position.set(xmid, ymid, zmid);
@@ -153,7 +158,7 @@
                     scene.add( light );
   
                     // Ambient light
-                    var lightAmbient = new THREE.AmbientLight( 0xffffff );
+                    var lightAmbient = new THREE.AmbientLight(0xffffff);
                     scene.add(lightAmbient);
 
                     // Axes
@@ -168,34 +173,51 @@
                     scene.add(yAxis);
                     scene.add(zAxis);
 
-                    for (i = 0; i < isoMeshes.length; ++i) {
-                        isoMeshes[i].castShadow = true;
-                        isoMeshes[i].receiveShadow = true;
-                    }
-
                     // GUI
                     gui = new dat.GUI();
-                    parameters = {'shininess': 100,
+                    parameters = {'background': '#000000',
+                                  'shininess': 100,
+                                  'color': '#aaaaaa',
+                                  'emissive': '#000000',
+                                  'specular': '#111111',
+                                  'wireframe': false,
                                   'lightX': lightX,
                                   'lightY': lightY,
-                                  'lightZ': lightZ}
+                                  'lightZ': lightZ};
 
-                    var isoShininess = gui.add(parameters, 'shininess').min(0).max(100).step(2).name('shininess').listen();
+                    var sceneFolder = gui.addFolder('scene');
+                    
+                    var backgroundGui = sceneFolder.addColor(parameters, 'background').name('background').listen();
+                    backgroundGui.onChange( function(value) {renderer.setClearColor(value);} );
 
-                    isoShininess.onChange(
-                        function(value) {
-                            for (i = 0; i < isoMeshes.length; ++i) isoMeshes[i].material.shininess = value;
-                        }
-                    );
+                    var materialFolder = gui.addFolder('material');
 
-                    lightPositionFolder = gui.addFolder('light position');
-                    lightXGui = lightPositionFolder.add(parameters, 'lightX' ).min(xmid-10*xlen).max(xmid+10*xlen).step(xlen/10.).listen();
+                    var materialShininessGui = materialFolder.add(parameters, 'shininess').min(0).max(100).step(5).listen();
+                    materialShininessGui.onChange( function(value) {material.shininess = value} );
+
+                    if (! geometryHasColor) {
+                        var materialColorGui = materialFolder.addColor(parameters, 'color').name('ambient color').listen();
+                        materialColorGui.onChange( function(value) {material.color.setHex(value.replace('#', '0x'));} );
+                    }
+
+                    var materialEmissiveGui = materialFolder.addColor(parameters, 'emissive').name('emissive color').listen();
+                    materialEmissiveGui.onChange( function(value) {material.emissive.setHex(value.replace('#', '0x'));} );
+
+                    var materialSpecularGui = materialFolder.addColor(parameters, 'specular').name('specular color').listen();
+                    materialSpecularGui.onChange( function(value) {material.specular.setHex(value.replace('#', '0x'));} );
+
+                    var materialWireframeGui = materialFolder.add(parameters, 'wireframe').listen();
+                    materialWireframeGui.onChange( function(value) {material.wireframe = value} );
+
+                    var lightsFolder = gui.addFolder('lights');
+
+                    var lightXGui = lightsFolder.add(parameters, 'lightX' ).min(xmid-10*xlen).max(xmid+10*xlen).step(xlen/10.).name('x').listen();
                     lightXGui.onChange( function(value) {light.position.x = value} );
 
-                    lightYGui = lightPositionFolder.add(parameters, 'lightY' ).min(ymid-10*ylen).max(ymid+10*ylen).step(ylen/10.).listen();
+                    var lightYGui = lightsFolder.add(parameters, 'lightY' ).min(ymid-10*ylen).max(ymid+10*ylen).step(ylen/10.).name('y').listen();
                     lightYGui.onChange( function(value) {light.position.y = value} );
 
-                    lightZGui = lightPositionFolder.add(parameters, 'lightZ' ).min(zmid-10*zlen).max(zmid+10*zlen).step(zlen/10.).listen();
+                    var lightZGui = lightsFolder.add(parameters, 'lightZ' ).min(zmid-10*zlen).max(zmid+10*zlen).step(zlen/10.).name('z').listen();
                     lightZGui.onChange( function(value) {light.position.z = value} );
 
                     // Animate

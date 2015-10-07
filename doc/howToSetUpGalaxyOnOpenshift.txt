@@ -96,10 +96,10 @@ galaxy @ http://galaxy-pedees.rhcloud.com/ (uuid: 5611ccc02d52713b6000010c)
 
 $ cd galaxy
 $ cat > .openshift/action_hooks/start <<EOF
-sh \$OPENSHIFT_DATA_DIR/source/galaxy/run.sh —daemon
+sh \$OPENSHIFT_DATA_DIR/source/galaxy/run.sh -—daemon
 EOF
 $ cat > .openshift/action_hooks/stop <<EOF
-sh \$OPENSHIFT_DATA_DIR/source/galaxy/run.sh —stop-daemon
+sh \$OPENSHIFT_DATA_DIR/source/galaxy/run.sh -—stop-daemon
 EOF
 $ git commit -a 
 $ git push 
