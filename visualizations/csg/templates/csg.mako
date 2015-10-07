@@ -172,22 +172,32 @@
                     // GUI
                     gui = new dat.GUI();
                     parameters = {'shininess': 100,
+                                  'emissive': '#000000',
+                                  'specular': '#111111',
                                   'lightX': lightX,
                                   'lightY': lightY,
                                   'lightZ': lightZ}
 
-                    materialFolder = gui.addFolder('material');
-                    materialShininessGui = materialFolder.add(parameters, 'shininess').min(0).max(100).step(5).listen();
+                    var materialFolder = gui.addFolder('material');
+
+                    var materialShininessGui = materialFolder.add(parameters, 'shininess').min(0).max(100).step(5).listen();
                     materialShininessGui.onChange( function(value) {material.shininess = value} );
 
-                    lightPositionFolder = gui.addFolder('light position');
-                    lightXGui = lightPositionFolder.add(parameters, 'lightX' ).min(xmid-10*xlen).max(xmid+10*xlen).step(xlen/10.).listen();
+                    var materialEmissiveGui = materialFolder.addColor(parameters, 'emissive').name('emissive color').listen();
+                    materialEmissiveGui.onChange( function(value) {material.emissive.setHex(value.replace('#', '0x'));} );
+
+                    var materialSpecularGui = materialFolder.addColor(parameters, 'specular').name('specular color').listen();
+                    materialSpecularGui.onChange( function(value) {material.specular.setHex(value.replace('#', '0x'));} );
+
+                    var lightPositionFolder = gui.addFolder('light position');
+
+                    var lightXGui = lightPositionFolder.add(parameters, 'lightX' ).min(xmid-10*xlen).max(xmid+10*xlen).step(xlen/10.).listen();
                     lightXGui.onChange( function(value) {light.position.x = value} );
 
-                    lightYGui = lightPositionFolder.add(parameters, 'lightY' ).min(ymid-10*ylen).max(ymid+10*ylen).step(ylen/10.).listen();
+                    var lightYGui = lightPositionFolder.add(parameters, 'lightY' ).min(ymid-10*ylen).max(ymid+10*ylen).step(ylen/10.).listen();
                     lightYGui.onChange( function(value) {light.position.y = value} );
 
-                    lightZGui = lightPositionFolder.add(parameters, 'lightZ' ).min(zmid-10*zlen).max(zmid+10*zlen).step(zlen/10.).listen();
+                    var lightZGui = lightPositionFolder.add(parameters, 'lightZ' ).min(zmid-10*zlen).max(zmid+10*zlen).step(zlen/10.).listen();
                     lightZGui.onChange( function(value) {light.position.z = value} );
 
                     // Animate
