@@ -178,6 +178,7 @@
                                   'color': '#aaaaaa',
                                   'emissive': '#000000',
                                   'specular': '#111111',
+                                  'wireframe': false,
                                   'lightX': lightX,
                                   'lightY': lightY,
                                   'lightZ': lightZ}
@@ -197,6 +198,9 @@
 
                     var materialSpecularGui = materialFolder.addColor(parameters, 'specular').name('specular color').listen();
                     materialSpecularGui.onChange( function(value) {material.specular.setHex(value.replace('#', '0x'));} );
+
+                    var materialWireframeGui = materialFolder.add(parameters, 'wireframe').listen();
+                    materialWireframeGui.onChange( function(value) {material.wireframe = value} );
 
                     var lightsFolder = gui.addFolder('lights');
 
