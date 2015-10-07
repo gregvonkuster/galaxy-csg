@@ -191,13 +191,13 @@
 
                     var lightPositionFolder = gui.addFolder('light position');
 
-                    var lightXGui = lightPositionFolder.add(parameters, 'lightX' ).min(xmid-10*xlen).max(xmid+10*xlen).step(xlen/10.).listen();
+                    var lightXGui = lightPositionFolder.add(parameters, 'lightX' ).min(xmid-10*xlen).max(xmid+10*xlen).step(xlen/10.).name('x').listen();
                     lightXGui.onChange( function(value) {light.position.x = value} );
 
-                    var lightYGui = lightPositionFolder.add(parameters, 'lightY' ).min(ymid-10*ylen).max(ymid+10*ylen).step(ylen/10.).listen();
+                    var lightYGui = lightPositionFolder.add(parameters, 'lightY' ).min(ymid-10*ylen).max(ymid+10*ylen).step(ylen/10.).name('y').listen();
                     lightYGui.onChange( function(value) {light.position.y = value} );
 
-                    var lightZGui = lightPositionFolder.add(parameters, 'lightZ' ).min(zmid-10*zlen).max(zmid+10*zlen).step(zlen/10.).listen();
+                    var lightZGui = lightPositionFolder.add(parameters, 'lightZ' ).min(zmid-10*zlen).max(zmid+10*zlen).step(zlen/10.).name('z').listen();
                     lightZGui.onChange( function(value) {light.position.z = value} );
 
                     // Animate
