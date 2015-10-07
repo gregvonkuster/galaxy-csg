@@ -68,15 +68,18 @@
 
                     }
 
+                    var geometryHasColor = false;
                     if ( geometry.type == "BufferGeometry" && 
                          geometry.getAttribute( 'color' ) ) {
+
+                        geometryHasColor = true;
 
                         // Color vertices
                         material[ 'vertexColors' ] = THREE.VertexColors;
 
                     } else {
 
-                        // No color, use some grey shade
+                        // No color, use gui input
                         material[ 'color' ] = new THREE.Color( 0xAAAAAA );
 
                     }
@@ -145,7 +148,7 @@
                     controls = new THREE.OrbitControls(camera, renderer.domElement);
 
                     // Light
-                    var light = new THREE.SpotLight( 0xBBBBBB );
+                    var light = new THREE.SpotLight(0xBBBBBB);
                     light.castShadow = true;
                     light.position.set(xmid + 5*xlen, ymid + 5*ylen, zmid + 5*zlen);
                     light.target.position.set(xmid, ymid, zmid);
@@ -154,7 +157,7 @@
                     scene.add( light );
   
                     // Ambient light
-                    var lightAmbient = new THREE.AmbientLight( 0xffffff );
+                    var lightAmbient = new THREE.AmbientLight(0xffffff);
                     scene.add(lightAmbient);
 
                     // Axes
@@ -172,6 +175,7 @@
                     // GUI
                     gui = new dat.GUI();
                     parameters = {'shininess': 100,
+                                  'color': '#aaaaaa',
                                   'emissive': '#000000',
                                   'specular': '#111111',
                                   'lightX': lightX,
@@ -183,21 +187,26 @@
                     var materialShininessGui = materialFolder.add(parameters, 'shininess').min(0).max(100).step(5).listen();
                     materialShininessGui.onChange( function(value) {material.shininess = value} );
 
+                    if (! geometryHasColor) {
+                        var materialColorGui = materialFolder.addColor(parameters, 'color').name('ambient color').listen();
+                        materialColorGui.onChange( function(value) {material.color.setHex(value.replace('#', '0x'));} );
+                    }
+
                     var materialEmissiveGui = materialFolder.addColor(parameters, 'emissive').name('emissive color').listen();
                     materialEmissiveGui.onChange( function(value) {material.emissive.setHex(value.replace('#', '0x'));} );
 
                     var materialSpecularGui = materialFolder.addColor(parameters, 'specular').name('specular color').listen();
                     materialSpecularGui.onChange( function(value) {material.specular.setHex(value.replace('#', '0x'));} );
 
-                    var lightPositionFolder = gui.addFolder('light position');
+                    var lightsFolder = gui.addFolder('lights');
 
-                    var lightXGui = lightPositionFolder.add(parameters, 'lightX' ).min(xmid-10*xlen).max(xmid+10*xlen).step(xlen/10.).name('x').listen();
+                    var lightXGui = lightsFolder.add(parameters, 'lightX' ).min(xmid-10*xlen).max(xmid+10*xlen).step(xlen/10.).name('x').listen();
                     lightXGui.onChange( function(value) {light.position.x = value} );
 
-                    var lightYGui = lightPositionFolder.add(parameters, 'lightY' ).min(ymid-10*ylen).max(ymid+10*ylen).step(ylen/10.).name('y').listen();
+                    var lightYGui = lightsFolder.add(parameters, 'lightY' ).min(ymid-10*ylen).max(ymid+10*ylen).step(ylen/10.).name('y').listen();
                     lightYGui.onChange( function(value) {light.position.y = value} );
 
-                    var lightZGui = lightPositionFolder.add(parameters, 'lightZ' ).min(zmid-10*zlen).max(zmid+10*zlen).step(zlen/10.).name('z').listen();
+                    var lightZGui = lightsFolder.add(parameters, 'lightZ' ).min(zmid-10*zlen).max(zmid+10*zlen).step(zlen/10.).name('z').listen();
                     lightZGui.onChange( function(value) {light.position.z = value} );
 
                     // Animate
