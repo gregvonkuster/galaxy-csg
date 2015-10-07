@@ -29,8 +29,6 @@
             var controls;
             var bbHelper;
 
-            var isoMeshes = [];
-            
             init();
             //animate();
 
@@ -168,11 +166,6 @@
                     scene.add(yAxis);
                     scene.add(zAxis);
 
-                    for (i = 0; i < isoMeshes.length; ++i) {
-                        isoMeshes[i].castShadow = true;
-                        isoMeshes[i].receiveShadow = true;
-                    }
-
                     // GUI
                     gui = new dat.GUI();
                     parameters = {'shininess': 100,
@@ -181,12 +174,7 @@
                                   'lightZ': lightZ}
 
                     var isoShininess = gui.add(parameters, 'shininess').min(0).max(100).step(2).name('shininess').listen();
-
-                    isoShininess.onChange(
-                        function(value) {
-                            for (i = 0; i < isoMeshes.length; ++i) isoMeshes[i].material.shininess = value;
-                        }
-                    );
+                    isoShininess.onChange( function(value) {material.shininess = value} );
 
                     lightPositionFolder = gui.addFolder('light position');
                     lightXGui = lightPositionFolder.add(parameters, 'lightX' ).min(xmid-10*xlen).max(xmid+10*xlen).step(xlen/10.).listen();
