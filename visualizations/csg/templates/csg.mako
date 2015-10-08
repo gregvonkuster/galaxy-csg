@@ -53,12 +53,17 @@
                 loader.load("${h.url_for( controller='/datasets', action='index')}/${trans.security.encode_id( hda.id )}/display",
                 function (geometry) {
 
-                    var material = new THREE.MeshPhongMaterial({shading: THREE.SmoothShading,
+                    var surface = new THREE.MeshPhongMaterial({shading: THREE.SmoothShading,
                                                                 side: THREE.DoubleSide,
                                                                 shininess: 100,
                                                                 emissive: 0x000000,
                                                                 specular: 0x111111,
-                                                                wireframe: false});
+                                                                metal: false});
+
+                    var edges = new THREE.MeshBasicMaterial({color: 0x111111, 
+                                                             wireframe: true,
+                                                             wireframeLinewidth: 2});
+
                     geometry.receiveShadow = true;
                     geometry.computeFaceNormals();
 
@@ -76,20 +81,23 @@
                         geometryHasColor = true;
 
                         // Color vertices
-                        material[ 'vertexColors' ] = THREE.VertexColors;
+                        surface[ 'vertexColors' ] = THREE.VertexColors;
 
                     } else {
 
                         // No color, use gui input
-                        material[ 'color' ] = new THREE.Color( 0xAAAAAA );
+                        surface[ 'color' ] = new THREE.Color( 0xAAAAAA );
 
                     }
 
-                    var mesh = new THREE.Mesh(geometry, material);
-                    scene.add(mesh);
+                    var meshSurface = new THREE.Mesh(geometry, surface);
+                    scene.add(meshSurface);
+
+                    var meshEdges = new THREE.Mesh(geometry, edges);
+                    // will be added on request to the scene
 
                     // Define the BoundingBox
-                    bbHelper = new THREE.BoundingBoxHelper(mesh, 0xff0000);
+                    bbHelper = new THREE.BoundingBoxHelper(meshSurface, 0xff0000);
                     bbHelper.update();
 
                     // Determine box boundaries based on geometry.
@@ -117,11 +125,11 @@
                     var shapeHeight = ( ymin > ymax ) ? ymin - ymax : ymax - ymin;
                     var shapeDepth = ( zmin > zmax ) ? zmin - zmax : zmax - zmin;
 
-                    var centroidX = xmin + ( shapeWidth / 2 ) + mesh.position.x;
-                    var centroidY = ymin + ( shapeHeight / 2 )+ mesh.position.y;
-                    var centroidZ = zmin + ( shapeDepth / 2 ) + mesh.position.z;
+                    var centroidX = xmin + ( shapeWidth / 2 ) + meshSurface.position.x;
+                    var centroidY = ymin + ( shapeHeight / 2 )+ meshSurface.position.y;
+                    var centroidZ = zmin + ( shapeDepth / 2 ) + meshSurface.position.z;
 
-                    mesh.geometry.centroid = { x : centroidX, y : centroidY, z : centroidZ };
+                    meshSurface.geometry.centroid = { x : centroidX, y : centroidY, z : centroidZ };
 
                     // Camera
                     var SCREEN_WIDTH = window.innerWidth;
@@ -180,7 +188,7 @@
                                   'color': '#aaaaaa',
                                   'emissive': '#000000',
                                   'specular': '#111111',
-                                  'wireframe': false,
+                                  'edges': false,
                                   'lightX': lightX,
                                   'lightY': lightY,
                                   'lightZ': lightZ};
@@ -193,21 +201,21 @@
                     var materialFolder = gui.addFolder('material');
 
                     var materialShininessGui = materialFolder.add(parameters, 'shininess').min(0).max(100).step(5).listen();
-                    materialShininessGui.onChange( function(value) {material.shininess = value} );
+                    materialShininessGui.onChange( function(value) {surface.shininess = value} );
 
                     if (! geometryHasColor) {
                         var materialColorGui = materialFolder.addColor(parameters, 'color').name('ambient color').listen();
-                        materialColorGui.onChange( function(value) {material.color.setHex(value.replace('#', '0x'));} );
+                        materialColorGui.onChange( function(value) {surface.color.setHex(value.replace('#', '0x'));} );
                     }
 
                     var materialEmissiveGui = materialFolder.addColor(parameters, 'emissive').name('emissive color').listen();
-                    materialEmissiveGui.onChange( function(value) {material.emissive.setHex(value.replace('#', '0x'));} );
+                    materialEmissiveGui.onChange( function(value) {surface.emissive.setHex(value.replace('#', '0x'));} );
 
                     var materialSpecularGui = materialFolder.addColor(parameters, 'specular').name('specular color').listen();
-                    materialSpecularGui.onChange( function(value) {material.specular.setHex(value.replace('#', '0x'));} );
+                    materialSpecularGui.onChange( function(value) {surface.specular.setHex(value.replace('#', '0x'));} );
 
-                    var materialWireframeGui = materialFolder.add(parameters, 'wireframe').listen();
-                    materialWireframeGui.onChange( function(value) {material.wireframe = value} );
+                    var materialEdgesGui = materialFolder.add(parameters, 'edges').listen();
+                    materialEdgesGui.onChange( function(value) {if (value) {scene.add(meshEdges);} else {scene.remove(meshEdges);} } );
 
                     var lightsFolder = gui.addFolder('lights');
 
