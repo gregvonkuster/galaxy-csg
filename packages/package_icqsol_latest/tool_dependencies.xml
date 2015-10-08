@@ -22,7 +22,7 @@
                         make install PREFIX=$INSTALL_DIR/bzlib &amp;&amp;
                         cp bzip2-shared $INSTALL_DIR/bzlib/bin/bzip2 &amp;&amp;
                         cp -a libbz2.so* $INSTALL_DIR/bzlib/lib &amp;&amp;
-                        ln -s $INSTALL_DIR/bzlib/libbz2.so.1.0 $INSTALL_DIR/bzlib/lib/libbz2.so
+                        ln -s libbz2.so.1.0 $INSTALL_DIR/bzlib/lib/libbz2.so
                     elif [[ "$unamestr" == 'Darwin' ]]; then
                         make &amp;&amp;
                         make install PREFIX=$INSTALL_DIR/bzlib
