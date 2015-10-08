@@ -28,6 +28,7 @@
             var renderer;
             var controls;
             var bbHelper;
+            var defaultBackgroundColor = 0x4d576b;
 
             init();
             //animate();
@@ -38,7 +39,7 @@
                 // Scene
                 scene = new THREE.Scene();
                 // Color, near, far
-                scene.fog = new THREE.Fog(0x808080, 0.1, 1000);
+               scene.fog = new THREE.Fog(0x111111, 0.1, 1000);
 
                 // Data format and loader
                 var hdaExt  = '${hda.ext}';
@@ -146,7 +147,7 @@
                     // Renderer
                     renderer = new THREE.WebGLRenderer({antialias: false});
                     renderer.shadowMapEnabled = true;
-                    renderer.setClearColor(new THREE.Color(0x000000, 1.0));
+                    renderer.setClearColor(new THREE.Color(defaultBackgroundColor, 1.0));
                     renderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
 
                     // add the output of the renderer to the html element
@@ -183,12 +184,12 @@
 
                     // GUI
                     gui = new dat.GUI();
-                    parameters = {'background': '#000000',
+                    parameters = {'background': '#4d576b',
                                   'shininess': 100,
                                   'color': '#aaaaaa',
                                   'emissive': '#000000',
                                   'specular': '#111111',
-                                  'edges': false,
+                                  'wireframe': false,
                                   'lightX': lightX,
                                   'lightY': lightY,
                                   'lightZ': lightZ};
@@ -214,7 +215,7 @@
                     var materialSpecularGui = materialFolder.addColor(parameters, 'specular').name('specular color').listen();
                     materialSpecularGui.onChange( function(value) {surface.specular.setHex(value.replace('#', '0x'));} );
 
-                    var materialEdgesGui = materialFolder.add(parameters, 'edges').listen();
+                    var materialEdgesGui = materialFolder.add(parameters, 'wireframe').listen();
                     materialEdgesGui.onChange( function(value) {if (value) {scene.add(meshEdges);} else {scene.remove(meshEdges);} } );
 
                     var lightsFolder = gui.addFolder('lights');
