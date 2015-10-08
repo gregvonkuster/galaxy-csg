@@ -15,12 +15,18 @@
                 <!-- Install and compile bzlib 1.0.6 as a shared library -->
                 <action type="download_by_url">http://www.bzip.org/1.0.6/bzip2-1.0.6.tar.gz</action>
                 <action type="shell_command">
-                    make -f Makefile-libbz2_so &amp;&amp;
-                    make &amp;&amp;
-                    make install PREFIX=$INSTALL_DIR/bzlib &amp;&amp;
-                    cp bzip2-shared $INSTALL_DIR/bzlib/bin/bzip2 &amp;&amp;
-                    cp -a libbz2.so* $INSTALL_DIR/bzlib/lib &amp;&amp;
-                    ln -s $INSTALL_DIR/bzlib/libbz2.so.1.0 $INSTALL_DIR/bzlib/lib/libbz2.so
+                    unamestr=`uname` &amp;&amp;
+                    if [[ "$unamestr" == 'Linux' ]]; then
+                        make -f Makefile-libbz2_so &amp;&amp;
+                        make &amp;&amp;
+                        make install PREFIX=$INSTALL_DIR/bzlib &amp;&amp;
+                        cp bzip2-shared $INSTALL_DIR/bzlib/bin/bzip2 &amp;&amp;
+                        cp -a libbz2.so* $INSTALL_DIR/bzlib/lib &amp;&amp;
+                        ln -s $INSTALL_DIR/bzlib/libbz2.so.1.0 $INSTALL_DIR/bzlib/lib/libbz2.so
+                    elif [[ "$unamestr" == 'Darwin' ]]; then
+                        make &amp;&amp;
+                        make install PREFIX=$INSTALL_DIR/bzlib
+                    fi
                 </action>
                 <action type="move_directory_files">
                     <source_directory>./</source_directory>
