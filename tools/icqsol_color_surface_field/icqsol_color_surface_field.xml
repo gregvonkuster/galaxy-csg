@@ -47,9 +47,10 @@
             <param name="input_file_format_and_type" value="vtkascii" />
             <param name="input_dataset_type" value="POLYDATA" />
             <param name="field_name" value="surface_field" />
+            <param name="field_component_index" value="0" />
             <param name="color_map" value="hot" />
             <param name="output_vtk_type" value="vtkascii" />
-            <output name="output" file="box_with_surface_field.vtkascii" ftype="vtkascii" />
+            <output name="output" file="box_with_surface_field_colored.vtkascii" ftype="vtkascii" />
         </test>
     </tests>
     <help>
