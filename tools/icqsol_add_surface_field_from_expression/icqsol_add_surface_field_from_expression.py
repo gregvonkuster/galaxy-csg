@@ -29,18 +29,15 @@ if input_format == 'vtk':
 else:
     shape_mgr = ShapeManager( file_format=input_format )
 
-# Get the vtk polydata from the input dataset.
-vtk_poly_data = shape_mgr.loadAsVtkPolyData(args.input)
-
-# Refine the shape if requested.
-if args.max_edge_length > 0:
-    vtk_poly_data = shape_mgr.refineVtkPolyData(vtk_poly_data, max_edge_length=args.max_edge_length)
+# Get the shape from the input dataset.
+shp = shape_mgr.loadAsShape(args.input)
 
 # Add surface field to shape data.
-vtk_poly_data = shape_mgr.addSurfaceFieldFromExpressionToVtkPolyData( vtk_poly_data,
-                                                                      args.field_name,
-                                                                      args.expression,
-                                                                      time_points )
+vtk_poly_data = shape_mgr.addSurfaceFieldFromExpressionToShape(shp,
+                                                               args.field_name,
+                                                               args.expression,
+                                                               time_points,
+                                                               args.max_edge_length)
 
 # Define the output file format and type (the outpur_format can only be 'vtk').
 output_format, output_file_type = icqsol_utils.get_format_and_type( args.output_vtk_type )
