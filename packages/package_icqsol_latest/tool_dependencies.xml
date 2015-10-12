@@ -3,6 +3,9 @@
     <package name="atlas" version="3.10.2">
         <repository name="package_atlas_3_10" owner="iuc" prior_installation_required="True" />
     </package>
+    <package name="bzlib" version="1.0.6">
+        <repository name="package_bzlib_1_0" owner="iuc" prior_installation_required="True" />
+    </package>
     <package name="sqlite" version="3.8.3">
         <repository name="package_sqlite_3_8_3" owner="iuc" prior_installation_required="True" />
     </package>
@@ -12,36 +15,14 @@
     <package name="icqsol" version="latest">
         <install version="1.0">
             <actions>
-                <!-- Install and compile bzlib 1.0.6 as a shared library -->
-                <action type="download_by_url">http://www.bzip.org/1.0.6/bzip2-1.0.6.tar.gz</action>
-                <action type="shell_command">
-                    unamestr=`uname` &amp;&amp;
-                    if [[ "$unamestr" == 'Linux' ]]; then
-                        make -f Makefile-libbz2_so &amp;&amp;
-                        make &amp;&amp;
-                        make install PREFIX=$INSTALL_DIR/bzlib &amp;&amp;
-                        cp bzip2-shared $INSTALL_DIR/bzlib/bin/bzip2 &amp;&amp;
-                        cp -a libbz2.so* $INSTALL_DIR/bzlib/lib &amp;&amp;
-                        ln -s libbz2.so.1.0 $INSTALL_DIR/bzlib/lib/libbz2.so
-                    elif [[ "$unamestr" == 'Darwin' ]]; then
-                        make &amp;&amp;
-                        make install PREFIX=$INSTALL_DIR/bzlib
-                    fi
-                </action>
-                <action type="move_directory_files">
-                    <source_directory>./</source_directory>
-                    <destination_directory>$INSTALL_DIR/bzlib/source</destination_directory>
-                </action>
-
                 <!-- Install and compile Python 2.7 with shared libraries -->
-                <action type="make_directory">$TMP_WORK_DIR/python</action>
-                <action type="change_directory">$TMP_WORK_DIR/python</action>
-                <action type="download_file">https://www.python.org/ftp/python/2.7.9/Python-2.7.9.tgz</action>
-                <action type="shell_command">tar -xvf Python-2.7.9.tgz</action>
-                <action type="change_directory">Python-2.7.9</action>
+                <action type="download_by_url">https://www.python.org/ftp/python/2.7.9/Python-2.7.9.tgz</action>
                 <action type="set_environment_for_install">
                     <repository name="package_atlas_3_10" owner="iuc">
                         <package name="atlas" version="3.10.2" />
+                    </repository>
+                    <repository name="package_bzlib_1_0" owner="iuc">
+                        <package name="bzlib" version="1.0.6" />
                     </repository>
                     <repository name="package_sqlite_3_8_3" owner="iuc">
                         <package name="sqlite" version="3.8.3" />
@@ -52,21 +33,7 @@
                 </action>
                 <!-- by default Python is not looking at LD_INCLUDE_PATH and Co. -->
                 <action type="shell_command">sed -i -e "s/if host_platform == 'atheos':/if True:/g" setup.py</action>
-                <action type="shell_command">
-                    export PATH=$INSTALL_DIR/bzlib/bin:$PATH &amp;&amp;
-                    export BZLIB_LIB_DIR=$INSTALL_DIR/bzlib/lib &amp;&amp;
-                    export BZLIB_INCLUDE_DIR=$INSTALL_DIR/bzlib/include &amp;&amp;
-                    export BZLIB_SOURCE_DIR=$INSTALL_DIR/bzlib/source &amp;&amp;
-                    export LD_LIBRARY_PATH=$INSTALL_DIR/bzlib/lib:$LD_LIBRARY_PATH &amp;&amp;
-                    export DYLD_LIBRARY_PATH=$INSTALL_DIR/bzlib/lib:$DYLD_LIBRARY_PATH &amp;&amp;
-                    export LIBRARY_PATH=$INSTALL_DIR/bzlib/lib:$LIBRARY_PATH &amp;&amp;
-                    export LIBRARY_PATH=$INSTALL_DIR/bzlib/source:$LIBRARY_PATH &amp;&amp;
-                    export CPLUS_INCLUDE_PATH=$INSTALL_DIR/bzlib/include:$CPLUS_INCLUDE_PATH &amp;&amp;
-                    export C_INCLUDE_PATH=$INSTALL_DIR/bzlib/include:$C_INCLUDE_PATH &amp;&amp;
-                    ./configure --prefix=$INSTALL_DIR --enable-shared &amp;&amp;
-                    make &amp;&amp;
-                    make install
-                </action>
+                <action type="autoconf">--enable-shared</action>
 
                 <!-- Install and compile setuptools into the above Python, providing bz2 and other stuff. -->
                 <action type="download_file">https://bitbucket.org/pypa/setuptools/get/18.3.2.tar.bz2</action>
@@ -182,7 +149,7 @@
                <!-- Install and compile pytriangle version 1.0 as a package in the above Python -->
                <action type="make_directory">$TMP_WORK_DIR/pytriangle</action>
                <action type="change_directory">$TMP_WORK_DIR/pytriangle</action>
-               <action type="shell_command">https://github.com/pletzer/pytriangle.git</action>
+               <action type="shell_command">git clone https://github.com/pletzer/pytriangle.git</action>
                <action type="change_directory">pytriangle</action>
                <action type="shell_command">
                    export PATH=$INSTALL_DIR/bin:$PATH &amp;&amp;
