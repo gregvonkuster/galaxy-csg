@@ -61,9 +61,7 @@
                                                                 specular: 0x111111,
                                                                 metal: false});
 
-                    var edges = new THREE.MeshBasicMaterial({color: 0x111111, 
-                                                             wireframe: true,
-                                                             wireframeLinewidth: 2});
+                    var edges = new THREE.MeshBasicMaterial({color: 0x111111});
 
                     geometry.receiveShadow = true;
                     geometry.computeFaceNormals();
@@ -94,7 +92,8 @@
                     var meshSurface = new THREE.Mesh(geometry, surface);
                     scene.add(meshSurface);
 
-                    var meshEdges = new THREE.Mesh(geometry, edges);
+                    var mesh = new THREE.Mesh(geometry, surface);
+                    var meshEdges = new THREE.EdgesHelper(mesh, 0x111111);
                     // will be added on request to the scene
 
                     // Define the BoundingBox
@@ -189,7 +188,7 @@
                                   'color': '#aaaaaa',
                                   'emissive': '#000000',
                                   'specular': '#111111',
-                                  'wireframe': false,
+                                  'edges': false,
                                   'lightX': lightX,
                                   'lightY': lightY,
                                   'lightZ': lightZ};
@@ -198,6 +197,15 @@
                     
                     var backgroundGui = sceneFolder.addColor(parameters, 'background').name('background').listen();
                     backgroundGui.onChange( function(value) {renderer.setClearColor(value);} );
+
+                    var lightXGui = sceneFolder.add(parameters, 'lightX' ).min(xmid-10*xlen).max(xmid+10*xlen).step(xlen/10.).name('x').listen();
+                    lightXGui.onChange( function(value) {light.position.x = value} );
+
+                    var lightYGui = sceneFolder.add(parameters, 'lightY' ).min(ymid-10*ylen).max(ymid+10*ylen).step(ylen/10.).name('y').listen();
+                    lightYGui.onChange( function(value) {light.position.y = value} );
+
+                    var lightZGui = sceneFolder.add(parameters, 'lightZ' ).min(zmid-10*zlen).max(zmid+10*zlen).step(zlen/10.).name('z').listen();
+                    lightZGui.onChange( function(value) {light.position.z = value} );
 
                     var materialFolder = gui.addFolder('material');
 
@@ -215,19 +223,8 @@
                     var materialSpecularGui = materialFolder.addColor(parameters, 'specular').name('specular color').listen();
                     materialSpecularGui.onChange( function(value) {surface.specular.setHex(value.replace('#', '0x'));} );
 
-                    var materialEdgesGui = materialFolder.add(parameters, 'wireframe').listen();
+                    var materialEdgesGui = materialFolder.add(parameters, 'edges').listen();
                     materialEdgesGui.onChange( function(value) {if (value) {scene.add(meshEdges);} else {scene.remove(meshEdges);} } );
-
-                    var lightsFolder = gui.addFolder('lights');
-
-                    var lightXGui = lightsFolder.add(parameters, 'lightX' ).min(xmid-10*xlen).max(xmid+10*xlen).step(xlen/10.).name('x').listen();
-                    lightXGui.onChange( function(value) {light.position.x = value} );
-
-                    var lightYGui = lightsFolder.add(parameters, 'lightY' ).min(ymid-10*ylen).max(ymid+10*ylen).step(ylen/10.).name('y').listen();
-                    lightYGui.onChange( function(value) {light.position.y = value} );
-
-                    var lightZGui = lightsFolder.add(parameters, 'lightZ' ).min(zmid-10*zlen).max(zmid+10*zlen).step(zlen/10.).name('z').listen();
-                    lightZGui.onChange( function(value) {light.position.z = value} );
 
                     // Animate
                     animate();
