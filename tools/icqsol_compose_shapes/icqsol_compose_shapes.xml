@@ -17,7 +17,7 @@
 ]]>
     </command>
     <inputs>
-        <param name="expression" type="text" value="" label="Composition expression" help="Example: A + B - C - D"/>
+        <param name="expression" type="text" value="" label="Composition expression" help="Example: A + B - C * D"/>
         <repeat name="input_shapes" title="Expression variable and shape" min="2">
             <param name="expression_var" type="text" value="" label="Expression variable" help="The selected shape will be associated with this variable in the expression."/>
             <param name="input_shape" type="data" format="plyascii,plybinary,vtkascii,vtkbinary" label="Shape">
