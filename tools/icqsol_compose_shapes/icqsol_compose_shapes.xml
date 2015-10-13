@@ -72,4 +72,5 @@ associated with A and B, but eliminating the shapes associated with C and D.
 
 ]]>
     </help>
+    <expand macro="citations" />
 </tool>

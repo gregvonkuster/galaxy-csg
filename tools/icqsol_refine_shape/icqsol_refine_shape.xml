@@ -55,4 +55,5 @@ Refines a shape by limiting all edges to a specified length, resulting in a more
 * **Maximum edge length** - Points are added to the shape's edges that are longer than the defined maximum length.
 ]]>
     </help>
+    <expand macro="citations" />
 </tool>

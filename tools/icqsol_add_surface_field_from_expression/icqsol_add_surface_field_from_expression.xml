@@ -85,4 +85,5 @@ to VTK POLYDATA during tool execution.
 * **Maximum edge length** - Points are added to the shape's edges that are longer than the defined maximum length.
 ]]>
     </help>
+    <expand macro="citations" />
 </tool>

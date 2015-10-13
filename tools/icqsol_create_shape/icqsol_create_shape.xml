@@ -202,4 +202,5 @@
 - **New origin X,Y,Z** - Translated origin of cloned shape.
 
     </help>
+    <expand macro="citations" />
 </tool>

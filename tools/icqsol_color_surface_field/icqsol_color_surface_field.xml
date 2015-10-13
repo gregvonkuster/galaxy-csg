@@ -63,10 +63,11 @@ input shapes to only those that have at least one surface field.
 
 * **Shape** - Shape containing a surface field to be colored.
 * **Field name for coloring** - Name of the surface field to be colored.
-* Color map** - Color map to be used when coloring the surface field.
+* **Color map** - Color map to be used when coloring the surface field.
 
 ]]>
     </help>
     <code file="icqsol_tool_form_utils.py" />
     <options refresh="True" />
+    <expand macro="citations" />
 </tool>
