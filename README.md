@@ -18,11 +18,11 @@ Wrapping tools for use in Galaxy is easy!  If you want to start, see the [Galaxy
 
 Tool Highlights
 ---------------
- *[Create 3D shape](./tools/icqsol_create_shape/icqsol_create_shape.xml) - Creates a selected primitive shape where shapes are Box, Cone, Cylinder and Sphere.
- *[Compose 3D shapes](./tools/icqsol_compose_shapes/icqsol_compose_shapes.xml) - Creates a shape composed of any number of selected shapes where the composition is based on a mathematical expression consisting of +, - and * operations.  The + results in a union of shapes, the - operator removes a shape and the * operator results in an intersection of shapes.
- *[Refine shape](./tools/icqsol_refine_shape/icqsol_refine_shape.xml) - Refines a shape by limiting all edges to a specified length, resulting in a more detailed shape.
- *[Add surface field](./tools/icqsol_add_surface_field_from_expression/icqsol_add_surface_field_from_expression.xml) - Adds a surface field to a selected shape based on a given mathematical expression consisting of variables x, y, z (shape point coordinates) and t (time).
- *[Color surface field](./tools/icqsol_color_surface_field/icqsol_color_surface_field.xml) - Colors a shape's selected surface field using a selected color map.
+ * [Create 3D shape](./tools/icqsol_create_shape/icqsol_create_shape.xml) - Creates a selected primitive shape where shapes are Box, Cone, Cylinder and Sphere.
+ * [Compose 3D shapes](./tools/icqsol_compose_shapes/icqsol_compose_shapes.xml) - Creates a shape composed of any number of selected shapes where the composition is based on a mathematical expression consisting of +, - and * operations.  The + results in a union of shapes, the - operator removes a shape and the * operator results in an intersection of shapes.
+ * [Refine shape](./tools/icqsol_refine_shape/icqsol_refine_shape.xml) - Refines a shape by limiting all edges to a specified length, resulting in a more detailed shape.
+ * [Add surface field](./tools/icqsol_add_surface_field_from_expression/icqsol_add_surface_field_from_expression.xml) - Adds a surface field to a selected shape based on a given mathematical expression consisting of variables x, y, z (shape point coordinates) and t (time).
+ * [Color surface field](./tools/icqsol_color_surface_field/icqsol_color_surface_field.xml) - Colors a shape's selected surface field using a selected color map.
 
 Other repositories with high quality tools
 ------------------------------------------
