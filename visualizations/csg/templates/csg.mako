@@ -198,13 +198,13 @@
                     var backgroundGui = sceneFolder.addColor(parameters, 'background').name('background').listen();
                     backgroundGui.onChange( function(value) {renderer.setClearColor(value);} );
 
-                    var lightXGui = sceneFolder.add(parameters, 'lightX' ).min(xmid-10*xlen).max(xmid+10*xlen).step(xlen/10.).name('x').listen();
+                    var lightXGui = sceneFolder.add(parameters, 'lightX' ).min(xmid-10*xlen).max(xmid+10*xlen).step(xlen/10.).name('light x').listen();
                     lightXGui.onChange( function(value) {light.position.x = value} );
 
-                    var lightYGui = sceneFolder.add(parameters, 'lightY' ).min(ymid-10*ylen).max(ymid+10*ylen).step(ylen/10.).name('y').listen();
+                    var lightYGui = sceneFolder.add(parameters, 'lightY' ).min(ymid-10*ylen).max(ymid+10*ylen).step(ylen/10.).name('light y').listen();
                     lightYGui.onChange( function(value) {light.position.y = value} );
 
-                    var lightZGui = sceneFolder.add(parameters, 'lightZ' ).min(zmid-10*zlen).max(zmid+10*zlen).step(zlen/10.).name('z').listen();
+                    var lightZGui = sceneFolder.add(parameters, 'lightZ' ).min(zmid-10*zlen).max(zmid+10*zlen).step(zlen/10.).name('light z').listen();
                     lightZGui.onChange( function(value) {light.position.z = value} );
 
                     var materialFolder = gui.addFolder('material');
