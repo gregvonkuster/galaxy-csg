@@ -32,12 +32,16 @@ else:
 # Get the shape from the input dataset.
 shp = shape_mgr.loadAsShape(args.input)
 
+max_edge_length = float('inf')
+if args.max_edge_length > 0:
+    max_edge_length = args.max_edge_length
+
 # Add surface field to shape data.
 vtk_poly_data = shape_mgr.addSurfaceFieldFromExpressionToShape(shp,
                                                                args.field_name,
                                                                args.expression,
                                                                time_points,
-                                                               args.max_edge_length)
+                                                               max_edge_length)
 
 # Define the output file format and type (the outpur_format can only be 'vtk').
 output_format, output_file_type = icqsol_utils.get_format_and_type( args.output_vtk_type )
