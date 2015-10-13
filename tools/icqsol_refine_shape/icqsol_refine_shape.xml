@@ -49,7 +49,7 @@
 
 <![CDATA[
 
-Refines a shape to a specified level resulting in a more detailed shape.
+Refines a shape by limiting all edges to a specified length, resulting in a more detailed shape.
 
 * **Shape** - Shape to be refined.
 * **Maximum edge length** - Points are added to the shape's edges that are longer than the defined maximum length.
