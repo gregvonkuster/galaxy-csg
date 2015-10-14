@@ -63,6 +63,27 @@
                     $INSTALL_DIR/bin/python setup.py install --prefix=$INSTALL_DIR
                 </action>
 
+                <!-- Install and compile gsl 1.16 as a package in the above Python -->
+                <action type="make_directory">$TMP_WORK_DIR/numpy</action>
+                <action type="change_directory">$TMP_WORK_DIR/numpy</action>
+                <action type="download_file" target_filename=gsl-1.16.tar.gz">ftp://aeneas.mit.edu/pub/gnu/gsl/gsl-1.16.tar.gz</action>
+                <action type="shell_command">tar xfvz gsl-1.16.tar.gz</action>
+                <action type="change_directory">gsl-1.16</action>
+                <action type="shell_command">
+                    export PATH=$INSTALL_DIR/bin:$PATH &amp;&amp;
+                    export LD_LIBRARY_PATH=$INSTALL_DIR/lib:$LD_LIBRARY_PATH &amp;&amp;
+                    export DYLD_LIBRARY_PATH=$INSTALL_DIR/lib:$DYLD_LIBRARY_PATH &amp;&amp;
+                    export PKG_CONFIG_PATH=$INSTALL_DIR/lib/pkgconfig:$PKG_CONFIG_PATH &amp;&amp;
+                    $INSTALL_DIR/bin/python setup.py install --prefix=$INSTALL_DIR
+                    ./configure --enable-shared --prefix=$INSTALL_DIR
+                </action>
+                <action type="shell_command">
+                    make -j8
+                </action>
+                <action type="shell_command">
+                    make install
+                </action>
+
                 <!-- Install and compile VTK 6.2.0 as a package in the above Python -->
                 <action type="make_directory">$TMP_WORK_DIR/vtk</action>
                 <action type="change_directory">$TMP_WORK_DIR/vtk</action>
