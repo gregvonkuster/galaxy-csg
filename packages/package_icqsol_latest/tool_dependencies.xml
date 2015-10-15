@@ -74,7 +74,6 @@
                     export LD_LIBRARY_PATH=$INSTALL_DIR/lib:$LD_LIBRARY_PATH &amp;&amp;
                     export DYLD_LIBRARY_PATH=$INSTALL_DIR/lib:$DYLD_LIBRARY_PATH &amp;&amp;
                     export PKG_CONFIG_PATH=$INSTALL_DIR/lib/pkgconfig:$PKG_CONFIG_PATH &amp;&amp;
-                    $INSTALL_DIR/bin/python setup.py install --prefix=$INSTALL_DIR
                     ./configure --enable-shared --prefix=$INSTALL_DIR
                 </action>
                 <action type="shell_command">
