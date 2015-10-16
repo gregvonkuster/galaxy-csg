@@ -1,221 +1,156 @@
 <?xml version="1.0"?>
 <tool_dependency>
-    <package name="atlas" version="3.10.2">
-        <repository name="package_atlas_3_10" owner="iuc" prior_installation_required="True" />
-    </package>
-    <package name="bzlib" version="1.0.6">
-        <repository name="package_bzlib_1_0" owner="iuc" prior_installation_required="True" />
-    </package>
-    <package name="sqlite" version="3.8.3">
-        <repository name="package_sqlite_3_8_3" owner="iuc" prior_installation_required="True" />
-    </package>
-    <package name="zlib" version="1.2.8">
-        <repository name="package_zlib_1_2_8" owner="iuc" prior_installation_required="True" />
-    </package>
+
     <package name="icqsol" version="latest">
         <install version="1.0">
-            <actions>
-                <!-- Install and compile Python 2.7 with shared libraries -->
-                <action type="download_by_url">https://www.python.org/ftp/python/2.7.9/Python-2.7.9.tgz</action>
-                <action type="set_environment_for_install">
-                    <repository name="package_atlas_3_10" owner="iuc">
-                        <package name="atlas" version="3.10.2" />
-                    </repository>
-                    <repository name="package_bzlib_1_0" owner="iuc">
-                        <package name="bzlib" version="1.0.6" />
-                    </repository>
-                    <repository name="package_sqlite_3_8_3" owner="iuc">
-                        <package name="sqlite" version="3.8.3" />
-                    </repository>
-                    <repository name="package_zlib_1_2_8" owner="iuc">
-                        <package name="zlib" version="1.2.8" />
-                    </repository>
-                </action>
-                <!-- by default Python is not looking at LD_INCLUDE_PATH and Co. -->
-                <action type="shell_command">sed -i -e "s/if host_platform == 'atheos':/if True:/g" setup.py</action>
-                <action type="autoconf">--enable-shared</action>
+            <actions_group>
+                <actions os="linux" architecture="x86_64">
+                    <!-- Install and compile Anaconda 2.3.0 which provides Python 2.7.10 -->
+                    <action type="download_file" target_filename="Anaconda-2.3.0-Linux-x86_64.sh">https://3230d63b5fc54e62148e-c95ac804525aac4b6dba79b00b39d1d3.ssl.cf1.rackcdn.com/Anaconda-2.3.0-Linux-x86_64.sh</action>
+                    <action type="shell_command">bash Anaconda-2.3.0-Linux-x86_64.sh -b -f -p $INSTALL_DIR</action>
 
-                <!-- Install and compile setuptools into the above Python, providing bz2 and other stuff. -->
-                <action type="download_file">https://bitbucket.org/pypa/setuptools/get/18.3.2.tar.bz2</action>
-                <action type="shell_command">tar -xjf 18.3.2.tar.bz2</action>
-                <action type="change_directory">pypa-setuptools-1e120f04bcaa</action>
-                <action type="shell_command">
-                    export PATH=$INSTALL_DIR/bin:$INSTALL_DIR/bzlib/bin:$PATH &amp;&amp;
-                    export PYTHONPATH=$INSTALL_DIR:$PYTHONPATH &amp;&amp;
-                    export LD_LIBRARY_PATH=$INSTALL_DIR/lib:$INSTALL_DIR/bzlib/lib:$LD_LIBRARY_PATH &amp;&amp;
-                    export DYLD_LIBRARY_PATH=$INSTALL_DIR/lib:$INSTALL_DIR/bzlib/lib:$DYLD_LIBRARY_PATH &amp;&amp;
-                    export PKG_CONFIG_PATH=$INSTALL_DIR/lib/pkgconfig:$PKG_CONFIG_PATH &amp;&amp;
-                    $INSTALL_DIR/bin/python setup.py install --prefix=$INSTALL_DIR
-                </action>
+                    <!-- Install VTK 6.3.0 into the above Python -->
+                    <action type="shell_command">
+                        <![CDATA[
+                            export PATH=$INSTALL_DIR/bin:$INSTALL_DIR/bin:$PATH &&
+                            export PYTHONPATH=$INSTALL_DIR/lib/python2.7/site-packages:$INSTALL_DIR/lib/python2.7:$INSTALL_DIR/lib:$INSTALL_DIR:$PYTHONPATH &&
+                            export LD_LIBRARY_PATH=$INSTALL_DIR/lib:$LD_LIBRARY_PATH &&
+                            export PKG_CONFIG_PATH=$INSTALL_DIR/lib/pkgconfig:$PKG_CONFIG_PATH &&
+                            conda install -c https://conda.anaconda.org/anaconda vtk
+                        ]]>
+                    </action>
+                    <!-- This is needed to enable cmake to find the correct Python executable when compiling icqsol below -->
+                    <action type="shell_command">
+                        ln -s $INSTALL_DIR/pkgs/vtk-6.3.0-py27_0/bin/vtkpython $INSTALL_DIR/pkgs/vtk-6.3.0-py27_0/bin/python
+                    </action>
 
-                <!-- Install and compile numpy 1.9 as a package in the above Python -->
-                <action type="make_directory">$TMP_WORK_DIR/numpy</action>
-                <action type="change_directory">$TMP_WORK_DIR/numpy</action>
-                <action type="download_file" target_filename="numpy-1.9.0.tar.gz">https://pypi.python.org/packages/source/n/numpy/numpy-1.9.0.tar.gz#md5=510cee1c6a131e0a9eb759aa2cc62609</action>
-                <action type="shell_command">tar xfvz numpy-1.9.0.tar.gz</action>
-                <action type="change_directory">numpy-1.9.0</action>
-                <action type="shell_command">
-                    export PATH=$INSTALL_DIR/bin:$PATH &amp;&amp;
-                    export PYTHONPATH=$INSTALL_DIR:$PYTHONPATH &amp;&amp;
-                    export LD_LIBRARY_PATH=$INSTALL_DIR/lib:$LD_LIBRARY_PATH &amp;&amp;
-                    export DYLD_LIBRARY_PATH=$INSTALL_DIR/lib:$DYLD_LIBRARY_PATH &amp;&amp;
-                    export PKG_CONFIG_PATH=$INSTALL_DIR/lib/pkgconfig:$PKG_CONFIG_PATH &amp;&amp;
-                    $INSTALL_DIR/bin/python setup.py install --prefix=$INSTALL_DIR
-                </action>
+                    <!-- Install and compile pycsg version 0.3.0 as a package in the above Python -->
+                    <action type="make_directory">$TMP_WORK_DIR/pycsg</action>
+                    <action type="change_directory">$TMP_WORK_DIR/pycsg</action>
+                    <action type="shell_command">git clone https://github.com/pletzer/pycsg.git</action>
+                    <action type="change_directory">pycsg</action>
+                    <action type="shell_command">
+                        <![CDATA[
+                            export PATH=$INSTALL_DIR/pkgs/vtk-6.3.0-py27_0/bin:$PATH &&
+                            export PYTHONPATH=$INSTALL_DIR/pkgs/vtk-6.3.0-py27_0/lib/python2.7/site-packages:$INSTALL_DIR/pkgs/vtk-6.3.0-py27_0/lib/python2.7:pkgs/vtk-6.3.0-py27_0/lib:$INSTALL_DIR/pkgs/vtk-6.3.0-py27_0/bin &&
+                            export LD_LIBRARY_PATH=$INSTALL_DIR/pkgs/vtk-6.3.0-py27_0/lib:$LD_LIBRARY_PATH &&
+                            export PKG_CONFIG_PATH=$INSTALL_DIR/lib/pkgconfig:$PKG_CONFIG_PATH &&
+                            $INSTALL_DIR/bin/python setup.py install --prefix=$INSTALL_DIR
+                        ]]>
+                    </action>
 
-                <!-- Install and compile gsl 1.16 as a package in the above Python -->
-                <action type="make_directory">$TMP_WORK_DIR/numpy</action>
-                <action type="change_directory">$TMP_WORK_DIR/numpy</action>
-                <action type="download_file" target_filename=gsl-1.16.tar.gz">ftp://aeneas.mit.edu/pub/gnu/gsl/gsl-1.16.tar.gz</action>
-                <action type="shell_command">tar xfvz gsl-1.16.tar.gz</action>
-                <action type="change_directory">gsl-1.16</action>
-                <action type="shell_command">
-                    export PATH=$INSTALL_DIR/bin:$PATH &amp;&amp;
-                    export LD_LIBRARY_PATH=$INSTALL_DIR/lib:$LD_LIBRARY_PATH &amp;&amp;
-                    export DYLD_LIBRARY_PATH=$INSTALL_DIR/lib:$DYLD_LIBRARY_PATH &amp;&amp;
-                    export PKG_CONFIG_PATH=$INSTALL_DIR/lib/pkgconfig:$PKG_CONFIG_PATH &amp;&amp;
-                    ./configure --enable-shared --prefix=$INSTALL_DIR
-                </action>
-                <action type="shell_command">
-                    make -j8
-                </action>
-                <action type="shell_command">
-                    make install
-                </action>
+                    <!-- Install and compile pytriangle version 1.0 as a package in the above Python -->
+                    <action type="make_directory">$TMP_WORK_DIR/pytriangle</action>
+                    <action type="change_directory">$TMP_WORK_DIR/pytriangle</action>
+                    <action type="shell_command">git clone https://github.com/pletzer/pytriangle.git</action>
+                    <action type="change_directory">pytriangle</action>
+                    <action type="shell_command">
+                        <![CDATA[
+                            export PATH=$INSTALL_DIR/pkgs/vtk-6.3.0-py27_0/bin:$PATH &&
+                            export PYTHONPATH=$INSTALL_DIR/pkgs/vtk-6.3.0-py27_0/lib/python2.7/site-packages:$INSTALL_DIR/pkgs/vtk-6.3.0-py27_0/lib/python2.7:pkgs/vtk-6.3.0-py27_0/lib:$INSTALL_DIR/pkgs/vtk-6.3.0-py27_0/bin &&
+                            export LD_LIBRARY_PATH=$INSTALL_DIR/pkgs/vtk-6.3.0-py27_0/lib:$LD_LIBRARY_PATH &&
+                            export PKG_CONFIG_PATH=$INSTALL_DIR/lib/pkgconfig:$PKG_CONFIG_PATH
+                            $INSTALL_DIR/bin/python setup.py install --prefix=$INSTALL_DIR
+                        ]]>
+                    </action>
+    
+                    <!-- Install and compile icqsol version latest as a package in the above Python -->
+                    <action type="make_directory">$TMP_WORK_DIR/icqsol</action>
+                    <action type="change_directory">$TMP_WORK_DIR/icqsol</action>
+                    <action type="shell_command">git clone https://github.com/pletzer/icqsol.git</action>
+                    <action type="change_directory">icqsol</action>
+                    <action type="shell_command">
+                        <![CDATA[
+                            export PATH=$INSTALL_DIR/pkgs/vtk-6.3.0-py27_0/bin:$PATH &&
+                            export PYTHONPATH=$INSTALL_DIR/pkgs/vtk-6.3.0-py27_0/lib/python2.7/site-packages:$INSTALL_DIR/pkgs/vtk-6.3.0-py27_0/lib/python2.7:pkgs/vtk-6.3.0-py27_0/lib:$INSTALL_DIR/pkgs/vtk-6.3.0-py27_0/bin &&
+                            export LD_LIBRARY_PATH=$INSTALL_DIR/pkgs/vtk-6.3.0-py27_0/lib:$LD_LIBRARY_PATH &&
+                            cmake -DINSTALL_USER=OFF -DINSTALL_PREFIX=ON -DCMAKE_INSTALL_PREFIX=$INSTALL_DIR
+                        ]]>
+                    </action>
+                </actions>
 
-                <!-- Install and compile VTK 6.2.0 as a package in the above Python -->
-                <action type="make_directory">$TMP_WORK_DIR/vtk</action>
-                <action type="change_directory">$TMP_WORK_DIR/vtk</action>
-                <action type="download_file" target_filename="VTK-6.2.0.tar.gz">http://www.vtk.org/files/release/6.2/VTK-6.2.0.tar.gz</action>
-                <action type="shell_command">tar xfvz VTK-6.2.0.tar.gz</action>
-                <action type="change_directory">VTK-6.2.0</action>
-                <action type="shell_command">
-                    export PATH=$INSTALL_DIR/bin:$PATH &amp;&amp;
-                    export PYTHONPATH=$INSTALL_DIR:$PYTHONPATH &amp;&amp;
-                    export LD_LIBRARY_PATH=$INSTALL_DIR/lib:$LD_LIBRARY_PATH &amp;&amp;
-                    export DYLD_LIBRARY_PATH=$INSTALL_DIR/lib:$DYLD_LIBRARY_PATH &amp;&amp;
-                    export PKG_CONFIG_PATH=$INSTALL_DIR/lib/pkgconfig:$PKG_CONFIG_PATH &amp;&amp;
-                    if [ `uname` == "Darwin" ]
-                    then
-                        export PYTHON_SHARED_LIB=$INSTALL_DIR/lib/libpython2.7.dylib
-                    else
-                        export PYTHON_SHARED_LIB=$INSTALL_DIR/lib/libpython2.7.so
-                    fi
-                    cmake \
-                    -DCMAKE_BUILD_TYPE:STRING=Release \
-                    -DCMAKE_INSTALL_PREFIX:PATH=`pwd`/../build \
-                    -DVTK_WRAP_PYTHON:BOOL=ON \
-                    -DVTK_Group_StandAlone:BOOL=OFF \
-                    -DVTK_Group_Rendering:BOOL=OFF \
-                    -DModule_vtkCommonColor:BOOL=ON \
-                    -DModule_vtkCommonComputationalGeometry:BOOL=ON \
-                    -DModule_vtkCommonDataModel:BOOL=ON \
-                    -DModule_vtkCommonExecutionModel:BOOL=ON \
-                    -DModule_vtkCommonMath:BOOL=ON \
-                    -DModule_vtkCommonMisc:BOOL=ON \
-                    -DModule_vtkCommonSystem:BOOL=ON \
-                    -DModule_vtkCommonTransforms:BOOL=ON \
-                    -DModule_vtkFiltersCore:BOOL=ON \
-                    -DModule_vtkFiltersExtraction:BOOL=ON \
-                    -DModule_vtkFiltersGeneral:BOOL=ON \
-                    -DModule_vtkFiltersGeneric:BOOL=ON \
-                    -DModule_vtkFiltersGeometry:BOOL=ON \
-                    -DModule_vtkFiltersPython:BOOL=ON \
-                    -DModule_vtkImagingHybrid:BOOL=ON \
-                    -DModule_vtkIOCore:BOOL=ON \
-                    -DModule_vtkIOGeometry:BOOL=ON \
-                    -DModule_vtkIOLegacy:BOOL=ON \
-                    -DModule_vtkWrappingPythonCore:BOOL=ON \
-                    -DModule_vtkIOPLY:BOOL=ON \
-                    -DVTK_INSTALL_PYTHON_MODULE_DIR:PATH=$INSTALL_DIR/lib/python2.7/site-packages \
-                    -DPYTHON_EXECUTABLE:PATH=$INSTALL_DIR/bin/python \
-                    -DPYTHON_LIBRARY:PATH=$PYTHON_SHARED_LIB \
-                    -DPYTHON_INCLUDE_DIR:PATH=$INSTALL_DIR/include/python2.7 .
-                </action>
-                <action type="shell_command">
-                    ## package_bzlib_1_0 sets CPLUS_INCLUDE_PATH which impedes
-                    ## this compilation on osx, so we'll unset it here.
-                    unset CPLUS_INCLUDE_PATH &amp;&amp;
-                    make -j 8
-                </action>
-                <action type="shell_command">make install</action>
-                <action type="move_directory_files">
-                    <source_directory>../build/bin</source_directory>
-                    <destination_directory>$INSTALL_DIR/bin</destination_directory>
-                </action>
-                <action type="move_directory_files">
-                    <source_directory>../build/include</source_directory>
-                    <destination_directory>$INSTALL_DIR/include</destination_directory>
-                </action>
-                <action type="move_directory_files">
-                    <source_directory>../build/lib</source_directory>
-                    <destination_directory>$INSTALL_DIR/lib</destination_directory>
-                </action>
+                <actions os="darwin" architecture="x86_64">
+                    <!-- Install and compile Anaconda 2.3.0 which provides Python 2.7.10 -->
+                    <action type="download_file" target_filename="Anaconda-2.3.0-MacOSX-x86_64.sh">https://3230d63b5fc54e62148e-c95ac804525aac4b6dba79b00b39d1d3.ssl.cf1.rackcdn.com/Anaconda-2.3.0-MacOSX-x86_64.sh</action>
+                    <action type="shell_command">bash Anaconda-2.3.0-MacOSX-x86_64.sh -b -f -p $INSTALL_DIR</action>
 
-                <!-- Install and compile pycsg version 0.3.0 as a package in the above Python -->
-                <action type="make_directory">$TMP_WORK_DIR/pycsg</action>
-                <action type="change_directory">$TMP_WORK_DIR/pycsg</action>
-                <action type="shell_command">git clone https://github.com/pletzer/pycsg.git</action>
-                <action type="change_directory">pycsg</action>
-                <action type="shell_command">
-                    export PATH=$INSTALL_DIR/bin:$PATH &amp;&amp;
-                    export PYTHONPATH=$INSTALL_DIR:$PYTHONPATH &amp;&amp;
-                    export LD_LIBRARY_PATH=$INSTALL_DIR/lib:$LD_LIBRARY_PATH &amp;&amp;
-                    export DYLD_LIBRARY_PATH=$INSTALL_DIR/lib:$DYLD_LIBRARY_PATH &amp;&amp;
-                    export PKG_CONFIG_PATH=$INSTALL_DIR/lib/pkgconfig:$PKG_CONFIG_PATH &amp;&amp;
-                    $INSTALL_DIR/bin/python setup.py install --prefix=$INSTALL_DIR
-                </action>
+                    <!-- Install VTK 6.3.0 into the above Python -->
+                    <action type="shell_command">
+                        <![CDATA[
+                            export PATH=$INSTALL_DIR/bin:$INSTALL_DIR/bin:$PATH &&
+                            export PYTHONPATH=$INSTALL_DIR/lib/python2.7/site-packages:$INSTALL_DIR/lib/python2.7:$INSTALL_DIR/lib:$INSTALL_DIR:$PYTHONPATH &&
+                            export DYLD_LIBRARY_PATH=$INSTALL_DIR/lib:$DYLD_LIBRARY_PATH &&
+                            export PKG_CONFIG_PATH=$INSTALL_DIR/lib/pkgconfig:$PKG_CONFIG_PATH &&
+                            conda install -c https://conda.anaconda.org/anaconda vtk
+                        ]]>
+                    </action>
+                    <action type="shell_command">
+                        ln -s $INSTALL_DIR/pkgs/vtk-6.3.0-py27_0/bin/vtkpython $INSTALL_DIR/pkgs/vtk-6.3.0-py27_0/bin/python
+                    </action>
 
-               <!-- Install and compile pytriangle version 1.0 as a package in the above Python -->
-               <action type="make_directory">$TMP_WORK_DIR/pytriangle</action>
-               <action type="change_directory">$TMP_WORK_DIR/pytriangle</action>
-               <action type="shell_command">git clone https://github.com/pletzer/pytriangle.git</action>
-               <action type="change_directory">pytriangle</action>
-               <action type="shell_command">
-                   export PATH=$INSTALL_DIR/bin:$PATH &amp;&amp;
-                   export PYTHONPATH=$INSTALL_DIR:$PYTHONPATH &amp;&amp;
-                   export LD_LIBRARY_PATH=$INSTALL_DIR/lib:$LD_LIBRARY_PATH &amp;&amp;
-                   export DYLD_LIBRARY_PATH=$INSTALL_DIR/lib:$DYLD_LIBRARY_PATH &amp;&amp;
-                   export PKG_CONFIG_PATH=$INSTALL_DIR/lib/pkgconfig:$PKG_CONFIG_PATH
-                   $INSTALL_DIR/bin/python setup.py install --prefix=$INSTALL_DIR
-                </action>
+                    <!-- Install and compile pycsg version 0.3.0 as a package in the above Python -->
+                    <action type="make_directory">$TMP_WORK_DIR/pycsg</action>
+                    <action type="change_directory">$TMP_WORK_DIR/pycsg</action>
+                    <action type="shell_command">git clone https://github.com/pletzer/pycsg.git</action>
+                    <action type="change_directory">pycsg</action>
+                    <action type="shell_command">
+                        <![CDATA[
+                            export PATH=$INSTALL_DIR/pkgs/vtk-6.3.0-py27_0/bin:$PATH &&
+                            export PYTHONPATH=$INSTALL_DIR/pkgs/vtk-6.3.0-py27_0/lib/python2.7/site-packages:$INSTALL_DIR/pkgs/vtk-6.3.0-py27_0/lib/python2.7:pkgs/vtk-6.3.0-py27_0/lib:$INSTALL_DIR/pkgs/vtk-6.3.0-py27_0/bin &&
+                            export DYLD_LIBRARY_PATH=$INSTALL_DIR/pkgs/vtk-6.3.0-py27_0/lib:$DYLD_LIBRARY_PATH &&
+                            export PKG_CONFIG_PATH=$INSTALL_DIR/lib/pkgconfig:$PKG_CONFIG_PATH &&
+                            $INSTALL_DIR/bin/python setup.py install --prefix=$INSTALL_DIR
+                        ]]>
+                    </action>
 
-                <!-- Install and compile icqsol version latest as a package in the above Python -->
-                <action type="make_directory">$TMP_WORK_DIR/icqsol</action>
-                <action type="change_directory">$TMP_WORK_DIR/icqsol</action>
-                <action type="shell_command">git clone https://github.com/pletzer/icqsol.git</action>
-                <action type="change_directory">icqsol</action>
-                <action type="shell_command">
-                    export PATH=$INSTALL_DIR/bin:$PATH &amp;&amp;
-                    export PYTHONPATH=$INSTALL_DIR:$PYTHONPATH &amp;&amp;
-                    export LD_LIBRARY_PATH=$INSTALL_DIR/lib:$LD_LIBRARY_PATH &amp;&amp;
-                    export DYLD_LIBRARY_PATH=$INSTALL_DIR/lib:$DYLD_LIBRARY_PATH &amp;&amp;
-                    export PKG_CONFIG_PATH=$INSTALL_DIR/lib/pkgconfig:$PKG_CONFIG_PATH &amp;&amp;
-                    cmake -DINSTALL_USER=OFF -DINSTALL_PREFIX=ON -DCMAKE_INSTALL_PREFIX=$INSTALL_DIR
-                </action>
+                    <!-- Install and compile pytriangle version 1.0 as a package in the above Python -->
+                    <action type="make_directory">$TMP_WORK_DIR/pytriangle</action>
+                    <action type="change_directory">$TMP_WORK_DIR/pytriangle</action>
+                    <action type="shell_command">git clone https://github.com/pletzer/pytriangle.git</action>
+                    <action type="change_directory">pytriangle</action>
+                    <action type="shell_command">
+                        <![CDATA[
+                            export PATH=$INSTALL_DIR/pkgs/vtk-6.3.0-py27_0/bin:$PATH &&
+                            export PYTHONPATH=$INSTALL_DIR/pkgs/vtk-6.3.0-py27_0/lib/python2.7/site-packages:$INSTALL_DIR/pkgs/vtk-6.3.0-py27_0/lib/python2.7:pkgs/vtk-6.3.0-py27_0/lib:$INSTALL_DIR/pkgs/vtk-6.3.0-py27_0/bin &&
+                            export DYLD_LIBRARY_PATH=$INSTALL_DIR/pkgs/vtk-6.3.0-py27_0/lib:$DYLD_LIBRARY_PATH &&
+                            export PKG_CONFIG_PATH=$INSTALL_DIR/lib/pkgconfig:$PKG_CONFIG_PATH
+                            $INSTALL_DIR/bin/python setup.py install --prefix=$INSTALL_DIR
+                        ]]>
+                    </action>
+    
+                    <!-- Install and compile icqsol version latest as a package in the above Python -->
+                    <action type="make_directory">$TMP_WORK_DIR/icqsol</action>
+                    <action type="change_directory">$TMP_WORK_DIR/icqsol</action>
+                    <action type="shell_command">git clone https://github.com/pletzer/icqsol.git</action>
+                    <action type="change_directory">icqsol</action>
+                    <action type="shell_command">
+                        <![CDATA[
+                            export PATH=$INSTALL_DIR/pkgs/vtk-6.3.0-py27_0/bin:$PATH &&
+                            export PYTHONPATH=$INSTALL_DIR/pkgs/vtk-6.3.0-py27_0/lib/python2.7/site-packages:$INSTALL_DIR/pkgs/vtk-6.3.0-py27_0/lib/python2.7:pkgs/vtk-6.3.0-py27_0/lib:$INSTALL_DIR/pkgs/vtk-6.3.0-py27_0/bin &&
+                            export DYLD_LIBRARY_PATH=$INSTALL_DIR/pkgs/vtk-6.3.0-py27_0/lib:$DYLD_LIBRARY_PATH &&
+                            cmake -DINSTALL_USER=OFF -DINSTALL_PREFIX=ON -DCMAKE_INSTALL_PREFIX=$INSTALL_DIR
+                        ]]>
+                    </action>
+                </actions>
 
                 <action type="set_environment">
-                    <environment_variable action="prepend_to" name="PATH">$INSTALL_DIR/bin</environment_variable>
-                    <environment_variable action="prepend_to" name="PYTHONPATH">$INSTALL_DIR/lib/python2.7/site-packages:$INSTALL_DIR/lib:$INSTALL_DIR</environment_variable>
-                    <environment_variable action="set_to" name="PYTHONSHAREDHOME">$INSTALL_DIR</environment_variable>
-                    <environment_variable action="prepend_to" name="LD_LIBRARY_PATH">$INSTALL_DIR/lib:$INSTALL_DIR/bzlib/lib</environment_variable>
-                    <environment_variable action="prepend_to" name="DYLD_LIBRARY_PATH">$INSTALL_DIR/lib:$INSTALL_DIR/bzlib/lib</environment_variable>
+                    <environment_variable action="prepend_to" name="PATH">$INSTALL_DIR/pkgs/vtk-6.3.0-py27_0/bin</environment_variable>
+                    <environment_variable action="prepend_to" name="PYTHONPATH">$INSTALL_DIR/pkgs/vtk-6.3.0-py27_0/lib/python2.7/site-packages:$INSTALL_DIR/pkgs/vtk-6.3.0-py27_0/lib/python2.7:pkgs/vtk-6.3.0-py27_0/lib:$INSTALL_DIR/pkgs/vtk-6.3.0-py27_0/bin</environment_variable>
+                    <environment_variable action="set_to" name="ANACONDAPYTHONHOME">$INSTALL_DIR</environment_variable>
+                    <environment_variable action="prepend_to" name="LD_LIBRARY_PATH">$INSTALL_DIR/pkgs/vtk-6.3.0-py27_0/lib</environment_variable>
+                    <environment_variable action="prepend_to" name="DYLD_LIBRARY_PATH">$INSTALL_DIR/pkgs/vtk-6.3.0-py27_0/lib</environment_variable>
                     <environment_variable action="prepend_to" name="PKG_CONFIG_PATH">$INSTALL_DIR/lib/pkgconfig</environment_variable>
-                    <environment_variable action="set_to" name="VTKPYTHON_ROOT_DIR" >$INSTALL_DIR</environment_variable>
+                    <environment_variable action="set_to" name="ICQSOL_ROOT_DIR">$INSTALL_DIR</environment_variable>
                 </action>
-            </actions>
+            </actions_group>
         </install>
         <readme>
 <![CDATA[
-This installation recipe compiles and installs the Python programming language version
-2.7.9 (with shared libraries) along with the following Python packages:
+This installation recipe compiles and installs Anaconda version 3.2.0 which provides
+Python version 2.7.10 along with the following Python packages which are in addition
+to the 300+ packages that come with Anaconda.
 
-1) Numpy version 1.9
-
-Compiling numpy requires a C and Fortran compiler (typically gcc and gfortran).  This recipe
-compiles numpy using the specified Python, which is itself compiled to produce shared libraries.
-
-2) VTK version 6.2.0
+1) VTK version 6.3.0
 
 The Visualization Toolkit (VTK) is an open-source, freely available software system for 3D
 computer graphics, modeling, image processing, volume rendering, scientific visualization, and
@@ -247,7 +182,7 @@ Pytriangle is a python interface to the 2D triangulation program originally writ
 
 Icqsol is a collection of tools for constructing and solving partial differential equations.
             ]]>
+
         </readme>
     </package>
-
 </tool_dependency>
