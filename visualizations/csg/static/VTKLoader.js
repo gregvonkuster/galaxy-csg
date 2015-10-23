@@ -135,32 +135,69 @@ THREE.VTKLoader.prototype = {
 					
 				}
 				
-			} else if ( inPointDataSection && inColorSection ) {
+			} else if ( inPointDataSection ) {
 			
-				// get the colors
-
-				while ( ( result = pat3Floats.exec( line ) ) !== null ) {
+			
+				if ( inColorSection ) {
 				
-					var r = parseFloat( result[ 1 ] );
-					var g = parseFloat( result[ 2 ] );
-					var b = parseFloat( result[ 3 ] );
-					colors.push( r, g, b );
+					// get the colors
+
+					while ( ( result = pat3Floats.exec( line ) ) !== null ) {
+				
+						var r = parseFloat( result[ 1 ] );
+						var g = parseFloat( result[ 2 ] );
+						var b = parseFloat( result[ 3 ] );
+						colors.push( r, g, b );
+					
+					}
+				
+				} else if ( inNormalsSection ) {
+				
+					// get the normal vectors
+
+					while ( ( result = pat3Floats.exec( line ) ) !== null ) {
+				
+						var nx = parseFloat( result[ 1 ] );
+						var ny = parseFloat( result[ 2 ] );
+						var nz = parseFloat( result[ 3 ] );
+						normals.push( nx, ny, nz );
+
+					}
 					
 				}
-			
-			} else if ( inPointDataSection && inNormalsSection ) {
-			
-				// get the colors
-
-				while ( ( result = pat3Floats.exec( line ) ) !== null ) {
 				
-					var nx = parseFloat( result[ 1 ] );
-					var ny = parseFloat( result[ 2 ] );
-					var nz = parseFloat( result[ 3 ] );
-					normals.push( nx, ny, nz );
+            } else if ( inCellDataSection ) {
+			
+			
+				if ( inColorSection ) {
+				
+					// get the colors
 
+					while ( ( result = pat3Floats.exec( line ) ) !== null ) {
+				
+						var r = parseFloat( result[ 1 ] );
+						var g = parseFloat( result[ 2 ] );
+						var b = parseFloat( result[ 3 ] );
+						colors.push( r, g, b );
+					
+					}
+				
+				} else if ( inNormalsSection ) {
+				
+					// get the normal vectors
+
+					while ( ( result = pat3Floats.exec( line ) ) !== null ) {
+				
+						var nx = parseFloat( result[ 1 ] );
+						var ny = parseFloat( result[ 2 ] );
+						var nz = parseFloat( result[ 3 ] );
+						normals.push( nx, ny, nz );
+
+					}
+					
 				}
-			}
+				
+            }
 
 			if ( patPOLYGONS.exec( line ) !== null ) {
 			
@@ -202,20 +239,94 @@ THREE.VTKLoader.prototype = {
 			}
 		}
 
-		var geometry = new THREE.BufferGeometry();
-		geometry.addAttribute( 'index', new THREE.BufferAttribute( new ( indices.length > 65535 ? Uint32Array : Uint16Array )( indices ), 1 ) );
-		geometry.addAttribute( 'position', new THREE.BufferAttribute( new Float32Array( positions ), 3 ) );
+		var geometry;
+		var stagger = 'point';
 		
-		if ( colors.length == positions.length ) {
+		if ( colors.length == indices.length ) {
 		
-			geometry.addAttribute( 'color', new THREE.BufferAttribute( new Float32Array( colors ), 3 ) );
-			
+		    stagger = 'cell';
+		    
 		}
+		
+		if ( stagger == 'point' ) {
+		
+			// nodal. Use BufferGeometry
+		
+		    geometry = new THREE.BufferGeometry();
+		    
+		    geometry.addAttribute( 'index', new THREE.BufferAttribute( new ( indices.length > 65535 ? Uint32Array : Uint16Array )( indices ), 1 ) );
+		    geometry.addAttribute( 'position', new THREE.BufferAttribute( new Float32Array( positions ), 3 ) );
+		
+		    if ( colors.length == positions.length ) {
+		
+			    geometry.addAttribute( 'color', new THREE.BufferAttribute( new Float32Array( colors ), 3 ) );
+			    
+			}
+			
+			if ( normals.length == positions.length ) {
 
-		if ( normals.length == positions.length ) {
+				geometry.addAttribute( 'normal', new THREE.BufferAttribute( new Float32Array( normals ), 3 ) );
 
-			geometry.addAttribute( 'normal', new THREE.BufferAttribute( new Float32Array( normals ), 3 ) );
+			}
 
+			
+		} else {
+		
+			// cell centered colors. The only way to attach solid colors to triangles is
+			// to use Geometry 
+			
+			geometry = new THREE.Geometry();
+			
+			var numTriangles = indices.length / 3;
+			var numPoints = positions.length / 3;
+			var va, vb, vc;
+			var face;
+		    var colorA, colorB, colorC;
+			var ia, ib, ic;
+			var x, y, z;
+			var r, g, b;
+			
+			for ( var j = 0; j < numPoints; ++j ) {
+			
+				x = positions[ 3*j + 0 ];
+				y = positions[ 3*j + 1 ];
+				z = positions[ 3*j + 2 ];
+				geometry.vertices.push( new THREE.Vector3( x, y, z ) );
+			
+			}
+						
+			for ( var i = 0; i < numTriangles; ++i ) {
+			
+				ia = indices[ 3*i + 0 ];
+				ib = indices[ 3*i + 1 ];
+				ic = indices[ 3*i + 2 ];
+				
+				geometry.faces.push( new THREE.Face3( ia, ib, ic ) );
+			
+			}
+			
+			if ( colors.length == numTriangles * 3 ) {
+			
+				for ( var i = 0; i < numTriangles; ++i ) {
+					
+					face = geometry.faces[i];
+					r = colors[ 3*i + 0 ];
+					g = colors[ 3*i + 1 ];
+					b = colors[ 3*i + 2 ];
+					colorA = new THREE.Color();
+					colorA.setRGB( r, g, b );
+					colorB = new THREE.Color();
+					colorB.setRGB( r, g, b );
+					colorC = new THREE.Color();
+					colorC.setRGB( r, g, b );
+					face.vertexColors[0] = colorA;
+					face.vertexColors[1] = colorB;
+					face.vertexColors[2] = colorC;
+				
+				}
+			
+			}
+		
 		}
 		
 		return geometry;
