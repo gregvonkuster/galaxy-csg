@@ -65,11 +65,12 @@
                     </action>
 
                     <action type="set_environment">
+                        <!--
+                        Only the PATH environment variable needs to be modified for an Anaconda environment so that it gets
+                        the right Python from the environment bin directory.
+                        -->
                         <environment_variable action="prepend_to" name="PATH">$INSTALL_DIR/bin</environment_variable>
-                        <environment_variable action="prepend_to" name="PYTHONPATH">$INSTALL_DIR/lib/python2.7/site-packages:$INSTALL_DIR/lib/python2.7:$INSTALL_DIR/lib:$INSTALL_DIR/bin</environment_variable>
                         <environment_variable action="set_to" name="ANACONDAHOME">$INSTALL_DIR</environment_variable>
-                        <environment_variable action="prepend_to" name="LD_LIBRARY_PATH">$INSTALL_DIR/lib</environment_variable>
-                        <environment_variable action="prepend_to" name="PKG_CONFIG_PATH">$INSTALL_DIR/lib/pkgconfig</environment_variable>
                         <environment_variable action="set_to" name="ICQSOL_ROOT_DIR">$INSTALL_DIR</environment_variable>
                     </action>
                 </actions>
@@ -138,11 +139,17 @@
                     </action>
 
                     <action type="set_environment">
-                        <environment_variable action="prepend_to" name="PATH">$INSTALL_DIR/pkgs/vtk-6.3.0-py27_0/bin</environment_variable>
-                        <environment_variable action="prepend_to" name="PYTHONPATH">$INSTALL_DIR/pkgs/vtk-6.3.0-py27_0/lib/python2.7/site-packages:$INSTALL_DIR/pkgs/vtk-6.3.0-py27_0/lib/python2.7:$INSTALL_DIR/pkgs/vtk-6.3.0-py27_0/lib:$INSTALL_DIR/pkgs/vtk-6.3.0-py27_0/bin</environment_variable>
+                        <!--
+                        Only the PATH environment variable needs to be modified for an Anaconda environment so that it gets
+                        the right Python from the environment bin directory.  The way Anaconda environments work is that they
+                        hard link everything that is installed into the environment.  For all intents and purposes, this means
+                        that each environment is a completely separate installation of Python and all the packages.  By using
+                        hard links, this is done efficiently. Thus, there's no need to mess with PYTHONPATH because the Python
+                        binary in the environment already searches the site-packages in the environment, and the lib of the
+                        environment, and so on.
+                        -->
+                        <environment_variable action="prepend_to" name="PATH">$INSTALL_DIR/bin</environment_variable>
                         <environment_variable action="set_to" name="ANACONDAHOME">$INSTALL_DIR</environment_variable>
-                        <environment_variable action="prepend_to" name="DYLD_LIBRARY_PATH">$INSTALL_DIR/pkgs/vtk-6.3.0-py27_0/lib</environment_variable>
-                        <environment_variable action="prepend_to" name="PKG_CONFIG_PATH">$INSTALL_DIR/lib/pkgconfig</environment_variable>
                         <environment_variable action="set_to" name="ICQSOL_ROOT_DIR">$INSTALL_DIR</environment_variable>
                     </action>
                 </actions>

@@ -12,6 +12,7 @@
     --input_file_format_and_type $input.ext
     --input_dataset_type $input.metadata.dataset_type
     --field_name "$field_name"
+    --location $location
     --expression "$expression"
     #for $tp in $time_points:
         --time_point ${tp.time_point}
@@ -28,6 +29,10 @@
             <validator type="dataset_ok_validator" />
         </param>
         <param name="field_name" type="text" value="surface_field" label="Surface field name" help="Spaces will be converted to underscore character."/>
+        <param name="location" type="select" label="Location of field" help="Field values vary linearly between nodes when visualizing fields located at points, while each triangle is assigned a single value with fields located at cells.">
+            <option value="cell" selected="True">Cell</option>
+            <option value="point">Point</option>
+        </param>
         <param name="expression" type="text" value="(x**2 * sin(y*pi) + z**4) * exp(t)" label="Expression" help="Legal variables are x,y,z (point coordinates) and t (time)."/>
         <repeat name="time_points" title="Points in time" min="1" help="Provides snapshots of surface field over time sequence.">
             <param name="time_point" type="float" value="0" label="Time point" help="Floating point number"/>

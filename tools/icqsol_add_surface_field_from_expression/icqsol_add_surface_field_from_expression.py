@@ -11,6 +11,7 @@ parser.add_argument( '--input', dest='input', help='Shape dataset selected from 
 parser.add_argument( '--input_file_format_and_type', dest='input_file_format_and_type', help='Input file format and type' )
 parser.add_argument( '--input_dataset_type', dest='input_dataset_type', help='Input dataset_type' )
 parser.add_argument( '--field_name', dest='field_name', help='Surface field name' )
+parser.add_argument( '--location', dest='location', help='Location of field within cell, either point or cell' )
 parser.add_argument( '--expression', dest='expression', help='Expression for applying surface field to shape' )
 parser.add_argument( '--time_point', dest='time_points', type=float, action='append', nargs=1, help='Points in time' )
 parser.add_argument( '--max_edge_length', dest='max_edge_length', type=float, default='0', help='Maximum edge length' )
@@ -41,7 +42,8 @@ vtk_poly_data = shape_mgr.addSurfaceFieldFromExpressionToShape(shp,
                                                                args.field_name,
                                                                args.expression,
                                                                time_points,
-                                                               max_edge_length)
+                                                               max_edge_length,
+                                                               args.location)
 
 # Define the output file format and type (the outpur_format can only be 'vtk').
 output_format, output_file_type = icqsol_utils.get_format_and_type( args.output_vtk_type )
