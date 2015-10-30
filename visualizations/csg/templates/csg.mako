@@ -11,6 +11,8 @@
 
         ${h.javascript_link( app_root + 'dat.gui.min.js' )}
         ${h.javascript_link( app_root + 'three.min.js' )}
+        ${h.javascript_link( app_root + 'Detector.js' )}
+        ${h.javascript_link( app_root + 'Lut.js' )}
         ${h.javascript_link( app_root + 'OrbitControls.js' )}
         ${h.javascript_link( app_root + 'PLYLoader.js' )}
         ${h.javascript_link( app_root + 'VTKLoader.js' )}
@@ -21,6 +23,7 @@
 
         <script type="text/javascript">
 
+            
             // Global variables
             var container;
             var scene;
@@ -76,17 +79,12 @@
                     var geometryHasColor = false;
                     if ( geometry.type == "BufferGeometry" && 
                          geometry.getAttribute( 'color' ) ) {
-
                         geometryHasColor = true;
-
                         // Color vertices
                         surface[ 'vertexColors' ] = THREE.VertexColors;
-
                     } else {
-
                         // No color, use gui input
                         surface[ 'color' ] = new THREE.Color( 0xAAAAAA );
-
                     }
 
                     var meshSurface = new THREE.Mesh(geometry, surface);
