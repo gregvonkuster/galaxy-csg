@@ -82,6 +82,11 @@
                         geometryHasColor = true;
                         // Color vertices
                         surface[ 'vertexColors' ] = THREE.VertexColors;
+                    } else if ( geometry.type == "Geometry" && 
+                                geometry.getAttribute( 'color' ) ) {
+                        geometryHasColor = true;
+                        // Color Faces
+                        surface[ 'vertexColors' ] = THREE.FaceColors;
                     } else {
                         // No color, use gui input
                         surface[ 'color' ] = new THREE.Color( 0xAAAAAA );
