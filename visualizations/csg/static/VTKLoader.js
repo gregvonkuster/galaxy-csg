@@ -38,16 +38,6 @@ THREE.VTKLoader.prototype = {
         // red, green, blue colors in the range 0 to 1
         var colors = [];
 
-        // LUT variables required for coloring
-        var colorMap = 'rainbow';
-        var numberOfColors = 512;
-        var lut = new THREE.Lut( colorMap, numberOfColors );
-        lut.setMax( 2000 );
-        lut.setMin( 0 );
-
-        // Float values defined for the LUT
-        var color_scalars = [];
-
         // normal vector, one per vertex
         var normals = [];
 
