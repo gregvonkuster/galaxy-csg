@@ -26,23 +26,30 @@
             
             // Global variables
             var container;
-            var scene;
-            var camera;
+            var scene = new THREE.Scene();
             var renderer;
             var controls;
             var bbHelper;
             var defaultBackgroundColor = 0x4d576b;
 
+            // Camera
+            var SCREEN_WIDTH = window.innerWidth;
+            var SCREEN_HEIGHT = window.innerHeight;
+            var VIEW_ANGLE = 45;
+            var ASPECT = SCREEN_WIDTH / SCREEN_HEIGHT;
+            var NEAR = 1;
+            var FAR = 10000;
+            var camera = new THREE.PerspectiveCamera(VIEW_ANGLE, ASPECT, NEAR, FAR);
+
             init();
             //animate();
 
             function init() {
+
                 window.addEventListener('resize', onWindowResize, false);
 
-                // Scene
-                scene = new THREE.Scene();
                 // Color, near, far
-               scene.fog = new THREE.Fog(0x111111, 0.1, 1000);
+                scene.fog = new THREE.Fog(0x111111, 0.1, 1000);
 
                 // Data format and loader
                 var hdaExt  = '${hda.ext}';
@@ -78,16 +85,22 @@
 
                     var geometryHasColor = false;
                     if ( geometry.type == "BufferGeometry" ) {
+
                         geometryHasColor = true;
                         // Color vertices
                         surface[ 'vertexColors' ] = THREE.VertexColors;
+
                     } else if ( geometry.type == "Geometry" ) { 
+
                         geometryHasColor = true;
                         // Color Faces
                         surface[ 'vertexColors' ] = THREE.FaceColors;
+
                     } else {
+
                         // No color, use gui input
                         surface[ 'color' ] = new THREE.Color( 0xAAAAAA );
+
                     }
 
 
@@ -95,8 +108,9 @@
                     scene.add(meshSurface);
 
                     var mesh = new THREE.Mesh(geometry, surface);
+
+                    // Will be added on request to the scene
                     var meshEdges = new THREE.EdgesHelper(mesh, 0x111111);
-                    // will be added on request to the scene
 
                     // Define the BoundingBox
                     bbHelper = new THREE.BoundingBoxHelper(meshSurface, 0xff0000);
@@ -134,13 +148,6 @@
                     meshSurface.geometry.centroid = { x : centroidX, y : centroidY, z : centroidZ };
 
                     // Camera
-                    var SCREEN_WIDTH = window.innerWidth;
-                    var SCREEN_HEIGHT = window.innerHeight;
-                    var VIEW_ANGLE = 45;
-                    var ASPECT = SCREEN_WIDTH / SCREEN_HEIGHT;
-                    var NEAR = 1;
-                    var FAR = 10000;
-                    camera = new THREE.PerspectiveCamera(VIEW_ANGLE, ASPECT, NEAR, FAR);
                     camera.position.x = xmax + 5;
                     camera.position.y = ymax + 5;
                     camera.position.z = zmax + 5;
@@ -151,7 +158,7 @@
                     renderer.setClearColor(new THREE.Color(defaultBackgroundColor, 1.0));
                     renderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
 
-                    // add the output of the renderer to the html element
+                    // Add the output of the renderer to the html element
                     container = document.getElementById("WebGL-output")
                     container.appendChild(renderer.domElement);
 
