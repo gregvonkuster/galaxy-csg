@@ -70,20 +70,18 @@
                     geometry.computeFaceNormals();
 
                     // Normals may or may not have been set
-                    if ( ! geometry.getAttribute( 'normal' ) ) {
+                    if ( geometry.type == "BufferGeometry" && ! geometry.getAttribute( 'normal' ) ) {
 
                          geometry.computeVertexNormals();
 
                     }
 
                     var geometryHasColor = false;
-                    if ( geometry.type == "BufferGeometry" && 
-                         geometry.getAttribute( 'color' ) ) {
+                    if ( geometry.type == "BufferGeometry" ) {
                         geometryHasColor = true;
                         // Color vertices
                         surface[ 'vertexColors' ] = THREE.VertexColors;
-                    } else if ( geometry.type == "Geometry" && 
-                                geometry.getAttribute( 'color' ) ) {
+                    } else if ( geometry.type == "Geometry" ) { 
                         geometryHasColor = true;
                         // Color Faces
                         surface[ 'vertexColors' ] = THREE.FaceColors;
@@ -91,6 +89,7 @@
                         // No color, use gui input
                         surface[ 'color' ] = new THREE.Color( 0xAAAAAA );
                     }
+
 
                     var meshSurface = new THREE.Mesh(geometry, surface);
                     scene.add(meshSurface);
