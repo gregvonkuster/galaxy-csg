@@ -157,9 +157,11 @@
         </install>
         <readme>
 <![CDATA[
-This installation recipe compiles and installs Anaconda version 3.2.0 which provides
-Python version 2.7.10 along with the following Python packages which are in addition
-to the 300+ packages that come with Anaconda.
+This installation recipe installs the Anaconda version 2.3.0 of the Python programming language
+version 2.7.10.  Anaconda is a completely free Python distribution (including for commercial use
+and redistribution). It includes more than 300 of the most popular Python packages for science,
+math, engineering, and data analysis.  This list of packages is available at
+http://docs.continuum.io/anaconda/pkg-docs.
 
 1) VTK version 6.3.0
 
