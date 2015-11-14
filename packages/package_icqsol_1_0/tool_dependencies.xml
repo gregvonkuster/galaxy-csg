@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <tool_dependency>
 
-    <package name="icqsol" version="latest">
+    <package name="icqsol" version="1.0">
         <install version="1.0">
             <actions_group>
                 <actions os="linux" architecture="x86_64">
@@ -50,7 +50,7 @@
                         ]]>
                     </action>
     
-                    <!-- Install and compile icqsol version latest as a package in the above Python -->
+                    <!-- Install and compile icqsol version 1.0 as a package in the above Python -->
                     <action type="make_directory">$TMP_WORK_DIR/icqsol</action>
                     <action type="change_directory">$TMP_WORK_DIR/icqsol</action>
                     <action type="shell_command">git clone https://github.com/pletzer/icqsol.git</action>
@@ -124,7 +124,7 @@
                         ]]>
                     </action>
     
-                    <!-- Install and compile icqsol version latest as a package in the above Python -->
+                    <!-- Install and compile icqsol version 1.0 as a package in the above Python -->
                     <action type="make_directory">$TMP_WORK_DIR/icqsol</action>
                     <action type="change_directory">$TMP_WORK_DIR/icqsol</action>
                     <action type="shell_command">git clone https://github.com/pletzer/icqsol.git</action>
@@ -189,7 +189,7 @@ algorithm. All edge cases involving overlapping coplanar polygons in both solids
 
 Pytriangle is a python interface to the 2D triangulation program originally written by Jonathan Richard Shewchuck
 
-5) Icqsol version latest
+5) Icqsol version 1.0
 
 Icqsol is a collection of tools for constructing and solving partial differential equations.
             ]]>

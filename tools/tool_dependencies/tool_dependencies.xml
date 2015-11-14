@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <tool_dependency>
-    <package name="icqsol" version="latest">
-        <repository name="package_icqsol_latest" owner="iuc" />
+    <package name="icqsol" version="1.0">
+        <repository name="package_icqsol_1_0" owner="iuc" />
     </package>
 </tool_dependency>
