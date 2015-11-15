@@ -1,19 +1,27 @@
 <?xml version="1.0"?>
 <tool_dependency>
-
+    <package name="cmake" version="3.2.3">
+        <repository name="package_cmake_3_2_3" owner="iuc" prior_installation_required="True" />
+    </package>
     <package name="icqsol" version="1.0">
         <install version="1.0">
             <actions_group>
                 <actions os="linux" architecture="x86_64">
                     <!-- Install and compile Anaconda 2.3.0 which provides Python 2.7.10 -->
                     <action type="download_file" target_filename="Anaconda-2.3.0-Linux-x86_64.sh">https://3230d63b5fc54e62148e-c95ac804525aac4b6dba79b00b39d1d3.ssl.cf1.rackcdn.com/Anaconda-2.3.0-Linux-x86_64.sh</action>
+
+                    <action type="set_environment_for_install">
+                        <repository name="package_cmake_3_2_3" owner="iuc">
+                            <package name="cmake" version="3.2.3" />
+                        </repository>
+                    </action>
+
                     <action type="shell_command">bash Anaconda-2.3.0-Linux-x86_64.sh -b -f -p $INSTALL_DIR</action>
 
                     <!-- Install VTK 6.3.0 into the above Python -->
                     <action type="shell_command">
                         <![CDATA[
                             export PATH=$INSTALL_DIR/bin:$PATH &&
-                            export PYTHONPATH=$INSTALL_DIR/lib/python2.7/site-packages:$INSTALL_DIR/lib/python2.7:$INSTALL_DIR/lib:$INSTALL_DIR:$PYTHONPATH &&
                             export LD_LIBRARY_PATH=$INSTALL_DIR/lib:$LD_LIBRARY_PATH &&
                             export PKG_CONFIG_PATH=$INSTALL_DIR/lib/pkgconfig:$PKG_CONFIG_PATH &&
                             conda install -c https://conda.anaconda.org/anaconda vtk --yes
@@ -28,7 +36,6 @@
                     <action type="shell_command">
                         <![CDATA[
                             export PATH=$INSTALL_DIR/bin:$PATH &&
-                            export PYTHONPATH=$INSTALL_DIR/lib/python2.7/site-packages:$INSTALL_DIR/lib/python2.7:$INSTALL_DIR/lib:$INSTALL_DIR:$PYTHONPATH &&
                             export LD_LIBRARY_PATH=$INSTALL_DIR/lib:$LD_LIBRARY_PATH &&
                             export PKG_CONFIG_PATH=$INSTALL_DIR/lib/pkgconfig:$PKG_CONFIG_PATH &&
                             $INSTALL_DIR/bin/python setup.py install --prefix=$INSTALL_DIR
@@ -43,13 +50,12 @@
                     <action type="shell_command">
                         <![CDATA[
                             export PATH=$INSTALL_DIR/bin:$PATH &&
-                            export PYTHONPATH=$INSTALL_DIR/lib/python2.7/site-packages:$INSTALL_DIR/lib/python2.7:$INSTALL_DIR/lib:$INSTALL_DIR:$PYTHONPATH &&
                             export LD_LIBRARY_PATH=$INSTALL_DIR/lib:$LD_LIBRARY_PATH &&
                             export PKG_CONFIG_PATH=$INSTALL_DIR/lib/pkgconfig:$PKG_CONFIG_PATH &&
                             $INSTALL_DIR/bin/python setup.py install --prefix=$INSTALL_DIR
                         ]]>
                     </action>
-    
+
                     <!-- Install and compile icqsol version 1.0 as a package in the above Python -->
                     <action type="make_directory">$TMP_WORK_DIR/icqsol</action>
                     <action type="change_directory">$TMP_WORK_DIR/icqsol</action>
@@ -58,7 +64,6 @@
                     <action type="shell_command">
                         <![CDATA[
                             export PATH=$INSTALL_DIR/bin:$PATH &&
-                            export PYTHONPATH=$INSTALL_DIR/lib/python2.7/site-packages:$INSTALL_DIR/lib/python2.7:$INSTALL_DIR/lib:$INSTALL_DIR:$PYTHONPATH &&
                             export LD_LIBRARY_PATH=$INSTALL_DIR/lib:$LD_LIBRARY_PATH &&
                             cmake -DINSTALL_USER=OFF -DINSTALL_PREFIX=ON -DCMAKE_INSTALL_PREFIX=$INSTALL_DIR
                         ]]>
@@ -78,13 +83,19 @@
                 <actions os="darwin" architecture="x86_64">
                     <!-- Install and compile Anaconda 2.3.0 which provides Python 2.7.10 -->
                     <action type="download_file" target_filename="Anaconda-2.3.0-MacOSX-x86_64.sh">https://3230d63b5fc54e62148e-c95ac804525aac4b6dba79b00b39d1d3.ssl.cf1.rackcdn.com/Anaconda-2.3.0-MacOSX-x86_64.sh</action>
+
+                    <action type="set_environment_for_install">
+                        <repository name="package_cmake_3_2_3" owner="iuc">
+                            <package name="cmake" version="3.2.3" />
+                        </repository>
+                    </action>
+
                     <action type="shell_command">bash Anaconda-2.3.0-MacOSX-x86_64.sh -b -f -p $INSTALL_DIR</action>
 
                     <!-- Install VTK 6.3.0 into the above Python -->
                     <action type="shell_command">
                         <![CDATA[
                             export PATH=$INSTALL_DIR/bin:$PATH &&
-                            export PYTHONPATH=$INSTALL_DIR/lib/python2.7/site-packages:$INSTALL_DIR/lib/python2.7:$INSTALL_DIR/lib:$INSTALL_DIR:$PYTHONPATH &&
                             export DYLD_LIBRARY_PATH=$INSTALL_DIR/lib:$DYLD_LIBRARY_PATH &&
                             export PKG_CONFIG_PATH=$INSTALL_DIR/lib/pkgconfig:$PKG_CONFIG_PATH &&
                             conda install -c https://conda.anaconda.org/anaconda vtk --yes
@@ -102,7 +113,6 @@
                     <action type="shell_command">
                         <![CDATA[
                             export PATH=$INSTALL_DIR/pkgs/vtk-6.3.0-py27_0/bin:$PATH &&
-                            export PYTHONPATH=$INSTALL_DIR/pkgs/vtk-6.3.0-py27_0/lib/python2.7/site-packages:$INSTALL_DIR/pkgs/vtk-6.3.0-py27_0/lib/python2.7:pkgs/vtk-6.3.0-py27_0/lib:$INSTALL_DIR/pkgs/vtk-6.3.0-py27_0/bin &&
                             export DYLD_LIBRARY_PATH=$INSTALL_DIR/pkgs/vtk-6.3.0-py27_0/lib:$DYLD_LIBRARY_PATH &&
                             export PKG_CONFIG_PATH=$INSTALL_DIR/lib/pkgconfig:$PKG_CONFIG_PATH &&
                             $INSTALL_DIR/bin/python setup.py install --prefix=$INSTALL_DIR
@@ -117,13 +127,12 @@
                     <action type="shell_command">
                         <![CDATA[
                             export PATH=$INSTALL_DIR/pkgs/vtk-6.3.0-py27_0/bin:$PATH &&
-                            export PYTHONPATH=$INSTALL_DIR/pkgs/vtk-6.3.0-py27_0/lib/python2.7/site-packages:$INSTALL_DIR/pkgs/vtk-6.3.0-py27_0/lib/python2.7:pkgs/vtk-6.3.0-py27_0/lib:$INSTALL_DIR/pkgs/vtk-6.3.0-py27_0/bin &&
                             export DYLD_LIBRARY_PATH=$INSTALL_DIR/pkgs/vtk-6.3.0-py27_0/lib:$DYLD_LIBRARY_PATH &&
                             export PKG_CONFIG_PATH=$INSTALL_DIR/lib/pkgconfig:$PKG_CONFIG_PATH
                             $INSTALL_DIR/bin/python setup.py install --prefix=$INSTALL_DIR
                         ]]>
                     </action>
-    
+
                     <!-- Install and compile icqsol version 1.0 as a package in the above Python -->
                     <action type="make_directory">$TMP_WORK_DIR/icqsol</action>
                     <action type="change_directory">$TMP_WORK_DIR/icqsol</action>
@@ -132,7 +141,6 @@
                     <action type="shell_command">
                         <![CDATA[
                             export PATH=$INSTALL_DIR/pkgs/vtk-6.3.0-py27_0/bin:$PATH &&
-                            export PYTHONPATH=$INSTALL_DIR/pkgs/vtk-6.3.0-py27_0/lib/python2.7/site-packages:$INSTALL_DIR/pkgs/vtk-6.3.0-py27_0/lib/python2.7:pkgs/vtk-6.3.0-py27_0/lib:$INSTALL_DIR/pkgs/vtk-6.3.0-py27_0/bin &&
                             export DYLD_LIBRARY_PATH=$INSTALL_DIR/pkgs/vtk-6.3.0-py27_0/lib:$DYLD_LIBRARY_PATH &&
                             cmake -DINSTALL_USER=OFF -DINSTALL_PREFIX=ON -DCMAKE_INSTALL_PREFIX=$INSTALL_DIR
                         ]]>
