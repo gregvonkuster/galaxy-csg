@@ -1,0 +1,34 @@
+How To Install icqsol
+=====================
+
+alexander _ at _ gokliya _ dot _ net
+Tue Nov 17 14:36:13 MST 2015
+
+We assume vtk and numpy are installed
+
+$ rhc ssh
+> cd $OPENSHIFT_DATA_DIR/source/
+> git clone https://github.com/pletzer/icqsol.git
+> cd icqsol
+> cd $OPENSHIFT_DATA_DIR/source/icqsol
+
+Use the galaxy python
+
+> export PATH=$OPENSHIFT_DATA_DIR/source/galaxy/.venv/bin:$PATH
+
+Install the icqsol dependencies
+
+> python setup.py develop
+
+Install icqsol
+
+> python setup.py install
+
+Test
+
+> python
+Python 2.6.6 (r266:84292, May 22 2015, 08:34:51) 
+[GCC 4.4.7 20120313 (Red Hat 4.4.7-15)] on linux2
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import icqsol
+>>> 

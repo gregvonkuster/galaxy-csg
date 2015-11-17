@@ -60,3 +60,22 @@ cmake \
 make
 
 make install
+
+To test the installation, do 
+
+export LD_LIBRARY_PATH=$OPENSHIFT_DATA_DIR/source/galaxy/.venv/lib
+
+$OPENSHIFT_DATA_DIR/source/galaxy/.venv/bin/python
+Python 2.6.6 (r266:84292, May 22 2015, 08:34:51) 
+[GCC 4.4.7 20120313 (Red Hat 4.4.7-15)] on linux2
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import vtk
+>>>
+
+The LD_LIBRARY_PATH variable needs to be set, e.g.
+
+$ rhc env set LD_LIBRARY_PATH=/var/lib/openshift/5611ccc02d52713b6000010c/app-root/data/source/galaxy/.venv/lib
+Setting environment variable(s) ... done
+$ rhc env list
+LD_LIBRARY_PATH=/var/lib/openshift/5611ccc02d52713b6000010c/app-root/data/source/galaxy/.venv/lib
+PYTHON_EGG_CACHE=/var/lib/openshift/5611ccc02d52713b6000010c/app-root/data/dependencies
