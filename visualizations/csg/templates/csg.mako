@@ -12,6 +12,7 @@
         ${h.javascript_link( app_root + 'dat.gui.min.js' )}
         ${h.javascript_link( app_root + 'three.min.js' )}
         ${h.javascript_link( app_root + 'Detector.js' )}
+        ${h.javascript_link( app_root + 'Lut.js' )}
         ${h.javascript_link( app_root + 'OrbitControls.js' )}
         ${h.javascript_link( app_root + 'PLYLoader.js' )}
         ${h.javascript_link( app_root + 'VTKLoader.js' )}
@@ -83,7 +84,7 @@
                     }
 
                     var geometryHasColor = false;
-                    if ( geometry.type == "BufferGeometry" ) {
+                    if ( geometry.type == "BufferGeometry" && geometry.getAttribute( 'color' ) ) {
 
                         geometryHasColor = true;
                         // Color vertices
@@ -91,6 +92,7 @@
 
                     } else if ( geometry.type == "Geometry" ) { 
 
+                        // A geometry implies colors
                         geometryHasColor = true;
                         // Color Faces
                         surface[ 'vertexColors' ] = THREE.FaceColors;
@@ -99,6 +101,7 @@
 
                         // No color, use gui input
                         surface[ 'color' ] = new THREE.Color( 0xAAAAAA );
+                        surface[ 'vertexColors' ] = THREE.NoColors;
 
                     }
 
