@@ -12,7 +12,6 @@
         ${h.javascript_link( app_root + 'dat.gui.min.js' )}
         ${h.javascript_link( app_root + 'three.min.js' )}
         ${h.javascript_link( app_root + 'Detector.js' )}
-        ${h.javascript_link( app_root + 'Lut.js' )}
         ${h.javascript_link( app_root + 'OrbitControls.js' )}
         ${h.javascript_link( app_root + 'PLYLoader.js' )}
         ${h.javascript_link( app_root + 'VTKLoader.js' )}
