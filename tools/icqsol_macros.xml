@@ -2,7 +2,7 @@
 <macros>
     <xml name="requirements">
         <requirements>
-            <requirement type="package" version="latest">icqsol</requirement>
+            <requirement type="package" version="1.0">icqsol</requirement>
         </requirements>
     </xml>
     <xml name="stdio">
@@ -92,6 +92,14 @@
     </xml>
     <xml name="citations">
         <citations>
+            <citation type="bibtex">
+                @unpublished{None,
+                author = {None},
+                title = {None},
+                year = {None},
+                eprint = {None},
+                url = {https://github.com/gregvonkuster/galaxy-csg}
+            }</citation>
             <citation type="bibtex">
                 @misc(Schroeder-Martin-Lorensen2006,
                 author = "Will Schroeder and 
