@@ -94,7 +94,7 @@ galaxy @ http://galaxy-pedees.rhcloud.com/ (uuid: 5611ccc02d52713b6000010c)
 9. Edit the start/stop scripts
 ------------------------------
 
-$ cd galaxy
+$ cd mygalaxy
 $ cat > .openshift/action_hooks/start <<EOF
 sh \$OPENSHIFT_DATA_DIR/source/galaxy/run.sh -—daemon
 EOF
