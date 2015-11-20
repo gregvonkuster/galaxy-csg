@@ -28,7 +28,6 @@
                         <![CDATA[
                             export PATH=$INSTALL_DIR/bin:$PATH &&
                             export PYTHONPATH=$INSTALL_DIR:$PYTHONPATH &&
-                            export LD_LIBRARY_PATH=$INSTALL_DIR/lib:$LD_LIBRARY_PATH &&
                             export PKG_CONFIG_PATH=$INSTALL_DIR/lib/pkgconfig:$PKG_CONFIG_PATH &&
                             cmake \
                             -DCMAKE_BUILD_TYPE:STRING=Release \
@@ -85,7 +84,6 @@
                     <action type="shell_command">
                         <![CDATA[
                             export PATH=$INSTALL_DIR/bin:$PATH &&
-                            export LD_LIBRARY_PATH=$INSTALL_DIR/lib:$LD_LIBRARY_PATH &&
                             export PKG_CONFIG_PATH=$INSTALL_DIR/lib/pkgconfig:$PKG_CONFIG_PATH &&
                             $INSTALL_DIR/bin/python setup.py install --prefix=$INSTALL_DIR
                         ]]>
@@ -99,7 +97,6 @@
                     <action type="shell_command">
                         <![CDATA[
                             export PATH=$INSTALL_DIR/bin:$PATH &&
-                            export LD_LIBRARY_PATH=$INSTALL_DIR/lib:$LD_LIBRARY_PATH &&
                             $INSTALL_DIR/bin/python setup.py develop --prefix=$INSTALL_DIR
                             $INSTALL_DIR/bin/python setup.py install --prefix=$INSTALL_DIR
                         ]]>
