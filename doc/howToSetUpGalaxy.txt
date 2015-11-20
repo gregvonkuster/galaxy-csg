@@ -28,9 +28,13 @@ Install python and dependencies
 
 (follow instructions…)
 
-Add the csg to config/tool_conf.xml (and remove unused tools)
+Add the csg to config/tool_conf.xml (and remove unused tools, keep getext)
 
 > cp config/tool_conf.xml.sample config/tool_conf.xml
+
+  <section id="getext" name="Get Data">
+    <tool file="data_source/upload.xml" />
+  </section>
 
   <section id="csg" name="CSG">
     <tool file="csg/icqsol_create_shape.xml" />
