@@ -19,34 +19,69 @@
                     <action type="shell_command">bash Anaconda-2.3.0-Linux-x86_64.sh -b -f -p $INSTALL_DIR</action>
 
                     <!-- Install VTK 6.3.0 into the above Python -->
+                    <action type="make_directory">$TMP_WORK_DIR/vtk</action>
+                    <action type="change_directory">$TMP_WORK_DIR/vtk</action>
+                    <action type="download_file" target_filename="VTK-6.2.0.tar.gz">http://www.vtk.org/files/release/6.2/VTK-6.2.0.tar.gz</action>
+                    <action type="shell_command">tar xfvz VTK-6.2.0.tar.gz</action>
+                    <action type="change_directory">VTK-6.2.0</action>
                     <action type="shell_command">
                         <![CDATA[
                             export PATH=$INSTALL_DIR/bin:$PATH &&
+                            export PYTHONPATH=$INSTALL_DIR:$PYTHONPATH &&
                             export LD_LIBRARY_PATH=$INSTALL_DIR/lib:$LD_LIBRARY_PATH &&
                             export PKG_CONFIG_PATH=$INSTALL_DIR/lib/pkgconfig:$PKG_CONFIG_PATH &&
-                            conda install -c https://conda.anaconda.org/anaconda vtk --yes
+                            cmake \
+                            -DCMAKE_BUILD_TYPE:STRING=Release \
+                            -DCMAKE_INSTALL_PREFIX:PATH=`pwd`/../build \
+                            -DVTK_WRAP_PYTHON:BOOL=ON \
+                            -DVTK_Group_StandAlone:BOOL=OFF \
+                            -DVTK_Group_Rendering:BOOL=OFF \
+                            -DModule_vtkCommonColor:BOOL=ON \
+                            -DModule_vtkCommonComputationalGeometry:BOOL=ON \
+                            -DModule_vtkCommonDataModel:BOOL=ON \
+                            -DModule_vtkCommonExecutionModel:BOOL=ON \
+                            -DModule_vtkCommonMath:BOOL=ON \
+                            -DModule_vtkCommonMisc:BOOL=ON \
+                            -DModule_vtkCommonSystem:BOOL=ON \
+                            -DModule_vtkCommonTransforms:BOOL=ON \
+                            -DModule_vtkFiltersCore:BOOL=ON \
+                            -DModule_vtkFiltersExtraction:BOOL=ON \
+                            -DModule_vtkFiltersGeneral:BOOL=ON \
+                            -DModule_vtkFiltersGeneric:BOOL=ON \
+                            -DModule_vtkFiltersGeometry:BOOL=ON \
+                            -DModule_vtkFiltersPython:BOOL=ON \
+                            -DModule_vtkImagingHybrid:BOOL=ON \
+                            -DModule_vtkIOCore:BOOL=ON \
+                            -DModule_vtkIOGeometry:BOOL=ON \
+                            -DModule_vtkIOLegacy:BOOL=ON \
+                            -DModule_vtkWrappingPythonCore:BOOL=ON \
+                            -DModule_vtkIOPLY:BOOL=ON \
+                            -DVTK_INSTALL_PYTHON_MODULE_DIR:PATH=$INSTALL_DIR/lib/python2.7/site-packages \
+                            -DPYTHON_EXECUTABLE:PATH=$INSTALL_DIR/bin/python \
+                            -DPYTHON_LIBRARY:PATH=$INSTALL_DIR/lib/libpython2.7.so \
+                            -DPYTHON_INCLUDE_DIR:PATH=$INSTALL_DIR/include/python2.7 . &&
+                            make -j 8 &&
+                            make install
                         ]]>
                     </action>
+                     <action type="move_directory_files">
+                         <source_directory>../build/bin</source_directory>
+                         <destination_directory>$INSTALL_DIR/bin</destination_directory>
+                     </action>
+                     <action type="move_directory_files">
+                         <source_directory>../build/include</source_directory>
+                         <destination_directory>$INSTALL_DIR/include</destination_directory>
+                     </action>
+                     <action type="move_directory_files">
+                         <source_directory>../build/lib</source_directory>
+                         <destination_directory>$INSTALL_DIR/lib</destination_directory>
+                     </action>
 
                     <!-- Install and compile pycsg version 0.3.0 as a package in the above Python -->
                     <action type="make_directory">$TMP_WORK_DIR/pycsg</action>
                     <action type="change_directory">$TMP_WORK_DIR/pycsg</action>
                     <action type="shell_command">git clone https://github.com/pletzer/pycsg.git</action>
                     <action type="change_directory">pycsg</action>
-                    <action type="shell_command">
-                        <![CDATA[
-                            export PATH=$INSTALL_DIR/bin:$PATH &&
-                            export LD_LIBRARY_PATH=$INSTALL_DIR/lib:$LD_LIBRARY_PATH &&
-                            export PKG_CONFIG_PATH=$INSTALL_DIR/lib/pkgconfig:$PKG_CONFIG_PATH &&
-                            $INSTALL_DIR/bin/python setup.py install --prefix=$INSTALL_DIR
-                        ]]>
-                    </action>
-
-                    <!-- Install and compile pytriangle version 1.0 as a package in the above Python -->
-                    <action type="make_directory">$TMP_WORK_DIR/pytriangle</action>
-                    <action type="change_directory">$TMP_WORK_DIR/pytriangle</action>
-                    <action type="shell_command">git clone https://github.com/pletzer/pytriangle.git</action>
-                    <action type="change_directory">pytriangle</action>
                     <action type="shell_command">
                         <![CDATA[
                             export PATH=$INSTALL_DIR/bin:$PATH &&
@@ -65,7 +100,8 @@
                         <![CDATA[
                             export PATH=$INSTALL_DIR/bin:$PATH &&
                             export LD_LIBRARY_PATH=$INSTALL_DIR/lib:$LD_LIBRARY_PATH &&
-                            cmake -DINSTALL_USER=OFF -DINSTALL_PREFIX=ON -DCMAKE_INSTALL_PREFIX=$INSTALL_DIR
+                            $INSTALL_DIR/bin/python setup.py develop --prefix=$INSTALL_DIR
+                            $INSTALL_DIR/bin/python setup.py install --prefix=$INSTALL_DIR
                         ]]>
                     </action>
 
@@ -75,7 +111,7 @@
                         the right Python from the environment bin directory.
                         -->
                         <environment_variable action="prepend_to" name="PATH">$INSTALL_DIR/bin</environment_variable>
-                        <environment_variable action="set_to" name="ANACONDAHOME">$INSTALL_DIR</environment_variable>
+                        <environment_variable action="prepend_to" name="LD_LIBRARY_PATH">$INSTALL_DIR/lib</environment_variable>
                         <environment_variable action="set_to" name="ICQSOL_ROOT_DIR">$INSTALL_DIR</environment_variable>
                     </action>
                 </actions>
@@ -92,18 +128,62 @@
 
                     <action type="shell_command">bash Anaconda-2.3.0-MacOSX-x86_64.sh -b -f -p $INSTALL_DIR</action>
 
-                    <!-- Install VTK 6.3.0 into the above Python -->
+                    <!-- Install and compile VTK 6.2.0 as a package in the above Python -->
+                    <action type="make_directory">$TMP_WORK_DIR/vtk</action>
+                    <action type="change_directory">$TMP_WORK_DIR/vtk</action>
+                    <action type="download_file" target_filename="VTK-6.2.0.tar.gz">http://www.vtk.org/files/release/6.2/VTK-6.2.0.tar.gz</action>
+                    <action type="shell_command">tar xfvz VTK-6.2.0.tar.gz</action>
+                    <action type="change_directory">VTK-6.2.0</action>
                     <action type="shell_command">
                         <![CDATA[
-                            export PATH=$INSTALL_DIR/bin:$PATH &&
-                            export DYLD_LIBRARY_PATH=$INSTALL_DIR/lib:$DYLD_LIBRARY_PATH &&
+                            export PATH=$INSTALL_DIR/bin:$INSTALL_DIR/bin:$PATH &&
                             export PKG_CONFIG_PATH=$INSTALL_DIR/lib/pkgconfig:$PKG_CONFIG_PATH &&
-                            conda install -c https://conda.anaconda.org/anaconda vtk --yes
+                            cmake \
+                            -DCMAKE_BUILD_TYPE:STRING=Release \
+                            -DCMAKE_INSTALL_PREFIX:PATH=`pwd`/../build \
+                            -DVTK_WRAP_PYTHON:BOOL=ON \
+                            -DVTK_Group_StandAlone:BOOL=OFF \
+                            -DVTK_Group_Rendering:BOOL=OFF \
+                            -DModule_vtkCommonColor:BOOL=ON \
+                            -DModule_vtkCommonComputationalGeometry:BOOL=ON \
+                            -DModule_vtkCommonDataModel:BOOL=ON \
+                            -DModule_vtkCommonExecutionModel:BOOL=ON \
+                            -DModule_vtkCommonMath:BOOL=ON \
+                            -DModule_vtkCommonMisc:BOOL=ON \
+                            -DModule_vtkCommonSystem:BOOL=ON \
+                            -DModule_vtkCommonTransforms:BOOL=ON \
+                            -DModule_vtkFiltersCore:BOOL=ON \
+                            -DModule_vtkFiltersExtraction:BOOL=ON \
+                            -DModule_vtkFiltersGeneral:BOOL=ON \
+                            -DModule_vtkFiltersGeneric:BOOL=ON \
+                            -DModule_vtkFiltersGeometry:BOOL=ON \
+                            -DModule_vtkFiltersPython:BOOL=ON \
+                            -DModule_vtkImagingHybrid:BOOL=ON \
+                            -DModule_vtkIOCore:BOOL=ON \
+                            -DModule_vtkIOGeometry:BOOL=ON \
+                            -DModule_vtkIOLegacy:BOOL=ON \
+                            -DModule_vtkWrappingPythonCore:BOOL=ON \
+                            -DModule_vtkIOPLY:BOOL=ON \
+                            -DVTK_INSTALL_PYTHON_MODULE_DIR:PATH=$INSTALL_DIR/lib/python2.7/site-packages \
+                            -DPYTHON_EXECUTABLE:PATH=$INSTALL_DIR/bin/python \
+                            -DPYTHON_LIBRARY:PATH=$INSTALL_DIR/lib/libpython2.7.dylib \
+                            -DPYTHON_INCLUDE_DIR:PATH=$INSTALL_DIR/include/python2.7 . &&
+                            make -j 8 &&
+                            make install
                         ]]>
                     </action>
-                    <action type="shell_command">
-                        ln -s $INSTALL_DIR/pkgs/vtk-6.3.0-py27_0/bin/vtkpython $INSTALL_DIR/pkgs/vtk-6.3.0-py27_0/bin/python
-                    </action>
+                     <action type="move_directory_files">
+                         <source_directory>../build/bin</source_directory>
+                         <destination_directory>$INSTALL_DIR/bin</destination_directory>
+                     </action>
+                     <action type="move_directory_files">
+                         <source_directory>../build/include</source_directory>
+                         <destination_directory>$INSTALL_DIR/include</destination_directory>
+                     </action>
+                     <action type="move_directory_files">
+                         <source_directory>../build/lib</source_directory>
+                         <destination_directory>$INSTALL_DIR/lib</destination_directory>
+                     </action>
 
                     <!-- Install and compile pycsg version 0.3.0 as a package in the above Python -->
                     <action type="make_directory">$TMP_WORK_DIR/pycsg</action>
@@ -112,23 +192,8 @@
                     <action type="change_directory">pycsg</action>
                     <action type="shell_command">
                         <![CDATA[
-                            export PATH=$INSTALL_DIR/pkgs/vtk-6.3.0-py27_0/bin:$PATH &&
-                            export DYLD_LIBRARY_PATH=$INSTALL_DIR/pkgs/vtk-6.3.0-py27_0/lib:$DYLD_LIBRARY_PATH &&
+                            export PATH=$INSTALL_DIR/bin:$PATH &&
                             export PKG_CONFIG_PATH=$INSTALL_DIR/lib/pkgconfig:$PKG_CONFIG_PATH &&
-                            $INSTALL_DIR/bin/python setup.py install --prefix=$INSTALL_DIR
-                        ]]>
-                    </action>
-
-                    <!-- Install and compile pytriangle version 1.0 as a package in the above Python -->
-                    <action type="make_directory">$TMP_WORK_DIR/pytriangle</action>
-                    <action type="change_directory">$TMP_WORK_DIR/pytriangle</action>
-                    <action type="shell_command">git clone https://github.com/pletzer/pytriangle.git</action>
-                    <action type="change_directory">pytriangle</action>
-                    <action type="shell_command">
-                        <![CDATA[
-                            export PATH=$INSTALL_DIR/pkgs/vtk-6.3.0-py27_0/bin:$PATH &&
-                            export DYLD_LIBRARY_PATH=$INSTALL_DIR/pkgs/vtk-6.3.0-py27_0/lib:$DYLD_LIBRARY_PATH &&
-                            export PKG_CONFIG_PATH=$INSTALL_DIR/lib/pkgconfig:$PKG_CONFIG_PATH
                             $INSTALL_DIR/bin/python setup.py install --prefix=$INSTALL_DIR
                         ]]>
                     </action>
@@ -140,9 +205,9 @@
                     <action type="change_directory">icqsol</action>
                     <action type="shell_command">
                         <![CDATA[
-                            export PATH=$INSTALL_DIR/pkgs/vtk-6.3.0-py27_0/bin:$PATH &&
-                            export DYLD_LIBRARY_PATH=$INSTALL_DIR/pkgs/vtk-6.3.0-py27_0/lib:$DYLD_LIBRARY_PATH &&
-                            cmake -DINSTALL_USER=OFF -DINSTALL_PREFIX=ON -DCMAKE_INSTALL_PREFIX=$INSTALL_DIR
+                            export PATH=$INSTALL_DIR/bin:$PATH &&
+                            $INSTALL_DIR/bin/python setup.py develop --prefix=$INSTALL_DIR &&
+                            $INSTALL_DIR/bin/python setup.py install --prefix=$INSTALL_DIR
                         ]]>
                     </action>
 
@@ -157,7 +222,7 @@
                         environment, and so on.
                         -->
                         <environment_variable action="prepend_to" name="PATH">$INSTALL_DIR/bin</environment_variable>
-                        <environment_variable action="set_to" name="ANACONDAHOME">$INSTALL_DIR</environment_variable>
+                        <environment_variable action="prepend_to" name="DYLD_LIBRARY_PATH">$INSTALL_DIR/lib</environment_variable>
                         <environment_variable action="set_to" name="ICQSOL_ROOT_DIR">$INSTALL_DIR</environment_variable>
                     </action>
                 </actions>
