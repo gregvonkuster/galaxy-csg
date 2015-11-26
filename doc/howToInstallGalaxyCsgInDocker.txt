@@ -1,0 +1,49 @@
+How To Install galaxy-csh flavor in Docker
+==========================================
+
+alexander _ at _ gokliya _ dot _ net
+Wed Nov 25 16:52:03 MST 2015
+
+We assume Docker was installed
+
+1. Start the Docker QuickStart Terminal App:
+
+You will get a welcome screen such as 
+
+
+
+                        ##         .
+                  ## ## ##        ==
+               ## ## ## ## ##    ===
+           /"""""""""""""""""\___/ ===
+      ~~~ {~~ ~~~~ ~~~ ~~~~ ~~~ ~ /  ===- ~~~
+           \______ o           __/
+             \    \         __/
+              \____\_______/
+
+
+docker is configured to use the default machine with IP 192.168.99.100
+For help getting started, check out the docs at https://docs.docker.com
+
+Not the IP number (192.168.99.100)
+
+2) Get the galaxy-csh docker image
+
+$ docker pull gregvonkuster/docker-galaxy-csg:master
+
+3) Run the docker image
+
+First identify the ID of the image (you may have several)
+
+$ docker images 
+REPOSITORY                        TAG                 IMAGE ID            CREATED             VIRTUAL SIZE
+gregvonkuster/docker-galaxy-csg   master              <image_id>        4 hours ago         2.671 GB
+…
+
+$ docker run -i -t -p 8080:80 <image_id>
+
+4) Point browser to 
+<IP>:8080
+
+where <IP> is the IP number of the welcome screen
+
