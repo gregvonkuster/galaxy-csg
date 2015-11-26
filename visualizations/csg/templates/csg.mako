@@ -34,7 +34,7 @@
             // Camera
             var SCREEN_WIDTH = window.innerWidth;
             var SCREEN_HEIGHT = window.innerHeight;
-            var VIEW_ANGLE = 45;
+            var VIEW_ANGLE = 30;
             var ASPECT = SCREEN_WIDTH / SCREEN_HEIGHT;
             var NEAR = 1;
             var FAR = 10000;
@@ -149,9 +149,7 @@
                     meshSurface.geometry.centroid = { x : centroidX, y : centroidY, z : centroidZ };
 
                     // Camera
-                    var camDist = 3*Math.max(xmax - xmin, ymax - ymin, zmax - zmin);
                     camera.position.set(xmax + camDist, ymax + camDist, zmax + camDist);
-                    camera.lookAt(new THREE.Vector3 (xmid, ymid, zmid));
 
                     // Renderer
                     renderer = new THREE.WebGLRenderer({antialias: false});
@@ -165,6 +163,10 @@
 
                     // Controls
                     controls = new THREE.OrbitControls(camera, renderer.domElement);
+                    // this will set the camera position, atempting to use camera.lookAt
+                    // will as THREE.OrbitControls will override the camera target position
+                    var camDist = 3*Math.max(xmax - xmin, ymax - ymin, zmax - zmin);
+                    controls.target = new THREE.Vector3(xmid, ymid, zmid + camDist);
 
                     // Light
                     var light = new THREE.SpotLight(0xBBBBBB);
