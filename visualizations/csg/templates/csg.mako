@@ -12,7 +12,6 @@
         ${h.javascript_link( app_root + 'dat.gui.min.js' )}
         ${h.javascript_link( app_root + 'three.min.js' )}
         ${h.javascript_link( app_root + 'Detector.js' )}
-        ${h.javascript_link( app_root + 'Lut.js' )}
         ${h.javascript_link( app_root + 'OrbitControls.js' )}
         ${h.javascript_link( app_root + 'PLYLoader.js' )}
         ${h.javascript_link( app_root + 'VTKLoader.js' )}
@@ -150,9 +149,9 @@
                     meshSurface.geometry.centroid = { x : centroidX, y : centroidY, z : centroidZ };
 
                     // Camera
-                    camera.position.x = xmax + 5;
-                    camera.position.y = ymax + 5;
-                    camera.position.z = zmax + 5;
+                    var camDist = 3*Math.max(xmax - xmin, ymax - ymin, zmax - zmin);
+                    camera.position.set(xmax + camDist, ymax + camDist, zmax + camDist);
+                    camera.lookAt(new THREE.Vector3 (xmid, ymid, zmid));
 
                     // Renderer
                     renderer = new THREE.WebGLRenderer({antialias: false});
