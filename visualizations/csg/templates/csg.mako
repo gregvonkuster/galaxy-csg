@@ -32,13 +32,13 @@
             var defaultBackgroundColor = 0x4d576b;
 
             // Camera
-            var SCREEN_WIDTH = window.innerWidth;
-            var SCREEN_HEIGHT = window.innerHeight;
+            var screenWidth = window.innerWidth;
+            var screenHeight = window.innerHeight;
             var VIEW_ANGLE = 40;
-            var ASPECT = SCREEN_WIDTH / SCREEN_HEIGHT;
-            var NEAR = 1;
-            var FAR = 10000;
-            var camera = new THREE.PerspectiveCamera(VIEW_ANGLE, ASPECT, NEAR, FAR);
+            var aspect = screenWidth / screenHeight;
+            var near = 1;
+            var far = 10000;
+            var camera = new THREE.PerspectiveCamera(VIEW_ANGLE, aspect, near, far);
 
             init();
             //animate();
@@ -114,7 +114,7 @@
                     var meshEdges = new THREE.EdgesHelper(mesh, 0x111111);
 
                     // Define the BoundingBox
-                    bbHelper = new THREE.BoundingBoxHelper(meshSurface, 0xff0000);
+                    bbHelper = new THREE.BoundingBoxHelper(meshSurface, 0x333333);
                     bbHelper.update();
 
                     // Determine box boundaries based on geometry.
@@ -137,17 +137,6 @@
                     var lightY = ymid + 2*ylen;
                     var lightZ = zmid + 5*zlen;
 
-                    // Get the center of the shape
-                    var shapeWidth = ( xmin > xmax ) ? xmin - xmax : xmax - xmin;
-                    var shapeHeight = ( ymin > ymax ) ? ymin - ymax : ymax - ymin;
-                    var shapeDepth = ( zmin > zmax ) ? zmin - zmax : zmax - zmin;
-
-                    var centroidX = xmin + ( shapeWidth / 2 ) + meshSurface.position.x;
-                    var centroidY = ymin + ( shapeHeight / 2 )+ meshSurface.position.y;
-                    var centroidZ = zmin + ( shapeDepth / 2 ) + meshSurface.position.z;
-
-                    meshSurface.geometry.centroid = { x : centroidX, y : centroidY, z : centroidZ };
-
                     // Camera
                     var camDist = 3*Math.max(xmax - xmin, ymax - ymin, zmax - zmin);
                     camera.position.set(xmid, ymid, zmax + camDist);
@@ -156,7 +145,7 @@
                     renderer = new THREE.WebGLRenderer({antialias: false});
                     renderer.shadowMapEnabled = true;
                     renderer.setClearColor(new THREE.Color(defaultBackgroundColor, 1.0));
-                    renderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+                    renderer.setSize(screenWidth, screenHeight);
 
                     // Add the output of the renderer to the html element
                     container = document.getElementById("WebGL-output")
@@ -175,7 +164,7 @@
                     light.target.position.set(xmid, ymid, zmid);
                     light.exponent = 1;
                     light.angle = 60 * Math.PI / 180;
-                    scene.add( light );
+                    scene.add(light);
   
                     // Ambient light
                     var lightAmbient = new THREE.AmbientLight(0xffffff);
@@ -193,6 +182,39 @@
                     scene.add(yAxis);
                     scene.add(zAxis);
 
+                    // Planes
+                    var el = 5; // length of the planes in xlen, ylen, and zlen units
+                    var eps = 1.e-3 * Math.max(xlen, ylen, zlen);
+                    var xPlaneGeo = new THREE.PlaneBufferGeometry(el*zlen, el*ylen);
+                    var yPlaneGeo = new THREE.PlaneBufferGeometry(el*xlen, el*zlen);
+                    var zPlaneGeo = new THREE.PlaneBufferGeometry(el*xlen, el*ylen);
+                    var xPlaneMat = new THREE.MeshLambertMaterial( {color: 0x550000, 
+                                                                    side: THREE.DoubleSide,
+                                                                    transparent: true,
+                                                                    opacity: 0.5} );
+                    var yPlaneMat = new THREE.MeshLambertMaterial( {color: 0x005500, 
+                                                                    side: THREE.DoubleSide,
+                                                                    transparent: true,
+                                                                    opacity: 0.5} );
+                    var zPlaneMat = new THREE.MeshLambertMaterial( {color: 0x000055, 
+                                                                    side: THREE.DoubleSide, 
+                                                                    transparent: true,
+                                                                    opacity: 0.5} );
+                    var xPlane = new THREE.Mesh(xPlaneGeo, xPlaneMat);
+                    xPlane.rotation.y = - Math.PI/2;
+                    xPlane.position.x = xmin - eps; 
+                    xPlane.position.y = ymin + el*ylen/2; 
+                    xPlane.position.z = zmin + el*zlen/2;
+                    var yPlane = new THREE.Mesh(yPlaneGeo, yPlaneMat);
+                    yPlane.rotation.x = Math.PI/2;
+                    yPlane.position.x = xmin + el*xlen/2;
+                    yPlane.position.y = ymin - eps;
+                    yPlane.position.z = zmin + el*zlen/2;
+                    var zPlane = new THREE.Mesh(zPlaneGeo, zPlaneMat);
+                    zPlane.position.x = xmin + el*xlen/2;
+                    zPlane.position.y = ymin + el*ylen/2;
+                    zPlane.position.z = zmin - eps;
+
                     // GUI
                     gui = new dat.GUI();
                     parameters = {'background': '#4d576b',
@@ -203,7 +225,9 @@
                                   'edges': false,
                                   'lightX': lightX,
                                   'lightY': lightY,
-                                  'lightZ': lightZ};
+                                  'lightZ': lightZ,
+                                  'planes': false,
+                                  'bounding box': false};
 
                     var sceneFolder = gui.addFolder('scene');
                     
@@ -218,6 +242,28 @@
 
                     var lightZGui = sceneFolder.add(parameters, 'lightZ' ).min(zmid-10*zlen).max(zmid+10*zlen).step(zlen/10.).name('light z').listen();
                     lightZGui.onChange( function(value) {light.position.z = value} );
+
+                    var scenePlanesGui = sceneFolder.add(parameters, 'planes').listen();
+                    scenePlanesGui.onChange( function(value) {
+                        if (value) {
+                            scene.add(xPlane);
+                            scene.add(yPlane);
+                            scene.add(zPlane) 
+                        } else {
+                            scene.remove(xPlane);
+                            scene.remove(yPlane);
+                            scene.remove(zPlane)
+                        } 
+                    } );
+
+                    var sceneBBoxGui = sceneFolder.add(parameters, 'bounding box').listen();
+                    sceneBBoxGui.onChange( function(value) {
+                       if (value) {
+                           scene.add(bbHelper);
+                       } else {
+                           scene.remove(bbHelper);
+                       }
+                    } );
 
                     var materialFolder = gui.addFolder('material');
 
