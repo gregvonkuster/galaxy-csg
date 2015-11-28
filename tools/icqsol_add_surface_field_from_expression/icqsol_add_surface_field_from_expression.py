@@ -30,15 +30,15 @@ if input_format == 'vtk':
 else:
     shape_mgr = ShapeManager( file_format=input_format )
 
-# Get the shape from the input dataset.
-shp = shape_mgr.loadAsShape(args.input)
+# Get the vtkPolyData object.
+pdata = shape_mgr.loadAsVtkPolyData(args.input)
 
 max_edge_length = float('inf')
 if args.max_edge_length > 0:
     max_edge_length = args.max_edge_length
 
 # Add surface field to shape data.
-vtk_poly_data = shape_mgr.addSurfaceFieldFromExpressionToShape(shp,
+vtk_poly_data = shape_mgr.addSurfaceFieldFromExpressionToVtkPolyData(pdata,
                                                                args.field_name,
                                                                args.expression,
                                                                time_points,
