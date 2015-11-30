@@ -59,7 +59,7 @@
                             -DPYTHON_EXECUTABLE:PATH=$INSTALL_DIR/bin/python \
                             -DPYTHON_LIBRARY:PATH=$INSTALL_DIR/lib/libpython2.7.so \
                             -DPYTHON_INCLUDE_DIR:PATH=$INSTALL_DIR/include/python2.7 . &&
-                            make -j 8 &&
+                            make &&
                             make install
                         ]]>
                     </action>
@@ -75,19 +75,6 @@
                          <source_directory>../build/lib</source_directory>
                          <destination_directory>$INSTALL_DIR/lib</destination_directory>
                      </action>
-
-                    <!-- Install and compile pycsg version 0.3.0 as a package in the above Python -->
-                    <action type="make_directory">$TMP_WORK_DIR/pycsg</action>
-                    <action type="change_directory">$TMP_WORK_DIR/pycsg</action>
-                    <action type="shell_command">git clone https://github.com/pletzer/pycsg.git</action>
-                    <action type="change_directory">pycsg</action>
-                    <action type="shell_command">
-                        <![CDATA[
-                            export PATH=$INSTALL_DIR/bin:$PATH &&
-                            export PKG_CONFIG_PATH=$INSTALL_DIR/lib/pkgconfig:$PKG_CONFIG_PATH &&
-                            $INSTALL_DIR/bin/python setup.py install --prefix=$INSTALL_DIR
-                        ]]>
-                    </action>
 
                     <!-- Install and compile icqsol version 1.0 as a package in the above Python -->
                     <action type="make_directory">$TMP_WORK_DIR/icqsol</action>
@@ -165,7 +152,7 @@
                             -DPYTHON_EXECUTABLE:PATH=$INSTALL_DIR/bin/python \
                             -DPYTHON_LIBRARY:PATH=$INSTALL_DIR/lib/libpython2.7.dylib \
                             -DPYTHON_INCLUDE_DIR:PATH=$INSTALL_DIR/include/python2.7 . &&
-                            make -j 8 &&
+                            make &&
                             make install
                         ]]>
                     </action>
@@ -181,19 +168,6 @@
                          <source_directory>../build/lib</source_directory>
                          <destination_directory>$INSTALL_DIR/lib</destination_directory>
                      </action>
-
-                    <!-- Install and compile pycsg version 0.3.0 as a package in the above Python -->
-                    <action type="make_directory">$TMP_WORK_DIR/pycsg</action>
-                    <action type="change_directory">$TMP_WORK_DIR/pycsg</action>
-                    <action type="shell_command">git clone https://github.com/pletzer/pycsg.git</action>
-                    <action type="change_directory">pycsg</action>
-                    <action type="shell_command">
-                        <![CDATA[
-                            export PATH=$INSTALL_DIR/bin:$PATH &&
-                            export PKG_CONFIG_PATH=$INSTALL_DIR/lib/pkgconfig:$PKG_CONFIG_PATH &&
-                            $INSTALL_DIR/bin/python setup.py install --prefix=$INSTALL_DIR
-                        ]]>
-                    </action>
 
                     <!-- Install and compile icqsol version 1.0 as a package in the above Python -->
                     <action type="make_directory">$TMP_WORK_DIR/icqsol</action>
