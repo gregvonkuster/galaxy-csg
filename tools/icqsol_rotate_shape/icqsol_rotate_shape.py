@@ -46,14 +46,11 @@ if axis.dot(axis) != 0.0:
     # Rotate (in place operation).
     shape_mgr.rotateVtkPolyData(vtk_poly_data, angleDeg=args.rotation_angle_degrees, axis=axis)
 
-if args.output_vtk_type.lower() == 'binary':
-    file_type = util.BINARY
-else:
-    file_type = util.ASCII
+output_format, output_file_type = icqsol_utils.get_format_and_type(args.output_vtk_type)
 
 tmp_dir = icqsol_utils.get_temp_dir()
 tmp_output_path = icqsol_utils.get_temporary_file_path(tmp_dir, 'vtk')
 
-shape_mgr.saveVtkPolyData(vtk_poly_data, file_name=tmp_output_path, file_type=file_type)
+shape_mgr.saveVtkPolyData(vtk_poly_data, file_name=tmp_output_path, file_type=output_file_type)
 
 shutil.move(tmp_output_path, args.output)
