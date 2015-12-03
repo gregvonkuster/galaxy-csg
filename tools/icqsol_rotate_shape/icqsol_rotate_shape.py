@@ -4,7 +4,6 @@ import shutil
 import operator
 
 from icqsol.shapes.icqShapeManager import ShapeManager
-from icqsol import util
 import icqsol_utils
 
 # Parse Command Line.
