@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 import argparse
 import shutil
+import operator
 
 from icqsol.shapes.icqShapeManager import ShapeManager
 from icqsol import util
 import icqsol_utils
-import numpy
 
 # Parse Command Line.
 parser = argparse.ArgumentParser()
@@ -38,9 +38,9 @@ else:
 vtk_poly_data = shape_mgr.loadAsVtkPolyData(args.input)
 
 # Only rotate if the axis has some non-zero coordinates.
-axis = numpy.array((args.rotation_axis_x, args.rotation_axis_y, args.rotation_axis_z))
+axis = (args.rotation_axis_x, args.rotation_axis_y, args.rotation_axis_z)
 
-if axis.dot(axis) != 0.0:
+if reduce(operator.mul, axis) != 0.0:
 
     # Rotate (in place operation).
     shape_mgr.rotateVtkPolyData(vtk_poly_data, angleDeg=args.rotation_angle_degrees, axis=axis)
