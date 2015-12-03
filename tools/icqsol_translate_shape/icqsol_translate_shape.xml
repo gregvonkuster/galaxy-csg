@@ -41,13 +41,13 @@
     </outputs>
     <tests>
         <test>
-            <param name="input" value="box_with_surface_field.vtkascii" ftype="vtkascii" />
+            <param name="input" value="cylinder_with_field.vtkascii" ftype="vtkascii" />
             <param name="input_file_format_and_type" value="vtkascii" />
             <param name="input_dataset_type" value="POLYDATA" />
-            <param name="displacement_x" value="-0.2" />
+            <param name="displacement_x" value="0.0" />
             <param name="displacement_y" value="1.0" />
-            <param name="displacement_z" value="0.5" />
-            <output name="output" file="box_translated.vtkascii" ftype="vtkascii" />
+            <param name="displacement_z" value="-0.5" />
+            <output name="output" file="translated_cylinder_with_field.vtkascii" ftype="vtkascii" />
             <param name="output_vtk_type" value="vtkascii" />
         </test>
     </tests>
