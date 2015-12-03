@@ -25,14 +25,11 @@ args = parser.parse_args()
 input_format, input_file_type = icqsol_utils.get_format_and_type(args.input_file_format_and_type)
 tmp_dir = icqsol_utils.get_temp_dir()
 
-# Get the format of the input - either vtk or ply.
-file_format = util.getFileFormat(args.input)
-
 # Instantiate a ShapeManager for loading the input.
-if file_format == util.VTK_FORMAT:
-    shape_mgr = ShapeManager(file_format=file_format, vtk_dataset_type=args.input_dataset_type)
+if input_format == 'vtk':
+    shape_mgr = ShapeManager(file_format=input_format, vtk_dataset_type=args.input_dataset_type)
 else:
-    shape_mgr = ShapeManager(file_format=file_format)
+    shape_mgr = ShapeManager(file_format=input_format)
 
 # Get the vtk polydata from the input dataset.
 vtk_poly_data = shape_mgr.loadAsVtkPolyData(args.input)
