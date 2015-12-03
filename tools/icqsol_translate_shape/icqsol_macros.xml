@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<macros>
+    <xml name="requirements">
+        <requirements>
+            <requirement type="package" version="1.0">icqsol</requirement>
+        </requirements>
+    </xml>
+    <xml name="stdio">
+        <stdio>
+            <exit_code range="1:"/>
+            <exit_code range=":-1"/>
+            <regex match="Error:"/>
+            <regex match="Exception:"/>
+        </stdio>
+    </xml>
+    <!-- TODO: place this in colormaps_conf.xml -->
+    <xml name="color_map_param">
+        <param name="color_map" type="select" label="Color map">
+            <option value="hot" selected="True">Hot</option>
+            <option value="cold">Cold</option>
+            <option value="blackbody">Blackbody</option>
+            <option value="gnu">Gnu</option>
+        </param>
+    </xml>
+    <xml name="output_vtk_type_params">
+        <param name="output_vtk_type" type="select" label="Output file type">
+            <option value="vtkascii" selected="True">Vtk-ascii</option>
+            <option value="vtkbinary">Vtk-binary</option>
+        </param>
+    </xml>
+    <token name="@origin_cmd_args@">
+        --origin_x $create_process_cond.shape_cond.origin_x
+        --origin_y $create_process_cond.shape_cond.origin_y
+        --origin_z $create_process_cond.shape_cond.origin_z
+    </token>
+    <xml name="origin_params">
+        <param name="origin_x" type="float" value="0.0" label="X coordinate of origin" help="Floating point number"/>
+        <param name="origin_y" type="float" value="0.0" label="Y coordinate of origin" help="Floating point number"/>
+        <param name="origin_z" type="float" value="0.0" label="Z coordinate of origin" help="Floating point number"/>
+    </xml>
+    <token name="@lengths_cmd_args@">
+        --length_x $create_process_cond.shape_cond.length_x
+        --length_y $create_process_cond.shape_cond.length_y
+        --length_z $create_process_cond.shape_cond.length_z
+    </token>
+    <xml name="lengths_params">
+        <!-- At least one of these lengths must be greater than zero, but we have no validator for this. -->
+        <param name="length_x" type="float" value="1.0" label="Length in the X direction" help="Floating point number">
+            <validator type="in_range" min="0" exclude_min="false" />
+        </param>
+        <param name="length_y" type="float" value="0.0" label="Length in the Y direction" help="Floating point number">
+            <validator type="in_range" min="0" exclude_min="false" />
+        </param>
+        <param name="length_z" type="float" value="0.0" label="Length in the Z direction" help="Floating point number">
+            <validator type="in_range" min="0" exclude_min="false" />
+        </param>
+    </xml>
+    <xml name="lengths_exclude_min_params">
+        <param name="length_x" type="float" value="1.0" label="Length in the X direction" help="Floating point number">
+            <validator type="in_range" min="0" exclude_min="true" />
+        </param>
+        <param name="length_y" type="float" value="1.0" label="Length in the Y direction" help="Floating point number">
+            <validator type="in_range" min="0" exclude_min="true" />
+        </param>
+        <param name="length_z" type="float" value="1.0" label="Length in the Z direction" help="Floating point number">
+            <validator type="in_range" min="0" exclude_min="true" />
+        </param>
+    </xml>
+    <token name="@radius_cmd_args@">
+        --radius $create_process_cond.shape_cond.radius
+    </token>
+    <xml name="radius_params">
+        <param name="radius" type="float" value="1.0" label="Radius" help="Floating point number">
+            <validator type="in_range" min="0" exclude_min="True" />
+        </param>
+    </xml>
+    <token name="@n_theta_cmd_args@">
+        --n_theta $create_process_cond.shape_cond.n_theta
+    </token>
+    <xml name="n_theta_params">
+        <param name="n_theta" type="integer" value="16" label="Number of slices" help="Controls the tessellation along the longitude direction">
+            <validator type="in_range" min="0" exclude_min="False" />
+        </param>
+    </xml>
+    <token name="@n_phi_cmd_args@">
+        --n_phi $create_process_cond.shape_cond.n_phi
+    </token>
+    <xml name="n_phi_params">
+        <param name="n_phi" type="integer" value="8" label="Number of stacks" help="Controls the tessellation along the latitude direction">
+            <validator type="in_range" min="0" exclude_min="False" />
+        </param>
+    </xml>
+    <xml name="citations">
+        <citations>
+            <citation type="bibtex">
+                @unpublished{None,
+                author = {None},
+                title = {None},
+                year = {None},
+                eprint = {None},
+                url = {https://github.com/gregvonkuster/galaxy-csg}
+            }</citation>
+            <citation type="bibtex">
+                @misc(Schroeder-Martin-Lorensen2006,
+                author = "Will Schroeder and 
+                          Ken Martin and
+                          Bill Lorensen",
+                year = "2006",
+                title = "The Visualization Toolkit (4th ed.)",
+                publisher =  "Kitware",
+                url = "https://en.wikipedia.org/wiki/Special:BookSources/978-1-930934-19-1")
+            </citation>
+        </citations>
+    </xml>
+</macros>
