@@ -18,6 +18,7 @@ parser.add_argument('--displacement_z', dest='displacement_z', type=float,
                     default=0.0, help='Z coordinate of displacement')
 parser.add_argument('--output', dest='output', help='Output file name')
 parser.add_argument('--output_vtk_type', dest='output_vtk_type',
+                    default='ascii',
                     help='Output VTK type')
 
 args = parser.parse_args()
