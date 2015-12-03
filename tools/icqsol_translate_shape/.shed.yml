@@ -1,0 +1,12 @@
+name: icqsol_translate_shape
+owner: iuc
+description: |
+  Contains a tool that translates a shape to a new position.
+homepage_url: https://github.com/pletzer/icqsol
+long_description: |
+  Contains a tool that applies translation operations to a shape by adding a displacement
+  to each coordinates. 
+remote_repository_url:
+type: unrestricted
+categories:
+- Constructive Solid Geometry
