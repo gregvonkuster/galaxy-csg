@@ -9,6 +9,8 @@
 <![CDATA[
     python $__tool_directory__/icqsol_translate_shape.py
     --input "$input"
+    --input_file_format_and_type $input.ext
+    --input_dataset_type $input.metadata.dataset_type
     --displacement_x $displacement_x
     --displacement_y $displacement_y
     --displacement_z $displacement_z
@@ -40,6 +42,8 @@
     <tests>
         <test>
             <param name="input" value="box_with_surface_field.vtkascii" ftype="vtkascii" />
+            <param name="input_file_format_and_type" value="vtkascii" />
+            <param name="input_dataset_type" value="POLYDATA" />
             <param name="displacement_x" value="-0.2" />
             <param name="displacement_y" value="1.0" />
             <param name="displacement_z" value="0.5" />
