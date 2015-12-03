@@ -31,7 +31,7 @@ vtk_poly_data = shape_mgr.loadAsVtkPolyData(args.input)
 # Refine the shape if requested.
 vtk_poly_data = shape_mgr.refineVtkPolyData(vtk_poly_data, max_edge_length=args.max_edge_length)
 
-# Define the output file format and type (the outpur_format can only be 'vtk').
+# Define the output file format and type (the output_format can only be 'vtk').
 output_format, output_file_type = icqsol_utils.get_format_and_type(args.output_vtk_type)
 tmp_output_path = icqsol_utils.get_temporary_file_path(tmp_dir, output_format)
 
