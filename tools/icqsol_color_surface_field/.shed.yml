@@ -1,12 +1,12 @@
 name: icqsol_color_surface_field
-owner: iuc
+owner: greg
 description: |
   Contains a tool that colors a shape's selected surface field using a selected color map.
-homepage_url: https://github.com/pletzer/icqsol
+homepage_url: https://github.com/gregvonkuster/galaxy-csg
 long_description: |
   Colors a shape's selected surface field using a selected color map.  This tool will restrict
   selected input shapes to only those that have at least one surface field.
-remote_repository_url:
+remote_repository_url: https://github.com/gregvonkuster/galaxy-csg
 type: unrestricted
 categories:
 - Constructive Solid Geometry

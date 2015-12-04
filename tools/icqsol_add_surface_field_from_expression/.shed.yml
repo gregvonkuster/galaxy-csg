@@ -1,15 +1,15 @@
 name: icqsol_add_surface_field_from_expression
-owner: iuc
+owner: greg
 description: |
   Contains a tool that adds a surface field to a selected shape based on a given mathematical
   expression consisting of variables x, y, z (shape point coordinates) and t (time).
-homepage_url: https://github.com/pletzer/icqsol
+homepage_url: https://github.com/gregvonkuster/galaxy-csg
 long_description: |
   Contains a tool that adds a surface field to a selected shape based on a given mathematical
   expression consisting of variables x, y, z (shape point coordinates) and t (time).  This tool
   will generate VTK POLYDATA files, so input PLY files or VTK files with a different dataset type
   will automatically be converted to VTK POLYDATA during tool execution.
-remote_repository_url:
+remote_repository_url: https://github.com/gregvonkuster/galaxy-csg
 type: unrestricted
 categories:
 - Constructive Solid Geometry

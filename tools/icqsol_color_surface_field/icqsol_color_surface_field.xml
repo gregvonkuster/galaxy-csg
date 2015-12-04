@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<tool id="icqsol_color_surface_field" name="Color surface field" version="1.0.0">
+<tool id="icqsol_color_surface_field" name="Color surface field" version="@WRAPPER_VERSION@.0">
     <description></description>
     <macros>
         <import>icqsol_macros.xml</import>
@@ -56,8 +56,6 @@
     <help>
 **What it does**
 
-<![CDATA[
-
 Colors a shape's selected surface field using a selected color map.  This tool will restrict selected
 input shapes to only those that have at least one surface field.
 
@@ -65,7 +63,6 @@ input shapes to only those that have at least one surface field.
 * **Field name for coloring** - Name of the surface field to be colored.
 * **Color map** - Color map to be used when coloring the surface field.
 
-]]>
     </help>
     <code file="icqsol_tool_form_utils.py" />
     <options refresh="True" />

@@ -2,9 +2,8 @@
 import argparse
 import shutil
 
-from icqsol.shapes.icqShapeManager import ShapeManager
-from icqsol import util
 import icqsol_utils
+from icqsol.shapes.icqShapeManager import ShapeManager
 
 # Parse Command Line.
 parser = argparse.ArgumentParser()
@@ -32,16 +31,12 @@ else:
 # Get the vtk polydata from the input dataset.
 vtk_poly_data = shape_mgr.loadAsVtkPolyData(args.input)
 
-displ = (args.displacement_x, args.displacement_y, args.displacement_z)
-
 # Translate (in place operation).
+displ = (args.displacement_x, args.displacement_y, args.displacement_z)
 shape_mgr.translateVtkPolyData(vtk_poly_data, displ=displ)
 
 output_format, output_file_type = icqsol_utils.get_format_and_type(args.output_vtk_type)
-
 tmp_dir = icqsol_utils.get_temp_dir()
 tmp_output_path = icqsol_utils.get_temporary_file_path(tmp_dir, 'vtk')
-
 shape_mgr.saveVtkPolyData(vtk_poly_data, file_name=tmp_output_path, file_type=output_file_type)
-
 shutil.move(tmp_output_path, args.output)

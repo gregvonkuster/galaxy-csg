@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<tool id="icqsol_rotate_shape" name="Rotate shape" version="1.0.0">
+<tool id="icqsol_rotate_shape" name="Rotate shape" version="@WRAPPER_VERSION@.0">
     <description></description>
     <macros>
         <import>icqsol_macros.xml</import>
@@ -11,10 +11,10 @@
     --input "$input"
     --input_file_format_and_type $input.ext
     --input_dataset_type $input.metadata.dataset_type
-    --rotation_angle_degrees $rotation_angle_degrees
     --rotation_axis_x $rotation_axis_x
     --rotation_axis_y $rotation_axis_y
     --rotation_axis_z $rotation_axis_z
+    --rotation_degrees $rotation_degrees
     --output "$output"
     --output_vtk_type $output_vtk_type
 ]]>
@@ -23,18 +23,14 @@
         <param name="input" type="data" format="plyascii,plybinary,vtkascii,vtkbinary" label="Shape">
             <validator type="dataset_ok_validator" />
         </param>
-        <param name="rotation_angle_degrees" type="float" value="0" label="Rotation angle in degrees" help="Floating point number.">
-        </param>
-        <param name="rotation_axis_x" type="float" value="1" label="X coordinate of rotation axis" help="Floating point number.">
-        </param>
-        <param name="rotation_axis_y" type="float" value="0" label="Y coordinate of rotation axis" help="Floating point number.">
-        </param>
-        <param name="rotation_axis_z" type="float" value="0" label="Z coordinate of rotation axis" help="Floating point number.">
-        </param>
+        <param name="rotation_axis_x" type="float" value="1.0" label="X coordinate of rotation axis" help="Floating point number." />
+        <param name="rotation_axis_y" type="float" value="0.0" label="Y coordinate of rotation axis" help="Floating point number." />
+        <param name="rotation_axis_z" type="float" value="0.0" label="Z coordinate of rotation axis" help="Floating point number." />
+        <param name="rotation_degrees" type="float" value="0.0" label="Degree of rotation" help="Floating point number." />
         <expand macro="output_vtk_type_params" />
     </inputs>
     <outputs>
-        <data name="output" format="vtkascii" label="${tool.name} ${on_string} Max edge length: ${max_edge_length}">
+        <data name="output" format="vtkascii" label="${tool.name} ${on_string}">
             <actions>
                 <action type="format">
                     <option type="from_param" name="output_vtk_type" />
@@ -47,7 +43,7 @@
             <param name="input" value="cylinder_with_field.vtkascii" ftype="vtkascii" />
             <param name="input_file_format_and_type" value="vtkascii" />
             <param name="input_dataset_type" value="POLYDATA" />
-            <param name="rotation_angle_degrees" value="-90.0" />
+            <param name="rotation_degrees" value="-90.0" />
             <param name="rotation_axis_x" value="0.0" />
             <param name="rotation_axis_y" value="1.0" />
             <param name="rotation_axis_z" value="-0.5" />
@@ -58,16 +54,12 @@
     <help>
 **What it does**
 
-<![CDATA[
-
-Rotates a shape.
+Applies a rotation to a shape by a given angle about an arbitrary axis.
 
 * **Shape** - Shape to be rotated.
-* **Rotation angle in degrees** - Rotation angle applied to the shape.
-* **Rotation axis x** - X coordinate of the rotation axis
-* **Rotation axis y** - Y coordinate of the rotation axis
-* **Rotation axis z** - Z coordinates of the rotation axis
-]]>
+* **Rotation axis X,Y,Z** - The axis of rotation.
+* **Degree of rotation** - The degree of rotation around the axis.
+
     </help>
     <expand macro="citations" />
 </tool>
