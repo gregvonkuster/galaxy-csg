@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import argparse
 import shutil
+import operator
 
 import icqsol_utils
 from icqsol.shapes.icqShapeManager import ShapeManager
@@ -33,7 +34,9 @@ vtk_poly_data = shape_mgr.loadAsVtkPolyData(args.input)
 
 # Scale (in place operation).
 factors = (args.scale_x, args.scale_y, args.scale_z)
-shape_mgr.scaleVtkPolyData(vtk_poly_data, factors=factors)
+if reduce(operator.and_, [f > 0 for f in factors]):
+    # All factors must be > 0 
+    shape_mgr.scaleVtkPolyData(vtk_poly_data, factors=factors)
 
 # Save the output.
 output_format, output_file_type = icqsol_utils.get_format_and_type(args.output_vtk_type)
