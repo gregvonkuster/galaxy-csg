@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<tool id="icqsol_create_shape" name="Create 3D shape" version="1.0.0">
+<tool id="icqsol_create_shape" name="Create 3D shape" version="@WRAPPER_VERSION@.0">
     <description></description>
     <macros>
         <import>icqsol_macros.xml</import>
@@ -102,9 +102,9 @@
                     </param>
                     <when value="no"/>
                     <when value="yes">
-                        <param name="rotation_axis_x" type="float" value="0.0" label="X component of rotation axis" help="Floating point number"/>
-                        <param name="rotation_axis_y" type="float" value="0.0" label="Y component of rotation axis" help="Floating point number"/>
-                        <param name="rotation_axis_z" type="float" value="0.0" label="Z component of rotation axis" help="Floating point number"/>
+                        <param name="rotation_axis_x" type="float" value="0.0" label="X coordinate of rotation axis" help="Floating point number"/>
+                        <param name="rotation_axis_y" type="float" value="0.0" label="Y coordinate of rotation axis" help="Floating point number"/>
+                        <param name="rotation_axis_z" type="float" value="0.0" label="Z coordinate of rotation axis" help="Floating point number"/>
                         <param name="rotation_degree" type="float" value="0.0" label="Degree of rotation" help="Floating point number"/>
                     </when>
                 </conditional>
@@ -183,23 +183,23 @@
 
 **Create a shape** - creates a selected primitive shape where shapes are Box, Cone, Cylinder and Sphere.
 
-- **Origin X,Y,Z** - Origin coordinate for all shapes.
-- **Lengths X,Y,Z** - Edge lengths for Box, Cone and Cylinder.
-- **Radius** - Radius length for Cone, Cylinder and Sphere.
-- **Number of slices** - Controls the tessellation along the longitude direction for all shapes.
-- **Number of stacks** - Controls the tessellation along the latitude direction for all shapes.
-- **Output format and file type** - Choose the output format **ply** or **vtk** and file type **ascii** or **binary**.
+* **Origin X,Y,Z** - Origin coordinate for all shapes.
+* **Lengths X,Y,Z** - Edge lengths for Box, Cone and Cylinder.
+* **Radius** - Radius length for Cone, Cylinder and Sphere.
+* **Number of slices** - Controls the tessellation along the longitude direction for all shapes.
+* **Number of stacks** - Controls the tessellation along the latitude direction for all shapes.
+* **Output format and file type** - Choose the output format **ply** or **vtk** and file type **ascii** or **binary**.
 
 -----
 
 **Clone a shape from your history** - creates a new copy of a shape selected from your history.
 
-- **Shape to clone** - Shape selected from your history for cloning.
-- **Rotate cloned shape** - Enables rotation of the cloned shape around a defined axis.
-- **Rotation axis X,Y,Z?** - The axis of rotation for the cloned shape.
-- **Degree of rotation** - The degree of rotation around the axis.
-- **Translate cloned shape?** - Enables resetting the origin of the cloned shape, moving the shape.
-- **New origin X,Y,Z** - Translated origin of cloned shape.
+* **Shape to clone** - Shape selected from your history for cloning.
+* **Rotate cloned shape?** - Enables rotation of the cloned shape around a defined axis.
+* **Rotation axis X,Y,Z** - The axis of rotation for the cloned shape.
+* **Degree of rotation** - The degree of rotation around the axis.
+* **Translate cloned shape?** - Enables resetting the origin of the cloned shape, moving the shape.
+* **New origin X,Y,Z** - Translated origin of cloned shape.
 
     </help>
     <expand macro="citations" />

@@ -1,14 +1,14 @@
 name: icqsol_compose_shapes
-owner: iuc
+owner: greg
 description: |
   Contains a tool that creates a shape composed of any number of selected shapes.
-homepage_url: https://github.com/pletzer/icqsol
+homepage_url: https://github.com/gregvonkuster/galaxy-csg
 long_description: |
   Creates a shape composed of any number of selected shapes where the composition
   is based on a mathematical expression consisting of +, - and * operations.  The
   + operator results in a union of shapes, the - operator removes a shape and the
   * operator results in an intersection of shapes.
-remote_repository_url:
+remote_repository_url: https://github.com/gregvonkuster/galaxy-csg
 type: unrestricted
 categories:
 - Constructive Solid Geometry

@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<tool id="icqsol_translate_shape" name="translate shape" version="1.0.0">
+<tool id="icqsol_translate_shape" name="Translate shape" version="@WRAPPER_VERSION@.0">
     <description></description>
     <macros>
         <import>icqsol_macros.xml</import>
@@ -22,16 +22,13 @@
         <param name="input" type="data" format="plyascii,plybinary,vtkascii,vtkbinary" label="Shape">
             <validator type="dataset_ok_validator" />
         </param>
-        <param name="displacement_x" type="float" value="0" label="X coordinate of displacement" help="Floating point number.">
-        </param>
-        <param name="displacement_y" type="float" value="0" label="Y coordinate of displacement" help="Floating point number.">
-        </param>
-        <param name="displacement_z" type="float" value="0" label="Z coordinate of displacement" help="Floating point number.">
-        </param>
+        <param name="displacement_x" type="float" value="0.0" label="X coordinate of displacement" help="Floating point number." />
+        <param name="displacement_y" type="float" value="0.0" label="Y coordinate of displacement" help="Floating point number." />
+        <param name="displacement_z" type="float" value="0.0" label="Z coordinate of displacement" help="Floating point number." />
         <expand macro="output_vtk_type_params" />
     </inputs>
     <outputs>
-        <data name="output" format="vtkascii" label="${tool.name} ${on_string} Max edge length: ${max_edge_length}">
+        <data name="output" format="vtkascii" label="${tool.name} ${on_string}">
             <actions>
                 <action type="format">
                     <option type="from_param" name="output_vtk_type" />
@@ -52,17 +49,14 @@
         </test>
     </tests>
     <help>
+
 **What it does**
 
-<![CDATA[
-
-translates a shape.
+Applies translation operations to a shape by adding a displacement to each coordinate.
 
 * **Shape** - Shape to be translated.
-* **Displacement x** - X coordinate of the displacement
-* **Displacement y** - Y coordinate of the displacement
-* **Displacement z** - Z coordinates of the displacement
-]]>
+* **Displacement X,Y,Z** - Coordinates of the displacement
+
     </help>
     <expand macro="citations" />
 </tool>

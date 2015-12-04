@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<tool id="icqsol_compose_shapes" name="Compose 3D shapes" version="1.0.0">
+<tool id="icqsol_compose_shapes" name="Compose 3D shapes" version="@WRAPPER_VERSION@.0">
     <description></description>
     <macros>
         <import>icqsol_macros.xml</import>
@@ -61,7 +61,6 @@
     <help>
 **What it does**
 
-<![CDATA[
 Creates a shape composed of any number of selected shapes where the composition is based on a mathematical
 expression consisting of **+**, **-** and ***** operations.  The **+** results in a union of shapes, the
 **-** operator removes a shape and the ***** operator results in an intersection of shapes.
@@ -70,7 +69,6 @@ For example, if the **Composition expression** is **A + B - C - D**, selecting 4
 and associating each shape with a variable from the expression will result in a shape composed of the shapes
 associated with A and B, but eliminating the shapes associated with C and D.
 
-]]>
     </help>
     <expand macro="citations" />
 </tool>

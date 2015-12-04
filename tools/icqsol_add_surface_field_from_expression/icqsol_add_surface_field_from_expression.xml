@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<tool id="icqsol_add_surface_field_from_expression" name="Add surface field" version="1.0.0">
+<tool id="icqsol_add_surface_field_from_expression" name="Add surface field" version="@WRAPPER_VERSION@.0">
     <description>from expression</description>
     <macros>
         <import>icqsol_macros.xml</import>
@@ -75,8 +75,6 @@
     <help>
 **What it does**
 
-<![CDATA[
-
 Adds a surface field to a selected shape based on a given mathematical expression consisting of
 variables x, y, z (shape point coordinates) and t (time).  This tool will generate VTK POLYDATA
 files, so input PLY files or VTK files with a different dataset type will automatically be converted
@@ -88,7 +86,7 @@ to VTK POLYDATA during tool execution.
 * **Time point** - A floating point value that defines a time point where multiple time points define a sequence of time snapshots for the surface field.
 * **Refine shape** - Select yes to refine the shape by shortening the edge lengths to a defined maximum.
 * **Maximum edge length** - Points are added to the shape's edges that are longer than the defined maximum length.
-]]>
+
     </help>
     <expand macro="citations" />
 </tool>
