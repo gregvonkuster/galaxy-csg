@@ -1,10 +1,9 @@
-name: icqsol_translate_shape
+name: icqsol_scale_shape
 owner: greg
-description: Contains a tool that translates a shape to a new position.
+description: Contains a tool that scales a shape.
 homepage_url: https://github.com/gregvonkuster/galaxy-csg
 long_description: |
-  Contains a tool that applies translation operations to a shape by adding a displacement
-  to each coordinate. 
+  Contains a tool that applies magnifies the dimensions of a shape along some axes. 
 remote_repository_url: https://github.com/gregvonkuster/galaxy-csg
 type: unrestricted
 categories:

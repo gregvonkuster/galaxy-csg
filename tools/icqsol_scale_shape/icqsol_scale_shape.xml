@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<tool id="icqsol_translate_shape" name="Translate shape" version="@WRAPPER_VERSION@.0">
+<tool id="icqsol_scale_shape" name="scale shape" version="@WRAPPER_VERSION@.0">
     <description></description>
     <macros>
         <import>icqsol_macros.xml</import>
@@ -7,13 +7,13 @@
     <expand macro="requirements" />
     <command>
 <![CDATA[
-    python $__tool_directory__/icqsol_translate_shape.py
+    python $__tool_directory__/icqsol_scale_shape.py
     --input "$input"
     --input_file_format_and_type $input.ext
     --input_dataset_type $input.metadata.dataset_type
-    --displacement_x $displacement_x
-    --displacement_y $displacement_y
-    --displacement_z $displacement_z
+    --scale_x $scale_x
+    --scale_y $scale_y
+    --scale_z $scale_z
     --output "$output"
     --output_vtk_type $output_vtk_type
 ]]>
@@ -22,9 +22,12 @@
         <param name="input" type="data" format="plyascii,plybinary,vtkascii,vtkbinary" label="Shape">
             <validator type="dataset_ok_validator" />
         </param>
-        <param name="displacement_x" type="float" value="0.0" label="X coordinate of displacement" help="Floating point number." />
-        <param name="displacement_y" type="float" value="0.0" label="Y coordinate of displacement" help="Floating point number." />
-        <param name="displacement_z" type="float" value="0.0" label="Z coordinate of displacement" help="Floating point number." />
+        <param name="scale_x" type="float" value="1.0" label="X coordinate of scale" help="Floating point number." />
+             <validator type="in_range" min="0" exclude_min="true" />
+        <param name="scale_y" type="float" value="1.0" label="Y coordinate of scale" help="Floating point number." />
+             <validator type="in_range" min="0" exclude_min="true" />
+        <param name="scale_z" type="float" value="1.0" label="Z coordinate of scale" help="Floating point number." />
+             <validator type="in_range" min="0" exclude_min="true" />
         <expand macro="output_vtk_type_params" />
     </inputs>
     <outputs>
@@ -41,10 +44,10 @@
             <param name="input" value="cylinder_with_field.vtkascii" ftype="vtkascii" />
             <param name="input_file_format_and_type" value="vtkascii" />
             <param name="input_dataset_type" value="POLYDATA" />
-            <param name="displacement_x" value="0.0" />
-            <param name="displacement_y" value="1.0" />
-            <param name="displacement_z" value="-0.5" />
-            <output name="output" file="translated_cylinder_with_field.vtkascii" ftype="vtkascii" />
+            <param name="scale_x" value="0.1" />
+            <param name="scale_y" value="1.5" />
+            <param name="scale_z" value="3.5" />
+            <output name="output" file="scaled_cylinder_with_field.vtkascii" ftype="vtkascii" />
             <param name="output_vtk_type" value="vtkascii" />
         </test>
     </tests>
@@ -52,10 +55,10 @@
 
 **What it does**
 
-Applies translation operations to a shape by adding a displacement to each coordinate.
+Rescales shape along x, y, and z directions.
 
-* **Shape** - Shape to be translated.
-* **Displacement X,Y,Z** - Coordinates of the displacement
+* **Shape** - Shape to be scaled.
+* **scale X,Y,Z** - Scale factors along x, y, and z
 
     </help>
     <expand macro="citations" />

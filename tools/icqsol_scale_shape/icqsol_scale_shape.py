@@ -10,9 +10,9 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--input', dest='input', help='Shape dataset selected from history')
 parser.add_argument('--input_file_format_and_type', dest='input_file_format_and_type', help='Input file format and type')
 parser.add_argument('--input_dataset_type', dest='input_dataset_type', help='Input dataset_type')
-parser.add_argument('--displacement_x', dest='displacement_x', type=float, default=1.0, help='X coordinate of displacement')
-parser.add_argument('--displacement_y', dest='displacement_y', type=float, default=0.0, help='Y coordinate of displacement')
-parser.add_argument('--displacement_z', dest='displacement_z', type=float, default=0.0, help='Z coordinate of displacement')
+parser.add_argument('--scale_x', dest='scale_x', type=float, default=1.0, help='X scaling factor')
+parser.add_argument('--scale_y', dest='scale_y', type=float, default=1.0, help='Y scaling factor')
+parser.add_argument('--scale_z', dest='scale_z', type=float, default=1.0, help='Z scaling factor')
 parser.add_argument('--output', dest='output', help='Output file name')
 parser.add_argument('--output_vtk_type', dest='output_vtk_type', default='ascii', help='Output VTK type')
 
@@ -31,9 +31,9 @@ else:
 # Get the vtk polydata from the input dataset.
 vtk_poly_data = shape_mgr.loadAsVtkPolyData(args.input)
 
-# Translate (in place operation).
-displ = (args.displacement_x, args.displacement_y, args.displacement_z)
-shape_mgr.translateVtkPolyData(vtk_poly_data, displ=displ)
+# Scale (in place operation).
+factors = (args.scale_x, args.scale_y, args.scale_z)
+shape_mgr.scaleVtkPolyData(vtk_poly_data, factors=factors)
 
 # Save the output.
 output_format, output_file_type = icqsol_utils.get_format_and_type(args.output_vtk_type)
