@@ -35,7 +35,7 @@ vtk_poly_data = shape_mgr.loadAsVtkPolyData(args.input)
 # Scale (in place operation).
 factors = (args.scale_x, args.scale_y, args.scale_z)
 if reduce(operator.and_, [f > 0 for f in factors]):
-    # All factors must be > 0 
+    # All factors must be > 0
     shape_mgr.scaleVtkPolyData(vtk_poly_data, factors=factors)
 
 # Save the output.
