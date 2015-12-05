@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<tool id="icqsol_scale_shape" name="scale shape" version="@WRAPPER_VERSION@.0">
+    <description></description>
+    <macros>
+        <import>icqsol_macros.xml</import>
+    </macros>
+    <expand macro="requirements" />
+    <command>
+<![CDATA[
+    python $__tool_directory__/icqsol_scale_shape.py
+    --input "$input"
+    --input_file_format_and_type $input.ext
+    --input_dataset_type $input.metadata.dataset_type
+    --scale_x $scale_x
+    --scale_y $scale_y
+    --scale_z $scale_z
+    --output "$output"
+    --output_vtk_type $output_vtk_type
+]]>
+    </command>
+    <inputs>
+        <param name="input" type="data" format="plyascii,plybinary,vtkascii,vtkbinary" label="Shape">
+            <validator type="dataset_ok_validator" />
+        </param>
+        <param name="scale_x" type="float" value="1.0" label="X coordinate of scale" help="Floating point number." />
+             <validator type="in_range" min="0" exclude_min="true" />
+        <param name="scale_y" type="float" value="1.0" label="Y coordinate of scale" help="Floating point number." />
+             <validator type="in_range" min="0" exclude_min="true" />
+        <param name="scale_z" type="float" value="1.0" label="Z coordinate of scale" help="Floating point number." />
+             <validator type="in_range" min="0" exclude_min="true" />
+        <expand macro="output_vtk_type_params" />
+    </inputs>
+    <outputs>
+        <data name="output" format="vtkascii" label="${tool.name} ${on_string}">
+            <actions>
+                <action type="format">
+                    <option type="from_param" name="output_vtk_type" />
+                </action>
+            </actions>
+        </data>
+    </outputs>
+    <tests>
+        <test>
+            <param name="input" value="cylinder_with_field.vtkascii" ftype="vtkascii" />
+            <param name="input_file_format_and_type" value="vtkascii" />
+            <param name="input_dataset_type" value="POLYDATA" />
+            <param name="scale_x" value="0.1" />
+            <param name="scale_y" value="1.5" />
+            <param name="scale_z" value="3.5" />
+            <output name="output" file="scaled_cylinder_with_field.vtkascii" ftype="vtkascii" />
+            <param name="output_vtk_type" value="vtkascii" />
+        </test>
+    </tests>
+    <help>
+
+**What it does**
+
+Rescales shape along x, y, and z directions.
+
+* **Shape** - Shape to be scaled.
+* **scale X,Y,Z** - Scale factors along x, y, and z
+
+    </help>
+    <expand macro="citations" />
+</tool>

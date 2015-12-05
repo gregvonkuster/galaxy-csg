@@ -35,6 +35,7 @@ vtk_poly_data = shape_mgr.loadAsVtkPolyData(args.input)
 displ = (args.displacement_x, args.displacement_y, args.displacement_z)
 shape_mgr.translateVtkPolyData(vtk_poly_data, displ=displ)
 
+# Save the output.
 output_format, output_file_type = icqsol_utils.get_format_and_type(args.output_vtk_type)
 tmp_dir = icqsol_utils.get_temp_dir()
 tmp_output_path = icqsol_utils.get_temporary_file_path(tmp_dir, 'vtk')
