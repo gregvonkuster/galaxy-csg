@@ -3,7 +3,7 @@ owner: greg
 description: Contains a tool that scales a shape.
 homepage_url: https://github.com/gregvonkuster/galaxy-csg
 long_description: |
-  Contains a tool that magnifies the dimensions of a shape along some axes. 
+  Contains a tool that magnifies the dimensions of a shape along some axes.
 remote_repository_url: https://github.com/gregvonkuster/galaxy-csg
 type: unrestricted
 categories:
