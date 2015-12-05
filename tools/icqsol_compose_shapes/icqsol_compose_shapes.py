@@ -22,7 +22,7 @@ shape_mgr = ShapeManager()
 for (expression_var, dataset_path, galaxy_ext, vtk_dataset_type) in args.shape_datasets:
     # Define the file format and type.
     format, file_type = icqsol_utils.get_format_and_type(galaxy_ext)
-    if format == 'vtk':
+    if format == icqsol_utils.VTK:
         shape_mgr.setReader(file_format=format, vtk_dataset_type=vtk_dataset_type)
     else:
         shape_mgr.setReader(file_format=format)

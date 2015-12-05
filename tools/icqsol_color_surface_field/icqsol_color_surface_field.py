@@ -22,7 +22,7 @@ tmp_dir = icqsol_utils.get_temp_dir()
 input_format, input_file_type = icqsol_utils.get_format_and_type(args.input_file_format_and_type)
 
 # Instantiate a ShapeManager for loading the input.
-shape_mgr = ShapeManager(file_format='vtk', vtk_dataset_type=args.input_dataset_type)
+shape_mgr = ShapeManager(file_format=icqsol_utils.VTK, vtk_dataset_type=args.input_dataset_type)
 
 # Get the vtkPolyData from the input dataset.
 vtk_poly_data = shape_mgr.loadAsVtkPolyData(args.input)
@@ -38,7 +38,7 @@ output_format, output_file_type = icqsol_utils.get_format_and_type(args.output_v
 tmp_output_path = icqsol_utils.get_temporary_file_path(tmp_dir, output_format)
 
 # Make sure the ShapeManager's writer is VTK POLYDATA.
-shape_mgr.setWriter(file_format='vtk', vtk_dataset_type=icqsol_utils.POLYDATA)
+shape_mgr.setWriter(file_format=icqsol_utils.VTK, vtk_dataset_type=icqsol_utils.POLYDATA)
 
 # Save the output.
 shape_mgr.saveVtkPolyData(vtk_poly_data=colored_vtk_poly_data, file_name=tmp_output_path, file_type=output_file_type)

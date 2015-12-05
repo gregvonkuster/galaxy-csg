@@ -2,7 +2,9 @@ import os
 import sys
 import tempfile
 
+PLY = 'ply'
 POLYDATA = 'POLYDATA'
+VTK = 'vtk'
 
 
 def asbool(val):
@@ -14,9 +16,9 @@ def get_format_and_type(galaxy_ext):
     format = None
     datatype = None
     if galaxy_ext in ['vtkascii', 'vtkbinary']:
-        format = 'vtk'
+        format = VTK
     elif galaxy_ext in ['plyascii', 'plybinary']:
-        format = 'ply'
+        format = PLY
     if galaxy_ext in ['vtkascii', 'plyascii']:
         datatype = 'ascii'
     elif galaxy_ext in ['vtkbinary', 'plybinary']:

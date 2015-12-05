@@ -55,7 +55,7 @@
 Applies translation operations to a shape by adding a displacement to each coordinate.
 
 * **Shape** - Shape to be translated.
-* **Displacement X,Y,Z** - Coordinates of the displacement
+* **Displacement X,Y,Z** - Coordinates of the displacement.
 
     </help>
     <expand macro="citations" />

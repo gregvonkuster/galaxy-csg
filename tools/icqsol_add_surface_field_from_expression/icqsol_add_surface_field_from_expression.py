@@ -25,7 +25,7 @@ time_points = [tp[0] for tp in args.time_points]
 tmp_dir = icqsol_utils.get_temp_dir()
 
 # Instantiate a ShapeManager for loading the input.
-if input_format == 'vtk':
+if input_format == icqsol_utils.VTK:
     shape_mgr = ShapeManager(file_format=input_format, vtk_dataset_type=args.input_dataset_type)
 else:
     shape_mgr = ShapeManager(file_format=input_format)
@@ -50,7 +50,7 @@ output_format, output_file_type = icqsol_utils.get_format_and_type(args.output_v
 tmp_output_path = icqsol_utils.get_temporary_file_path(tmp_dir, output_format)
 
 # Make sure the ShapeManager's writer is vtk.
-shape_mgr.setWriter(file_format='vtk', vtk_dataset_type=icqsol_utils.POLYDATA)
+shape_mgr.setWriter(file_format=icqsol_utils.VTK, vtk_dataset_type=icqsol_utils.POLYDATA)
 
 # Save the output.
 shape_mgr.saveVtkPolyData(vtk_poly_data=vtk_poly_data, file_name=tmp_output_path, file_type=output_file_type)

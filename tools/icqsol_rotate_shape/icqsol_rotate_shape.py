@@ -25,7 +25,7 @@ input_format, input_file_type = icqsol_utils.get_format_and_type(args.input_file
 tmp_dir = icqsol_utils.get_temp_dir()
 
 # Instantiate a ShapeManager for loading the input.
-if input_format == 'vtk':
+if input_format == icqsol_utils.VTK:
     shape_mgr = ShapeManager(file_format=input_format, vtk_dataset_type=args.input_dataset_type)
 else:
     shape_mgr = ShapeManager(file_format=input_format)
@@ -34,6 +34,7 @@ else:
 vtk_poly_data = shape_mgr.loadAsVtkPolyData(args.input)
 
 # Only rotate if the axis has some non-zero coordinates.
+# FIXME: this should be handled in a Galaxy tool validator.
 axis = (args.rotation_axis_x, args.rotation_axis_y, args.rotation_axis_z)
 if reduce(operator.mul, axis) != 0.0:
     # Rotate (in place operation).
@@ -43,6 +44,6 @@ output_format, output_file_type = icqsol_utils.get_format_and_type(args.output_v
 
 # Save the output.
 tmp_dir = icqsol_utils.get_temp_dir()
-tmp_output_path = icqsol_utils.get_temporary_file_path(tmp_dir, 'vtk')
+tmp_output_path = icqsol_utils.get_temporary_file_path(tmp_dir, icqsol_utils.VTK)
 shape_mgr.saveVtkPolyData(vtk_poly_data, file_name=tmp_output_path, file_type=output_file_type)
 shutil.move(tmp_output_path, args.output)
