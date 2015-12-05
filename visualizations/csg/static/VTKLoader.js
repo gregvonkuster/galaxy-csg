@@ -4,9 +4,7 @@
  */
 
 THREE.VTKLoader = function ( manager ) {
-
 	this.manager = ( manager !== undefined ) ? manager : THREE.DefaultLoadingManager;
-
 };
 
 THREE.VTKLoader.prototype = {
