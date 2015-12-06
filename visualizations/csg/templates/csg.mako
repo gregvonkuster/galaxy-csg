@@ -296,7 +296,7 @@
                         else {
                             surface.map = null;
                         }
-                    }
+                    } );
 
                     // Animate
                     animate();
