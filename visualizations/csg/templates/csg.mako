@@ -288,10 +288,10 @@
                     var materialTextureGui = materialFolder.add(parameters, 'texture', ['none', 'wood', 'stone']).listen();
                     materialTextureGui.onChange( function(value) {
                         if (value == 'stone') {
-                            surface.map = i${h.javascript_link( app_root + 'textures/conglomerateSandstone.jpg' )};
+                            surface.map = ${h.javascript_link( app_root + 'textures/conglomerateSandstone.jpg' )};
                         }
                         else if (value == 'wood') {
-                            surface.map = i${h.javascript_link( app_root + 'textures/Swietenia_macrophylla_wood.jpg' )};
+                            surface.map = ${h.javascript_link( app_root + 'textures/Swietenia_macrophylla_wood.jpg' )};
                         }
                         else {
                             surface.map = null;
