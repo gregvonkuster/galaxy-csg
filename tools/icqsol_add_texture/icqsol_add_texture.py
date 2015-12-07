@@ -32,12 +32,12 @@ vtk_poly_data = shape_mgr.loadAsVtkPolyData(args.input)
 
 # Add texture.
 texture_name_to_filename = {
-    'stone': resource_file('icqsol', 'textures/220px-COnglomerate-sandstone_layers_Nerriga.jpg'),
-    'wood': resource_file('icqsol', 'textures/Swietenia_macrophylla_wood.jpg'),
-    'checkerboard': resource_file('icqsol', 'textures/checkerboard.png'),
+    'stone': resource_filename('icqsol', 'textures/220px-COnglomerate-sandstone_layers_Nerriga.jpg'),
+    'wood': resource_filename('icqsol', 'textures/Swietenia_macrophylla_wood.jpg'),
+    'checkerboard': resource_filename('icqsol', 'textures/checkerboard.png'),
 }
 texture_file = texture_name_to_filename.get(args.texture, 'stone')
-vtk_poly_data = shape_mgr.addTextureToVtkPolyData(vtk_poly_data, texture=texture_file, max_edge_length=args.max_edge_length)
+vtk_poly_data = shape_mgr.addTextureToVtkPolyData(vtk_poly_data, texture_file=texture_file, max_edge_length=args.max_edge_length)
 
 # Define the output file format and type (the output_format can only be 'vtk').
 output_format, output_file_type = icqsol_utils.get_format_and_type(args.output_vtk_type)
