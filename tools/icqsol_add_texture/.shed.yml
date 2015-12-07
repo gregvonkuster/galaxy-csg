@@ -1,0 +1,11 @@
+name: icqsol_add_texture
+owner: greg
+description: |
+  Contains a tool that adds texture to a shape.
+homepage_url: https://github.com/gregvonkuster/galaxy-csg
+long_description: |
+  Contains a tool that adds texture by projecting a picture onto the shape.
+remote_repository_url: https://github.com/gregvonkuster/galaxy-csg
+type: unrestricted
+categories:
+- Constructive Solid Geometry
