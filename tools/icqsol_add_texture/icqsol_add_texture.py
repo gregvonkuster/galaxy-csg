@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import argparse
 import shutil
+from pkg_resources import resource_filename
 
 import icqsol_utils
 from icqsol.shapes.icqShapeManager import ShapeManager
@@ -29,7 +30,13 @@ else:
 # Get the vtk polydata from the input dataset.
 vtk_poly_data = shape_mgr.loadAsVtkPolyData(args.input)
 
-# Refine the shape if requested.
+# Add texture.
+texture_name_to_filename = {
+    'stone': resource_file('icqsol', 'textures/220px-COnglomerate-sandstone_layers_Nerriga.jpg'),
+    'wood': resource_file('icqsol', 'textures/Swietenia_macrophylla_wood.jpg'),
+    'checkerboard': resource_file('icqsol', 'textures/checkerboard.png'),
+}
+texture_file = texture_name_to_filename.get(args.texture, 'stone')
 vtk_poly_data = shape_mgr.addTextureToVtkPolyData(vtk_poly_data, texture=texture_file, max_edge_length=args.max_edge_length)
 
 # Define the output file format and type (the output_format can only be 'vtk').
