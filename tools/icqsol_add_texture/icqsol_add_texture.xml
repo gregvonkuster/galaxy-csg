@@ -53,11 +53,11 @@
     <help>
 **What it does**
 
-Adds a texture to a shape. User can refine the shape for smoother result if desired. 
+Adds a texture, mapping a png or jpeg picture onto the shape. The shape is projected onto bounding box and the color is selected by flattening the box to fit the image. User can refine the shape for smoother result if desired. 
 
 * **Shape** - Shape to be refined.
 * **Maximum edge length** - Points are added to the shape's edges that are longer than the defined maximum length.
-* **Texture** - Section of materials.
+* **Texture** - Selection of texture material (currently stone, wood, or checkerboard).
 
     </help>
     <expand macro="citations" />

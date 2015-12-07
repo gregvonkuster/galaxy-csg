@@ -12,7 +12,7 @@ parser.add_argument('--input', dest='input', help='Shape dataset selected from h
 parser.add_argument('--input_file_format_and_type', dest='input_file_format_and_type', help='Input file format and type')
 parser.add_argument('--input_dataset_type', dest='input_dataset_type', help='Input dataset_type')
 parser.add_argument('--max_edge_length', dest='max_edge_length', type=float, default='0', help='Maximum edge length')
-parser.add_argument('--texture', dest='texture', default='stone', help='Select texture (stone, wood, or checkerboard')
+parser.add_argument('--texture', dest='texture', default='stone', help='Select texture (currently stone, wood, or checkerboard)')
 parser.add_argument('--output', dest='output', help='Output dataset')
 parser.add_argument('--output_vtk_type', dest='output_vtk_type', help='Output VTK type')
 
@@ -30,12 +30,16 @@ else:
 # Get the vtk polydata from the input dataset.
 vtk_poly_data = shape_mgr.loadAsVtkPolyData(args.input)
 
-# Add texture.
+# Add texture. We use setuptools, which installs the package as a python "egg", 
+# essentially a zip file containing the modules and data files. Must use resource_filename
+# to access the data files.
 texture_name_to_filename = {
     'stone': resource_filename('icqsol', 'textures/220px-COnglomerate-sandstone_layers_Nerriga.jpg'),
     'wood': resource_filename('icqsol', 'textures/Swietenia_macrophylla_wood.jpg'),
     'checkerboard': resource_filename('icqsol', 'textures/checkerboard.png'),
 }
+
+# Selected texture is "stone" if the texture name does not match any of our values.s
 texture_file = texture_name_to_filename.get(args.texture, 'stone')
 vtk_poly_data = shape_mgr.addTextureToVtkPolyData(vtk_poly_data, texture_file=texture_file, max_edge_length=args.max_edge_length)
 
