@@ -85,7 +85,7 @@ to VTK POLYDATA during tool execution.
 * **Expression** - Mathematical expression consisting of variables x, y, z (shape point coordinates) and t (time) that defines the surface field.
 * **Time point** - A floating point value that defines a time point where multiple time points define a sequence of time snapshots for the surface field.
 * **Refine shape** - Select yes to refine the shape by shortening the edge lengths to a defined maximum.
-* **Maximum edge length** - Points are added to the shape's edges that are longer than the defined maximum length.
+* **Maximum edge length** - The shape's edges are smoothed by adding points to its edges that are longer than the defined maximum length.
 
     </help>
     <expand macro="citations" />

@@ -50,7 +50,7 @@
 Refines a shape by limiting all edges to a specified length, resulting in a more detailed shape.
 
 * **Shape** - Shape to be refined.
-* **Maximum edge length** - Points are added to the shape's edges that are longer than the defined maximum length.
+* **Maximum edge length** - The shape's edges are smoothed by adding points to its edges that are longer than the defined maximum length.
 
     </help>
     <expand macro="citations" />
