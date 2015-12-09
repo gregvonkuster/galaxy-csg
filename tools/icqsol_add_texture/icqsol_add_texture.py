@@ -30,24 +30,12 @@ else:
 # Get the vtk polydata from the input dataset.
 vtk_poly_data = shape_mgr.loadAsVtkPolyData(args.input)
 
-# Add texture. We use setuptools, which installs the package as a python "egg", 
-# essentially a zip file containing the modules and data files. Must use resource_filename
-# to access the data files.
-texture_name_to_filename = {
-    'stone': resource_filename('icqsol', 'textures/220px-COnglomerate-sandstone_layers_Nerriga.jpg'),
-    'wood': resource_filename('icqsol', 'textures/Swietenia_macrophylla_wood.jpg'),
-    'checkerboard': resource_filename('icqsol', 'textures/checkerboard.png'),
-}
-
-# Selected texture is "stone" if the texture name does not match any of our values
-texture_file = texture_name_to_filename.get(args.texture, 'stone')
-
 # A zero (or negative) value for args.max_edge_length means no refinement.
 max_edge_length = args.max_edge_length
 if max_edge_length <= 0:
     # no refinement
     max_edge_length = float('inf') 
-vtk_poly_data = shape_mgr.addTextureToVtkPolyData(vtk_poly_data, texture_file=texture_file, max_edge_length=max_edge_length)
+vtk_poly_data = shape_mgr.addTextureToVtkPolyData(vtk_poly_data, texture_file=args.input_texture, max_edge_length=max_edge_length)
 
 # The ShapeManager.addTextureToVtkPolyData function expects
 # a specific file extension at the end of the file path.
