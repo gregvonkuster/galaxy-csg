@@ -44,13 +44,15 @@
             </param>
             <when value="no" />
             <when value="yes">
-                <param name="max_edge_length" type="float" value="0" label="Maximum edge length" help="Floating point number, 0 results in no refinement."/>
+                <param name="max_edge_length" type="float" value="0" label="Maximum edge length" help="Refine shape by restricting edges to this length (zero value results in no refinement).">
+                    <validator type="in_range" min="0" exclude_min="true" />
+                </param>
             </when>
         </conditional>
         <expand macro="output_vtk_type_params" />
     </inputs>
     <outputs>
-        <data name="output" format="vtkascii" label="${tool.name} ${on_string}">
+        <data name="output" format="vtkascii">
             <actions>
                 <action type="format">
                     <option type="from_param" name="output_vtk_type" />

@@ -14,7 +14,7 @@ parser.add_argument('--field_name', dest='field_name', help='Surface field name'
 parser.add_argument('--location', dest='location', help='Location of field within cell, either point or cell')
 parser.add_argument('--expression', dest='expression', help='Expression for applying surface field to shape')
 parser.add_argument('--time_point', dest='time_points', type=float, action='append', nargs=1, help='Points in time')
-parser.add_argument('--max_edge_length', dest='max_edge_length', type=float, default='0', help='Maximum edge length')
+parser.add_argument('--max_edge_length', dest='max_edge_length', type=float, default=float('inf'), help='Maximum edge length')
 parser.add_argument('--output', dest='output', help='Output dataset')
 parser.add_argument('--output_vtk_type', dest='output_vtk_type', help='Output VTK type')
 
@@ -33,16 +33,12 @@ else:
 # Get the vtkPolyData object.
 pdata = shape_mgr.loadAsVtkPolyData(args.input)
 
-max_edge_length = float('inf')
-if args.max_edge_length > 0:
-    max_edge_length = args.max_edge_length
-
 # Add surface field to shape data.
 vtk_poly_data = shape_mgr.addSurfaceFieldFromExpressionToVtkPolyData(pdata,
                                                                      args.field_name,
                                                                      args.expression,
                                                                      time_points,
-                                                                     max_edge_length,
+                                                                     args.max_edge_length,
                                                                      args.location)
 
 # Define the output file format and type (the outpur_format can only be 'vtk').

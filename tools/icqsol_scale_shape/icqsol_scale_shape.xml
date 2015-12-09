@@ -31,7 +31,7 @@
         <expand macro="output_vtk_type_params" />
     </inputs>
     <outputs>
-        <data name="output" format="vtkascii" label="${tool.name} ${on_string}">
+        <data name="output" format="vtkascii">
             <actions>
                 <action type="format">
                     <option type="from_param" name="output_vtk_type" />
