@@ -41,6 +41,10 @@ texture_name_to_filename = {
 
 # Selected texture is "stone" if the texture name does not match any of our values.s
 texture_file = texture_name_to_filename.get(args.texture, 'stone')
+max_edge_length = args.max_edge_length
+if max_edge_length <= 0:
+    # no refinement will be applied
+    max_edge_length = float('inf') 
 vtk_poly_data = shape_mgr.addTextureToVtkPolyData(vtk_poly_data, texture_file=texture_file, max_edge_length=args.max_edge_length)
 
 # Define the output file format and type (the output_format can only be 'vtk').
