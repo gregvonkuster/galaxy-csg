@@ -13,7 +13,9 @@
     --input_dataset_type $input.metadata.dataset_type
     --input_texture "$input_texture"
     --input_texture_file_format $input_texture.ext
-    --max_edge_length $max_edge_length
+    #if $max_edge_length > 0:
+        --max_edge_length $max_edge_length
+    #end if
     --output "$output"
     --output_vtk_type $output_vtk_type
 ]]>
@@ -23,8 +25,8 @@
             <validator type="dataset_ok_validator" />
         </param>
         <param name="input_texture" type="data" format="gif,jpg,png" label="Texture image" help="Format can be jpg or png." />
-        <param name="max_edge_length" type="float" value="0" label="Maximum edge length" help="Floating point number.">
-            <validator type="in_range" min="0" exclude_min="true" />
+        <param name="max_edge_length" type="float" value="0.0" optional="True" label="Maximum edge length" help="Optionally refine shape by restricting edges to this length (zero value results in no refinement).">
+            <validator type="in_range" min="0" />
         </param>
         <expand macro="output_vtk_type_params" />
     </inputs>

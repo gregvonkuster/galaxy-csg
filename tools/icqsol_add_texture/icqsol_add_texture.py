@@ -12,7 +12,7 @@ parser.add_argument('--input_file_format_and_type', dest='input_file_format_and_
 parser.add_argument('--input_dataset_type', dest='input_dataset_type', help='Input dataset_type')
 parser.add_argument('--input_texture', dest='input_texture', help='Image dataset selected from history')
 parser.add_argument('--input_texture_file_format', dest='input_texture_file_format', help='Input texture file format')
-parser.add_argument('--max_edge_length', dest='max_edge_length', type=float, default='0', help='Maximum edge length')
+parser.add_argument('--max_edge_length', dest='max_edge_length', type=float, default=float('inf'), help='Maximum edge length')
 parser.add_argument('--output', dest='output', help='Output dataset')
 parser.add_argument('--output_vtk_type', dest='output_vtk_type', help='Output VTK type')
 
@@ -31,7 +31,7 @@ else:
 vtk_poly_data = shape_mgr.loadAsVtkPolyData(args.input)
 # Unfortunately, the ShapeManager.addTextureToVtkPolyData
 # function expects a specific file extension.
-tmp_texture_file_path = icqsol_utils.get_temporary_file_path(tmp_dir, args.input_texture_file_format)
+tmp_texture_file_path = icqsol_utils.get_temporary_file_path(tmp_dir, '.%s' % args.input_texture_file_format)
 # Apply the texture to the shape's surface.
 vtk_poly_data = shape_mgr.addTextureToVtkPolyData(vtk_poly_data,
                                                   texture_file=tmp_texture_file_path,
