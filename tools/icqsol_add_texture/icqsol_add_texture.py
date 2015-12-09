@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 import argparse
 import shutil
-from pkg_resources import resource_filename
 
 import icqsol_utils
 from icqsol.shapes.icqShapeManager import ShapeManager
@@ -11,8 +10,9 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--input', dest='input', help='Shape dataset selected from history')
 parser.add_argument('--input_file_format_and_type', dest='input_file_format_and_type', help='Input file format and type')
 parser.add_argument('--input_dataset_type', dest='input_dataset_type', help='Input dataset_type')
-parser.add_argument('--max_edge_length', dest='max_edge_length', type=float, default='0', help='Maximum edge length')
-parser.add_argument('--texture', dest='texture', default='stone', help='Select texture (currently stone, wood, or checkerboard)')
+parser.add_argument('--input_texture', dest='input_texture', help='Image dataset selected from history')
+parser.add_argument('--input_texture_file_format', dest='input_texture_file_format', help='Input texture file format')
+parser.add_argument('--max_edge_length', dest='max_edge_length', type=float, default=float('inf'), help='Maximum edge length')
 parser.add_argument('--output', dest='output', help='Output dataset')
 parser.add_argument('--output_vtk_type', dest='output_vtk_type', help='Output VTK type')
 
@@ -39,13 +39,24 @@ texture_name_to_filename = {
     'checkerboard': resource_filename('icqsol', 'textures/checkerboard.png'),
 }
 
-# Selected texture is "stone" if the texture name does not match any of our values.s
+# Selected texture is "stone" if the texture name does not match any of our values
 texture_file = texture_name_to_filename.get(args.texture, 'stone')
+
+# A zero (or negative) value for args.max_edge_length means no refinement.
 max_edge_length = args.max_edge_length
 if max_edge_length <= 0:
-    # no refinement will be applied
+    # no refinement
     max_edge_length = float('inf') 
-vtk_poly_data = shape_mgr.addTextureToVtkPolyData(vtk_poly_data, texture_file=texture_file, max_edge_length=args.max_edge_length)
+vtk_poly_data = shape_mgr.addTextureToVtkPolyData(vtk_poly_data, texture_file=texture_file, max_edge_length=max_edge_length)
+
+# The ShapeManager.addTextureToVtkPolyData function expects
+# a specific file extension at the end of the file path.
+tmp_texture_file_path = icqsol_utils.get_input_file_path(tmp_dir, args.input_texture, args.input_texture_file_format)
+
+# Apply the texture to the shape's surface.
+vtk_poly_data = shape_mgr.addTextureToVtkPolyData(vtk_poly_data,
+                                                  texture_file=tmp_texture_file_path,
+                                                  max_edge_length=args.max_edge_length)
 
 # Define the output file format and type (the output_format can only be 'vtk').
 output_format, output_file_type = icqsol_utils.get_format_and_type(args.output_vtk_type)

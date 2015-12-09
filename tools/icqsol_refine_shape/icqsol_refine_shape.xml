@@ -20,7 +20,7 @@
         <param name="input" type="data" format="plyascii,plybinary,vtkascii,vtkbinary" label="Shape">
             <validator type="dataset_ok_validator" />
         </param>
-        <param name="max_edge_length" type="float" value="0" label="Maximum edge length" help="Floating point number.">
+        <param name="max_edge_length" type="float" value="0.0" label="Maximum edge length" help="Refine shape by restricting edges to this length (zero value results in no refinement).">
             <validator type="in_range" min="0" exclude_min="true" />
         </param>
         <expand macro="output_vtk_type_params" />
@@ -50,7 +50,7 @@
 Refines a shape by limiting all edges to a specified length, resulting in a more detailed shape.
 
 * **Shape** - Shape to be refined.
-* **Maximum edge length** - Points are added to the shape's edges that are longer than the defined maximum length.
+* **Maximum edge length** - The shape's edges are smoothed by adding points to its edges that are longer than the defined maximum length.
 
     </help>
     <expand macro="citations" />

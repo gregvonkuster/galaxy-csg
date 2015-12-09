@@ -44,13 +44,15 @@
             </param>
             <when value="no" />
             <when value="yes">
-                <param name="max_edge_length" type="float" value="0" label="Maximum edge length" help="Floating point number, 0 results in no refinement."/>
+                <param name="max_edge_length" type="float" value="0" label="Maximum edge length" help="Refine shape by restricting edges to this length (zero value results in no refinement).">
+                    <validator type="in_range" min="0" exclude_min="true" />
+                </param>
             </when>
         </conditional>
         <expand macro="output_vtk_type_params" />
     </inputs>
     <outputs>
-        <data name="output" format="vtkascii" label="${tool.name} ${on_string}">
+        <data name="output" format="vtkascii">
             <actions>
                 <action type="format">
                     <option type="from_param" name="output_vtk_type" />
@@ -85,7 +87,7 @@ to VTK POLYDATA during tool execution.
 * **Expression** - Mathematical expression consisting of variables x, y, z (shape point coordinates) and t (time) that defines the surface field.
 * **Time point** - A floating point value that defines a time point where multiple time points define a sequence of time snapshots for the surface field.
 * **Refine shape** - Select yes to refine the shape by shortening the edge lengths to a defined maximum.
-* **Maximum edge length** - Points are added to the shape's edges that are longer than the defined maximum length.
+* **Maximum edge length** - The shape's edges are smoothed by adding points to its edges that are longer than the defined maximum length.
 
     </help>
     <expand macro="citations" />

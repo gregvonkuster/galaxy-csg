@@ -10,7 +10,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--input', dest='input', help='Shape dataset selected from history')
 parser.add_argument('--input_file_format_and_type', dest='input_file_format_and_type', help='Input file format and type')
 parser.add_argument('--input_dataset_type', dest='input_dataset_type', help='Input dataset_type')
-parser.add_argument('--max_edge_length', dest='max_edge_length', type=float, default='0', help='Maximum edge length')
+parser.add_argument('--max_edge_length', dest='max_edge_length', type=float, help='Maximum edge length')
 parser.add_argument('--output', dest='output', help='Output dataset')
 parser.add_argument('--output_vtk_type', dest='output_vtk_type', help='Output VTK type')
 

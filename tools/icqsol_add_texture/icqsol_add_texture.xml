@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<tool id="icqsol_add_texture" name="Add texture" version="@WRAPPER_VERSION@.0">
-    <description></description>
+<tool id="icqsol_add_texture" name="Add texture image" version="@WRAPPER_VERSION@.0">
+    <description>to a shape surface</description>
     <macros>
         <import>icqsol_macros.xml</import>
     </macros>
@@ -11,28 +11,25 @@
     --input "$input"
     --input_file_format_and_type $input.ext
     --input_dataset_type $input.metadata.dataset_type
-    --max_edge_length $max_edge_length
-    --texture "$texture"
+    --input_texture "$input_texture"
+    --input_texture_file_format $input_texture.ext
+    #if $max_edge_length > 0:
+        --max_edge_length $max_edge_length
+    #end if
     --output "$output"
     --output_vtk_type $output_vtk_type
 ]]>
     </command>
     <inputs>
-        <param name="input" type="data" format="plyascii,plybinary,vtkascii,vtkbinary" label="Shape">
-            <validator type="dataset_ok_validator" />
-        </param>
-        <param name="max_edge_length" type="float" value="0" label="Maximum edge length" help="Floating point number.">
+        <param name="input" type="data" format="vtkascii,vtkbinary" label="Shape" help="Format can be vtkascii or vtkbinary." />
+        <param name="input_texture" type="data" format="jpg,png" label="Texture image" help="Format can be jpg or png." />
+        <param name="max_edge_length" type="float" value="0.0" optional="True" label="Maximum edge length" help="Optionally refine shape by restricting edges to this length (zero value results in no refinement).">
             <validator type="in_range" min="0" exclude_min="true" />
-        </param>
-        <param name="texture" type="select" label="Textures">
-            <option value="stone" selected="True">Stone</option>
-            <option value="wood">Wood</option>
-            <option value="checkboard">Checkerboard</option>
         </param>
         <expand macro="output_vtk_type_params" />
     </inputs>
     <outputs>
-        <data name="output" format="vtkascii" label="${tool.name} ${on_string} Max edge length: ${max_edge_length}">
+        <data name="output" format="vtkascii">
             <actions>
                 <action type="format">
                     <option type="from_param" name="output_vtk_type" />
@@ -42,22 +39,25 @@
     </outputs>
     <tests>
         <test>
-            <param name="input" value="box_with_surface_field.vtkascii" ftype="vtkascii" />
+            <param name="input" value="shaft.vtkascii" ftype="vtkascii" />
             <param name="input_file_format_and_type" value="vtkascii" />
             <param name="input_dataset_type" value="POLYDATA" />
+            <param name="input_texture" value="sandstone.jpg" ftype="jpg" />
             <param name="max_edge_length" value="0.1" />
-            <output name="output" file="box_refined.vtkascii" ftype="vtkascii" />
+            <output name="output" file="shaft_with_texture.vtkascii" ftype="vtkascii" />
             <param name="output_vtk_type" value="vtkascii" />
         </test>
     </tests>
     <help>
 **What it does**
 
-Adds a texture, mapping a png or jpeg picture onto the shape. The shape is projected onto bounding box and the color is selected by flattening the box to fit the image. User can refine the shape for smoother result if desired. 
+Adds a texture by applying an image to the surface of a shape.  The shape is projected onto a bounding box
+and the color is selected by flattening the box to fit the image.  Refinement can be applied for a smoother
+result.
 
-* **Shape** - Shape to be refined.
-* **Maximum edge length** - Points are added to the shape's edges that are longer than the defined maximum length.
-* **Texture** - Selection of texture material (currently stone, wood, or checkerboard).
+* **Shape** - Shape for applying a surface texture.
+* **Maximum edge length** - The shape's edges are smoothed by adding points to its edges that are longer than the defined maximum length.
+* **Texture image** - Image to be applied to the shape's surface to create the texture.
 
     </help>
     <expand macro="citations" />
