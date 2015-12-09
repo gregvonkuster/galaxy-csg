@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<tool id="icqsol_add_texture" name="Add texture" version="@WRAPPER_VERSION@.0">
-    <description></description>
+<tool id="icqsol_add_texture" name="Add texture image" version="@WRAPPER_VERSION@.0">
+    <description>to a shape surface</description>
     <macros>
         <import>icqsol_macros.xml</import>
     </macros>
@@ -21,10 +21,8 @@
 ]]>
     </command>
     <inputs>
-        <param name="input" type="data" format="plyascii,plybinary,vtkascii,vtkbinary" label="Shape">
-            <validator type="dataset_ok_validator" />
-        </param>
-        <param name="input_texture" type="data" format="gif,jpg,png" label="Texture image" help="Format can be jpg or png." />
+        <param name="input" type="data" format="vtkascii,vtkbinary" label="Shape" help="Format can be vtkascii or vtkbinary." />
+        <param name="input_texture" type="data" format="jpg,png" label="Texture image" help="Format can be jpg or png." />
         <param name="max_edge_length" type="float" value="0.0" optional="True" label="Maximum edge length" help="Optionally refine shape by restricting edges to this length (zero value results in no refinement).">
             <validator type="in_range" min="0" />
         </param>

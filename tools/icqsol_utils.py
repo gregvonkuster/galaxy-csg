@@ -50,7 +50,13 @@ def get_tempfilename(dir=None, suffix=None):
     """
     Return a temporary file name.
     """
-    fd, name = tempfile.mkstemp(suffix=suffix, dir=dir)
+    if suffix is None:
+        s = None
+    elif suffix.startswith('.'):
+        s = suffix
+    else:
+        s = '.%s' % suffix
+    fd, name = tempfile.mkstemp(suffix=s, dir=dir)
     os.close(fd)
     return name
 
