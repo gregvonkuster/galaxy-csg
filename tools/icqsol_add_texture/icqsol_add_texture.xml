@@ -13,8 +13,8 @@
     --input_dataset_type $input.metadata.dataset_type
     --input_texture "$input_texture"
     --input_texture_file_format $input_texture.ext
-    #if $max_edge_length > 0:
-        --max_edge_length $max_edge_length
+    #if $refine_shape_cond.refine_shape == "yes":
+        --max_edge_length $refine_shape_cond.max_edge_length
     #end if
     --output "$output"
     --output_vtk_type $output_vtk_type
@@ -23,9 +23,18 @@
     <inputs>
         <param name="input" type="data" format="vtkascii,vtkbinary" label="Shape" help="Format can be vtkascii or vtkbinary." />
         <param name="input_texture" type="data" format="jpg,png" label="Texture image" help="Format can be jpg or png." />
-        <param name="max_edge_length" type="float" value="0.0" optional="True" label="Maximum edge length" help="Optionally refine shape by restricting edges to this length (zero value results in no refinement).">
-            <validator type="in_range" min="0" exclude_min="true" />
-        </param>
+        <conditional name="refine_shape_cond">
+            <param name="refine_shape" type="select" label="Refine shape?" help="Points will be added to the shape's edges restricting their length to the maximum.">
+                <option value="no" selected="True">No</option>
+                <option value="yes">Yes</option>
+            </param>
+            <when value="no" />
+            <when value="yes">
+                <param name="max_edge_length" type="float" value="0" label="Maximum edge length" help="Refine shape by restricting edges to this length (zero value results in no refinement).">
+                    <validator type="in_range" min="0" exclude_min="true" />
+                </param>
+            </when>
+        </conditional>
         <expand macro="output_vtk_type_params" />
     </inputs>
     <outputs>
