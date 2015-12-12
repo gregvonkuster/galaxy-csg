@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<tool id="icqsol_add_texture" name="Add texture image" version="@WRAPPER_VERSION@.0">
-    <description>to a shape surface</description>
+<tool id="icqsol_add_texture" name="Add texture" version="@WRAPPER_VERSION@.0">
+    <description>to shape</description>
     <macros>
         <import>icqsol_macros.xml</import>
     </macros>

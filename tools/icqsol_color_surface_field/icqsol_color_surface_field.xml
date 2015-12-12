@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<tool id="icqsol_color_surface_field" name="Color surface field" version="@WRAPPER_VERSION@.0">
-    <description></description>
+<tool id="icqsol_color_surface_field" name="Color shape" version="@WRAPPER_VERSION@.0">
+    <description>surface field</description>
     <macros>
         <import>icqsol_macros.xml</import>
     </macros>
