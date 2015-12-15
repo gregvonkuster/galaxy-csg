@@ -30,7 +30,7 @@
             </param>
             <when value="no" />
             <when value="yes">
-                <param name="max_edge_length" type="float" value="0" label="Maximum edge length" help="Refine shape by restricting edges to this length (zero value results in no refinement).">
+                <param name="max_edge_length" type="float" value="0.1" label="Maximum edge length" help="Refine shape by restricting edges to this length.">
                     <validator type="in_range" min="0" exclude_min="true" />
                 </param>
             </when>

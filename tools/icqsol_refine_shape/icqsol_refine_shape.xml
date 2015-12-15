@@ -20,7 +20,7 @@
         <param name="input" type="data" format="plyascii,plybinary,vtkascii,vtkbinary" label="Shape">
             <validator type="dataset_ok_validator" />
         </param>
-        <param name="max_edge_length" type="float" value="0.0" label="Maximum edge length" help="Refine shape by restricting edges to this length (zero value results in no refinement).">
+        <param name="max_edge_length" type="float" value="0.1" label="Maximum edge length" help="Refine shape by restricting edges to this length.">
             <validator type="in_range" min="0" exclude_min="true" />
         </param>
         <expand macro="output_vtk_type_params" />

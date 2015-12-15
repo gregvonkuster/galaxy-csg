@@ -29,14 +29,12 @@ else:
 
 # Get the vtk polydata from the input dataset.
 vtk_poly_data = shape_mgr.loadAsVtkPolyData(args.input)
-# The ShapeManager.addTextureToVtkPolyData function expects
-# a specific file extension at the end of the file path.
-tmp_texture_file_path = icqsol_utils.get_input_file_path(tmp_dir, args.input_texture, args.input_texture_file_format)
 
 # Apply the texture to the shape's surface.
 vtk_poly_data = shape_mgr.addTextureToVtkPolyData(vtk_poly_data,
-                                                  texture_file=tmp_texture_file_path,
-                                                  max_edge_length=args.max_edge_length)
+                                                  texture_file=args.input_texture,
+                                                  max_edge_length=args.max_edge_length,
+                                                  texture_file_format=args.input_texture_file_format)
 
 # Define the output file format and type (the output_format can only be 'vtk').
 output_format, output_file_type = icqsol_utils.get_format_and_type(args.output_vtk_type)
