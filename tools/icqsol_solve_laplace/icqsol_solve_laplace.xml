@@ -1,10 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <tool id="icqsol_solve_laplace" name="Solve Laplace equation" version="@WRAPPER_VERSION@.0">
     <description>This tool computes the jump of normal electric field at the surface of a shape given 
-    some Dirichlet boundary conditions for the potential. The jump is equal to the normal electric field
-    if the interior of the object is perfectly conducting since in this case the interior 
-    electric field is zero. If the outside of the object is perfectly conducting then the jump 
-    is equal to the negative of the interior normal electric field.
+    prescribed Dirichlet boundary conditions.
     </description>
     <macros>
         <import>icqsol_macros.xml</import>
@@ -17,7 +14,7 @@
     --input_file_format_and_type $input.ext
     --input_dataset_type $input.metadata.dataset_type
     --input_name $input_name
-    --diffusivity $diffusivity
+    --output_coefficient $output_coefficient
     --dirichlet $dirichlet
     --output_name $output_name
     #if $refine_shape_cond.refine_shape == "yes":
@@ -73,18 +70,17 @@
     <help>
 **What it does**
 
-Determines the jump in flux-like boundary confitions (proportional to the normal derivative of the field) 
-given prescribed Dirichlet boundary conditions on the surface of the shape by using the boundary element 
-method.  Depending on the problem, the jump can be the flux at the surface of the shape. For instance, 
-to solve an electrostatice problem in the domain extending from the shape to infinity, simply set the 
-electric potential values on the shape and the diffusivity to 1, the result will be the normal electric
-field on the surface for a perfectily conducting material inside the shape. If the conductor is outside 
-the shape then set output_coefficient to -1 for the normal electric field just inside the shape.  
-Refinement can be applied for a smoother
-result.
+Computes the jump in flux-like (Neumann) boundary conditions given prescribed Dirichlet boundary 
+conditions by using the boundary element method.  Depending on the problem, the jump can 
+be the surface flux or the normal electric field in electrostatic problems. The Dirichlet
+field is often called the potential (e.g. electrostatic potential). When the domain extends 
+from the object to infinity and the interior of the object is perfectly conducting then 
+the jump corresponds to the normal electric field just outside the object. When the outside
+of the object is conducting then set output_coefficient to -1 to compute the normal electric 
+field just inside the object.
 
-* **Output coefficient** - The coefficient relating the flux (or electric field) to the potential "v", a value of one means flux = - dv/dn.
-* **Maximum edge length** - The shape's edges are smoothed by adding points to edges that are longer than the defined maximum length.
+* **Output coefficient** - The coefficient relating the flux (or normal electric field) to the potential "v", a value of one means flux = - dv/dn.
+* **Maximum edge length** - The shape's edges are smoothed by adding points to edges that are longer than this length.
 
     </help>
     <expand macro="citations" />
