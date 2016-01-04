@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <tool id="icqsol_solve_laplace" name="Solve Laplace equation" version="@WRAPPER_VERSION@.0">
     <description>This tool computes the jump of normal electric field at the surface of a shape given 
-    prescribed Dirichlet boundary conditions.
+    a prescribed potential field on the surface of the shape.
     </description>
     <macros>
         <import>icqsol_macros.xml</import>
@@ -26,9 +26,9 @@
     </command>
     <inputs>
         <param name="input" type="data" format="vtkascii,vtkbinary" label="Shape" help="Format can be vtkascii or vtkbinary." />
-        <param name="input_name" type="data" label="Input (potential) field name" help="Name of the Dirichlet surface field." />
-        <param name="output_name" type="data" label="Output flux field name" help="Name of the Neumann-like surface field." />
-        <param name="output_coefficient" type="float" label="Output field will be multiplied by this constant" help="Coefficient of proportionality between output and - grad potential" />
+        <param name="input_name" type="data" label="Input (potential) field name" help="Name of the Dirichlet surface field in the output file." />
+        <param name="output_name" type="data" label="Output flux field name" help="Name of the flux-like, Neumann surface field in the output file." />
+        <param name="output_coefficient" type="float" label="Output field - d potential/dn will be multiplied by this constant" help="Coefficient of proportionality between flux and - grad potential" />
         <param name="dirichlet" type="data" label="Dirichlet boundary condition expression" help="Expression of x, y, and z describing the surface potential." />
         <conditional name="refine_shape_cond">
             <param name="refine_shape" type="select" label="Refine shape?" help="Points will be added to the shape's edges restricting their length to the maximum.">
