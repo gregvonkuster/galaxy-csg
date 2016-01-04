@@ -29,20 +29,6 @@ else:
 
 # Get the vtk polydata from the input dataset.
 vtk_poly_data = shape_mgr.loadAsVtkPolyData(args.input)
-<<<<<<< HEAD
-=======
-
-# A zero (or negative) value for args.max_edge_length means no refinement.
-max_edge_length = args.max_edge_length
-if max_edge_length <= 0:
-    # no refinement
-    max_edge_length = float('inf') 
-vtk_poly_data = shape_mgr.addTextureToVtkPolyData(vtk_poly_data, texture_file=args.input_texture, max_edge_length=max_edge_length)
-
-# The ShapeManager.addTextureToVtkPolyData function expects
-# a specific file extension at the end of the file path.
-tmp_texture_file_path = icqsol_utils.get_input_file_path(tmp_dir, args.input_texture, args.input_texture_file_format)
->>>>>>> cb6a5ebf4f8bb9e3c98edca3ed532423bafa81cd
 
 # Apply the texture to the shape's surface.
 vtk_poly_data = shape_mgr.addTextureToVtkPolyData(vtk_poly_data,

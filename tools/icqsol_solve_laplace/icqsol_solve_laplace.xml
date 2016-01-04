@@ -1,9 +1,11 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <tool id="icqsol_solve_laplace" name="Solve Laplace equation" version="@WRAPPER_VERSION@.0">
-    <description>This tool will find the jump of Neumann boundary conditions at the surface of the shape corresponding to prescribed 
-    Dirichlet boundary conditions. In electrostatics, the tool can be used to determine the normal electric field 
-    on the surface given potential values if the material inside the shape is a perfect conductor (specify diffusivity=1 
-    in this case).</description>
+    <description>This tool computes the jump of normal electric field at the surface of a shape given 
+    some Dirichlet boundary conditions for the potential. The jump is equal to the normal electric field
+    if the interior of the object is perfectly conducting since in this case the interior 
+    electric field is zero. If the outside of the object is perfectly conducting then the jump 
+    is equal to the negative of the interior normal electric field.
+    </description>
     <macros>
         <import>icqsol_macros.xml</import>
     </macros>
@@ -29,8 +31,8 @@
         <param name="input" type="data" format="vtkascii,vtkbinary" label="Shape" help="Format can be vtkascii or vtkbinary." />
         <param name="input_name" type="data" label="Input (potential) field name" help="Name of the Dirichlet surface field." />
         <param name="output_name" type="data" label="Output flux field name" help="Name of the Neumann-like surface field." />
-        <param name="diffusivity" type="float" label="Output field will be multiplied by this constant" help="Diffusion coefficient in Fick's law." />
-        <param name="dirichlet" type="data" label="Dirichlet boundary condition expression" help="Expression of x, y, and z" />
+        <param name="output_coefficient" type="float" label="Output field will be multiplied by this constant" help="Coefficient of proportionality between output and - grad potential" />
+        <param name="dirichlet" type="data" label="Dirichlet boundary condition expression" help="Expression of x, y, and z describing the surface potential." />
         <conditional name="refine_shape_cond">
             <param name="refine_shape" type="select" label="Refine shape?" help="Points will be added to the shape's edges restricting their length to the maximum.">
                 <option value="no" selected="True">No</option>
@@ -61,7 +63,7 @@
             <param name="input_dataset_type" value="POLYDATA" />
             <param name="input_name" value="v" />
             <param name="output_name" value="E_normal" />
-            <param name="diffusivity" value="1.0" />
+            <param name="output_coefficient" value="1.0" />
             <param name="dirichlet" value="1./sqrt(x**2 + y**2 + z**2)" />
             <param name="max_edge_length" value="0.2" />
             <output name="output" file="sphere_electric_field.vtkascii" ftype="vtkascii" />
@@ -77,11 +79,11 @@ method.  Depending on the problem, the jump can be the flux at the surface of th
 to solve an electrostatice problem in the domain extending from the shape to infinity, simply set the 
 electric potential values on the shape and the diffusivity to 1, the result will be the normal electric
 field on the surface for a perfectily conducting material inside the shape. If the conductor is outside 
-the shape then set the diffusivity to -1 for the normal electric field just inside the shape.  
+the shape then set output_coefficient to -1 for the normal electric field just inside the shape.  
 Refinement can be applied for a smoother
 result.
 
-* **Diffusivity** - The coefficient relating the flux to the field, a diffusivity of one means flux = - dv/dn.
+* **Output coefficient** - The coefficient relating the flux (or electric field) to the potential "v", a value of one means flux = - dv/dn.
 * **Maximum edge length** - The shape's edges are smoothed by adding points to edges that are longer than the defined maximum length.
 
     </help>

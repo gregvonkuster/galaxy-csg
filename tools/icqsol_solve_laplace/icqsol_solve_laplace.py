@@ -4,6 +4,7 @@ import shutil
 
 import icqsol_utils
 from icqsol.shapes.icqShapeManager import ShapeManager
+from icqsol.bem.icqLaplaceMatrices import LaplaceMatrices
 
 # Parse Command Line.
 parser = argparse.ArgumentParser()
@@ -11,7 +12,7 @@ parser.add_argument('--input', dest='input', help='Shape dataset selected from h
 parser.add_argument('--input_file_format_and_type', dest='input_file_format_and_type', help='Input file format and type')
 parser.add_argument('--input_dataset_type', dest='input_dataset_type', help='Input dataset_type')
 parser.add_argument('--dirichlet', dest='dirichlet', default='sin(pi*x)*cos(pi*y)*z', help='Dirichlet boundary conditions, expression of x, y, and z.')
-parser.add_argument('--diffusivity', dest='diffusivity', default=1.0, type=float, help='Diffusion coefficient.')
+parser.add_argument('--output_coefficient', dest='output_coefficient', default=1.0, type=float, help='Coefficient of proportionality between the flux and the - dv/dn, v being the potential.')
 parser.add_argument('--input_name', dest='input_name', default='voltage', help='Set the name of the input field.')
 parser.add_argument('--output_name', dest='output_name', default='normal_electric_field', help='Set the name of the output field.')
 parser.add_argument('--max_edge_length', dest='max_edge_length', type=float, default=float('inf'), help='Maximum edge length')
@@ -33,15 +34,15 @@ else:
 vtk_poly_data = shape_mgr.loadAsVtkPolyData(args.input)
 
 # Define the Laplace equation problem.
-solver = LaplaceMatrices(pdata, maxEdgeLength)
+solver = LaplaceMatrices(vtk_poly_data, args.max_edge_length)
 
 # Set the output field names.
 solver.setPotentialName(args.input_name)
 solver.setNormalDerivativeJumpName(args.output_name)
 
-# In place operation, pdata will be modified.
+# In place operation, vtk_poly_data will be modified.
 normalDerivJump = solver.computeNeumannJumpFromDirichlet(args.dirichlet,
-                                                         const=-args.diffusivity)
+                                                         const=-args.output_coefficient)
 
 # Define the output file format and type (the output_format can only be 'vtk').
 output_format, output_file_type = icqsol_utils.get_format_and_type(args.output_vtk_type)
