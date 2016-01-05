@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <tool id="icqsol_solve_laplace" name="Solve Laplace equation" version="@WRAPPER_VERSION@.0">
-    <description>Computes the jump of normal electric field due to a potential field on the surface of a shape.
+    <description>Computes the jump of normal electric field given a potential field on the surface of a shape.
     </description>
     <macros>
         <import>icqsol_macros.xml</import>
@@ -12,36 +12,21 @@
     --input "$input"
     --input_file_format_and_type $input.ext
     --input_dataset_type $input.metadata.dataset_type
-    --input_name "$input_name"
-    --output_coefficient $output_coefficient
-    --dirichlet "$dirichlet"
-    --output_name "$output_name"
-    #if $refine_shape_cond.refine_shape == "yes":
-        --max_edge_length $refine_shape_cond.max_edge_length
-    #end if
+    --input_potential_name "$input_potential_name"
+    --output_jump_electric_field_name "$output_jump_electric_field_name"
     --output "$output"
     --output_vtk_type $output_vtk_type
 ]]>
     </command>
     <inputs>
         <param name="input" type="data" format="vtkascii,vtkbinary" label="Shape" help="Format can be vtkascii or vtkbinary." />
-        <param name="input_name" type="text" value="v" label="Input (potential) field name" help="Name of the Dirichlet surface field in the output file." />
-        <param name="output_name" type="text" value="En" label="Output flux field name" help="Name of the flux-like, Neumann surface field in the output file." />
-        <param name="output_coefficient" type="float" value="1.0" label="Output field '- d potential/dn' will be multiplied by this constant" help="Coefficient of proportionality between flux and - grad potential" />
-        <param name="dirichlet" type="text" value="sin(pi*x)*exp(-y**2/2.)*z" label="Dirichlet boundary condition expression" help="Expression of x, y, and z describing the surface potential." />
-        <conditional name="refine_shape_cond">
-            <param name="refine_shape" type="select" label="Refine shape?" help="Points will be added to the shape's edges restricting their length to the maximum.">
-                <option value="no" selected="True">No</option>
-                <option value="yes">Yes</option>
-            </param>
-            <when value="no" />
-            <when value="yes">
-                <param name="max_edge_length" type="float" value="0.1" label="Maximum edge length" help="Refine shape by restricting edges to this length.">
-                    <validator type="in_range" min="0" exclude_min="true" />
-                </param>
-            </when>
-        </conditional>
-        <expand macro="output_vtk_type_params" />
+        <param name="input_potential_name" type="select" label="Field name" refresh_on_change="True"> 
+            <options>
+                <filter type="data_meta" ref="input" key="field_names"/>
+                <validator type="no_options" message="The selected shape has no surface fields." />
+            </options>
+        </param>
+        <param name="output_jump_electric_field_name" type="text" value="jumpEn" label="Output flux field name" help="Name of the jump of normal electric field name in the output file." />
     </inputs>
     <outputs>
         <data name="output" format="vtkascii">
@@ -57,11 +42,8 @@
             <param name="input" value="sphere.vtkbinary" ftype="vtkbinary" />
             <param name="input_file_format_and_type" value="vtkbinary" />
             <param name="input_dataset_type" value="POLYDATA" />
-            <param name="input_name" value="v" />
-            <param name="output_name" value="E_normal" />
-            <param name="output_coefficient" value="1.0" />
-            <param name="dirichlet" value="1./sqrt(x**2 + y**2 + z**2)" />
-            <param name="max_edge_length" value="0.2" />
+            <param name="input_potential_name" value="v" />
+            <param name="output_jump_electric_field_name" value="E_normal_jump" />
             <output name="output" file="sphere_electric_field.vtkascii" ftype="vtkascii" />
             <param name="output_vtk_type" value="vtkascii" />
         </test>
@@ -74,12 +56,7 @@ conditions by using the boundary element method.  Depending on the problem, the 
 be the surface flux or the normal electric field in electrostatic problems. The Dirichlet
 field is often called the potential (e.g. electrostatic potential). When the domain extends 
 from the object to infinity and the interior of the object is perfectly conducting then 
-the jump corresponds to the normal electric field just outside the object. When the outside
-of the object is conducting then set output_coefficient to -1 to compute the normal electric 
-field just inside the object.
-
-* **Output coefficient** - The coefficient relating the flux (or normal electric field) to the potential "v", a value of one means flux = - dv/dn.
-* **Maximum edge length** - The shape's edges are smoothed by adding points to edges that are longer than this length.
+the jump corresponds to the normal electric field just outside the object. 
 
     </help>
     <expand macro="citations" />
