@@ -28,7 +28,7 @@
         <param name="input" type="data" format="vtkascii,vtkbinary" label="Shape" help="Format can be vtkascii or vtkbinary." />
         <param name="input_name" type="data" label="Input (potential) field name" help="Name of the Dirichlet surface field in the output file." />
         <param name="output_name" type="data" label="Output flux field name" help="Name of the flux-like, Neumann surface field in the output file." />
-        <param name="output_coefficient" type="float" label="Output field '- d potential/dn' will be multiplied by this constant" help="Coefficient of proportionality between flux and - grad potential" />
+        <param name="output_coefficient" type="float" value="1.0" label="Output field '- d potential/dn' will be multiplied by this constant" help="Coefficient of proportionality between flux and - grad potential" />
         <param name="dirichlet" type="text" label="Dirichlet boundary condition expression" help="Expression of x, y, and z describing the surface potential." />
         <conditional name="refine_shape_cond">
             <param name="refine_shape" type="select" label="Refine shape?" help="Points will be added to the shape's edges restricting their length to the maximum.">
