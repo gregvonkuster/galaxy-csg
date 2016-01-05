@@ -13,10 +13,10 @@
     --input "$input"
     --input_file_format_and_type $input.ext
     --input_dataset_type $input.metadata.dataset_type
-    --input_name $input_name
+    --input_name "$input_name"
     --output_coefficient $output_coefficient
-    --dirichlet $dirichlet
-    --output_name $output_name
+    --dirichlet "$dirichlet"
+    --output_name "$output_name"
     #if $refine_shape_cond.refine_shape == "yes":
         --max_edge_length $refine_shape_cond.max_edge_length
     #end if
