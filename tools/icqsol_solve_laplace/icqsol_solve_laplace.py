@@ -34,7 +34,6 @@ vtk_poly_data = shape_mgr.loadAsVtkPolyData(args.input)
 solver = LaplaceMatrices(vtk_poly_data, max_edge_length=float('inf'))
 
 # Set the output field names.
-solver.setPotential(input_array_index)
 solver.setNormalElectricFieldJumpName(args.output_jump_electric_field_name)
 
 # In place operation, vtk_poly_data will be modified.
