@@ -27,9 +27,10 @@
             </options>
         </param>
         <param name="output_jump_electric_field_name" type="text" value="jumpEn" label="Output flux field name" help="Name of the jump of normal electric field name in the output file." />
+        <expand macro="output_vtk_type_params" />
     </inputs>
     <outputs>
-        <data name="output" format="vtkascii">
+        <data name="output" format_source="input">
             <actions>
                 <action type="format">
                     <option type="from_param" name="output_vtk_type" />
