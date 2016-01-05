@@ -1,7 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <tool id="icqsol_solve_laplace" name="Solve Laplace equation" version="@WRAPPER_VERSION@.0">
-    <description>This tool computes the jump of normal electric field at the surface of a shape given 
-    a prescribed potential field on the surface of the shape.
+    <description>Computes the jump of normal electric field due to a potential field on the surface of a shape.
     </description>
     <macros>
         <import>icqsol_macros.xml</import>
