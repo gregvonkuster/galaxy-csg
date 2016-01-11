@@ -3,7 +3,6 @@ import argparse
 import shutil
 
 import icqsol_utils
-from icqsol.shapes.icqShapeManager import ShapeManager
 
 # Parse Command Line.
 parser = argparse.ArgumentParser()
@@ -22,7 +21,7 @@ tmp_dir = icqsol_utils.get_temp_dir()
 input_format, input_file_type = icqsol_utils.get_format_and_type(args.input_file_format_and_type)
 
 # Instantiate a ShapeManager for loading the input.
-shape_mgr = ShapeManager(file_format=icqsol_utils.VTK, vtk_dataset_type=args.input_dataset_type)
+shape_mgr = icqsol_utils.get_shape_manager(icqsol_utils.VTK, args.input_dataset_type)
 
 # Get the vtkPolyData from the input dataset.
 vtk_poly_data = shape_mgr.loadAsVtkPolyData(args.input)
