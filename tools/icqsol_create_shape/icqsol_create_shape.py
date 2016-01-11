@@ -3,7 +3,6 @@ import argparse
 import shutil
 
 import icqsol_utils
-from icqsol.shapes.icqShapeManager import ShapeManager
 
 # Parse Command Line.
 parser = argparse.ArgumentParser()
@@ -44,7 +43,7 @@ tmp_dir = icqsol_utils.get_temp_dir()
 cloning = True if args.create_process == 'clone' else False
 
 # TODO: fix this to handle inputPLY files for cloning, but producing VTK POLYDATA.
-shape_mgr = ShapeManager(file_format=format, vtk_dataset_type=icqsol_utils.POLYDATA)
+shape_mgr = icqsol_utils.get_shape_manager(format, icqsol_utils.POLYDATA)
 
 if cloning:
     # We're cloning an existing shape selected from the history.
