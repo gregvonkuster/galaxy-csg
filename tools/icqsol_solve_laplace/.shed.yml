@@ -1,11 +1,18 @@
 name: icqsol_solve_laplace
 owner: greg
 description: |
-  Contains a tool that computes the jump of normal electric field.
-homepage_url: https://github.com/gregvonkuster/galaxy-csg
-long_description: |
   Contains a tool that computes the jump of normal electric field given a
   potential field on the surface of a shape.
+homepage_url: https://github.com/gregvonkuster/galaxy-csg
+long_description: |
+  Contains a tool that computes the jump in flux-like (Neumann) boundary
+  conditions given prescribed Dirichlet boundary conditions by using the
+  boundary element method.  Depending on the problem, the jump can be the
+  surface flux or the normal electric field in electrostatic problems. The
+  Dirichlet field is often called the potential (e.g. electrostatic potential).
+  When the domain extends from the object to infinity and the interior of
+  the object is perfectly conducting, the jump corresponds to the normal
+  electric field just outside the object.
 remote_repository_url: https://github.com/gregvonkuster/galaxy-csg/tree/master/tools/icqsol_solve_laplace
 type: unrestricted
 categories:
