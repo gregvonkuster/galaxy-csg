@@ -3,7 +3,6 @@ import argparse
 import shutil
 
 import icqsol_utils
-from icqsol.shapes.icqShapeManager import ShapeManager
 
 # Parse Command Line.
 parser = argparse.ArgumentParser()
@@ -16,7 +15,7 @@ args = parser.parse_args()
 
 tmp_dir = icqsol_utils.get_temp_dir()
 shape_tuples = []
-shape_mgr = ShapeManager()
+shape_mgr = icqsol_utils.get_shape_manager()
 
 # Load the shapes.
 for (expression_var, dataset_path, galaxy_ext, vtk_dataset_type) in args.shape_datasets:
