@@ -3,8 +3,6 @@ import argparse
 import shutil
 
 import icqsol_utils
-from icqsol.shapes.icqShapeManager import ShapeManager
-from icqsol.bem.icqLaplaceMatrices import LaplaceMatrices
 
 # Parse Command Line.
 parser = argparse.ArgumentParser()
@@ -21,17 +19,14 @@ args = parser.parse_args()
 input_format, input_file_type = icqsol_utils.get_format_and_type(args.input_file_format_and_type)
 tmp_dir = icqsol_utils.get_temp_dir()
 
-# Instantiate a ShapeManager for loading the input.
-if input_format == icqsol_utils.VTK:
-    shape_mgr = ShapeManager(file_format=input_format, vtk_dataset_type=args.input_dataset_type)
-else:
-    shape_mgr = ShapeManager(file_format=input_format)
+# Instantiate the shape manager.
+shape_mgr = icqsol_utils.get_shape_manager(input_format, args.input_dataset_type)
 
 # Get the vtk polydata from the input dataset.
 vtk_poly_data = shape_mgr.loadAsVtkPolyData(args.input)
 
-# Define the Laplace equation problem.
-solver = LaplaceMatrices(vtk_poly_data, max_edge_length=float('inf'))
+# Instantiate the Laplace solver.
+solver = icqsol_utils.get_laplace_solver(vtk_poly_data)
 
 # Set the output field names.
 solver.setNormalElectricFieldJumpName(args.output_jump_electric_field_name)

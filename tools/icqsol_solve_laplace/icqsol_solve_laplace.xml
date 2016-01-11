@@ -1,22 +1,21 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <tool id="icqsol_solve_laplace" name="Solve Laplace equation" version="@WRAPPER_VERSION@.0">
-    <description>Computes the jump of normal electric field given a potential field on the surface of a shape.
-    </description>
+    <description>- computes the jump of normal electric field</description>
     <macros>
         <import>icqsol_macros.xml</import>
     </macros>
     <expand macro="requirements" />
     <command>
-<![CDATA[
-    python $__tool_directory__/icqsol_solve_laplace.py
-    --input "$input"
-    --input_file_format_and_type $input.ext
-    --input_dataset_type $input.metadata.dataset_type
-    --input_potential_name "$input_potential_name"
-    --output_jump_electric_field_name "$output_jump_electric_field_name"
-    --output "$output"
-    --output_vtk_type $output_vtk_type
-]]>
+        <![CDATA[
+            python $__tool_directory__/icqsol_solve_laplace.py
+            --input "$input"
+            --input_file_format_and_type $input.ext
+            --input_dataset_type $input.metadata.dataset_type
+            --input_potential_name "$input_potential_name"
+            --output_jump_electric_field_name "$output_jump_electric_field_name"
+            --output "$output"
+            --output_vtk_type $output_vtk_type
+        ]]>
     </command>
     <inputs>
         <param name="input" type="data" format="vtkascii,vtkbinary" label="Shape" help="Format can be vtkascii or vtkbinary." />
@@ -50,14 +49,18 @@
         </test>
     </tests>
     <help>
+
 **What it does**
 
-Computes the jump in flux-like (Neumann) boundary conditions given prescribed Dirichlet boundary 
-conditions by using the boundary element method.  Depending on the problem, the jump can 
-be the surface flux or the normal electric field in electrostatic problems. The Dirichlet
-field is often called the potential (e.g. electrostatic potential). When the domain extends 
-from the object to infinity and the interior of the object is perfectly conducting then 
-the jump corresponds to the normal electric field just outside the object. 
+Computes the jump in flux-like (Neumann) boundary conditions given prescribed Dirichlet boundary
+conditions by using the boundary element method.  Depending on the problem, the jump can be the
+surface flux or the normal electric field in electrostatic problems. The Dirichlet field is often
+called the potential (e.g. electrostatic potential). When the domain extends from the object to
+infinity and the interior of the object is perfectly conducting, the jump corresponds to the normal
+electric field just outside the object.
+
+* **Shape** - Shape whose surface contains a potential field.
+* **Output flux field name** - Name of the jump of normal electric field name in the output file.
 
     </help>
     <expand macro="citations" />
