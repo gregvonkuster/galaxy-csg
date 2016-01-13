@@ -18,12 +18,12 @@
 
                     <action type="shell_command">bash Anaconda-2.3.0-Linux-x86_64.sh -b -f -p $INSTALL_DIR</action>
 
-                    <!-- Install VTK 6.3.0 into the above Python -->
+                    <!-- Install VTK 6.2.0 into the above Python -->
                     <action type="make_directory">$TMP_WORK_DIR/vtk</action>
                     <action type="change_directory">$TMP_WORK_DIR/vtk</action>
-                    <action type="download_file" target_filename="VTK-6.2.0.tar.gz">http://www.vtk.org/files/release/6.2/VTK-6.2.0.tar.gz</action>
-                    <action type="shell_command">tar xfvz VTK-6.2.0.tar.gz</action>
-                    <action type="change_directory">VTK-6.2.0</action>
+                    <action type="download_file" target_filename="VTK-6.3.0.tar.gz">http://www.vtk.org/files/release/6.3/VTK-6.3.0.tar.gz</action>
+                    <action type="shell_command">tar xfvz VTK-6.3.0.tar.gz</action>
+                    <action type="change_directory">VTK-6.3.0</action>
                     <action type="shell_command">
                         <![CDATA[
                             export PATH=$INSTALL_DIR/bin:$PATH &&
@@ -31,7 +31,7 @@
                             export PKG_CONFIG_PATH=$INSTALL_DIR/lib/pkgconfig:$PKG_CONFIG_PATH &&
                             cmake \
                             -DCMAKE_BUILD_TYPE:STRING=Release \
-                            -DCMAKE_INSTALL_PREFIX:PATH=`pwd`/../build \
+                            -DCMAKE_INSTALL_PREFIX:PATH=$INSTALL_DIR/vtk \
                             -DVTK_WRAP_PYTHON:BOOL=ON \
                             -DVTK_Group_StandAlone:BOOL=OFF \
                             -DVTK_Group_Rendering:BOOL=OFF \
@@ -83,7 +83,9 @@
                     <action type="change_directory">icqsol</action>
                     <action type="shell_command">
                         <![CDATA[
-                            export PATH=$INSTALL_DIR/bin:$PATH &&
+                            export PATH=$INSTALL_DIR/bin:$PATH && 
+                            export VTK_INCLUDE_DIR=$INSTALL_DIR/vtk/include/vtk-6.3 &&
+                            export VTK_LIBRARY_DIR=$INSTALL_DIR/vtk/lib &&
                             $INSTALL_DIR/bin/python setup.py develop --prefix=$INSTALL_DIR
                             $INSTALL_DIR/bin/python setup.py install --prefix=$INSTALL_DIR
                         ]]>
