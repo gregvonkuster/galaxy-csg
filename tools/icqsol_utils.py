@@ -46,7 +46,7 @@ def get_laplace_solver(shape_data, max_edge_length=float('inf')):
     return LaplaceMatrices(shape_data, max_edge_length=max_edge_length)
 
 
-def get_shape_manager(format, dataset_type):
+def get_shape_manager(format=None, dataset_type=None):
     # Instantiate a ShapeManager.
     if format == VTK:
         return ShapeManager(file_format=format, vtk_dataset_type=dataset_type)
