@@ -33,6 +33,8 @@ solver.setNormalElectricFieldJumpName(args.output_jump_electric_field_name)
 
 # In place operation, vtk_poly_data will be modified.
 normalEJump = solver.computeNormalElectricFieldJump(potName=args.input_potential_name)
+surfIntegral = shape_mgr.integrateSurfaceField(vtk_poly_data, args.output_jump_electric_field_name)
+print 'Surface integral of jump in electric field/total charge: {0}'.format(surfIntegral)
 
 # Define the output file format and type (the output_format can only be 'vtk').
 output_format, output_file_type = icqsol_utils.get_format_and_type(args.output_vtk_type)
