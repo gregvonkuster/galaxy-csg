@@ -41,7 +41,7 @@ vtk_poly_data = shape_mgr.addSurfaceFieldFromExpressionToVtkPolyData(pdata,
 for comp in range(len(time_points)):
     minVal, maxVal = shape_mgr.getFieldRange(vtk_poly_data, args.field_name, comp)
     surfIntegral = shape_mgr.integrateSurfaceField(vtk_poly_data, args.field_name, comp)
-    print 'component {2} min/max values of field {3}: {0}/{1} surf integral: {3}'.format(minVal, maxVal, comp, args.field_name, surfIntegral)
+    print 'component {2} min/max values of {3}: {0}/{1} surf integral: {4}'.format(minVal, maxVal, comp, args.field_name, surfIntegral)
 
 # Define the output file format and type (the outpur_format can only be 'vtk').
 output_format, output_file_type = icqsol_utils.get_format_and_type(args.output_vtk_type)
