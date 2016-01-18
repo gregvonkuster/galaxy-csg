@@ -26,11 +26,14 @@ shape_mgr = icqsol_utils.get_shape_manager(icqsol_utils.VTK, args.input_dataset_
 # Get the vtkPolyData from the input dataset.
 vtk_poly_data = shape_mgr.loadAsVtkPolyData(args.input)
 # Add color to the data.
-# TODO: Fix the following when we have this working.
 colored_vtk_poly_data = shape_mgr.colorSurfaceField(vtk_poly_data=vtk_poly_data,
                                                     color_map=args.color_map,
                                                     field_name=args.field_name,
                                                     field_component=args.field_component_index)
+
+# Write min/max field values.
+minVal, maxVal = shape_mgr.getFieldRange(vtk_poly_data, args.field_name, args.field_component_index)
+print 'component {2} min/max values of field {3}: {0}/{1}'.format(minVal, maxVal, args.field_component_index, args.field_name)
 
 # Define the output file format and type.
 output_format, output_file_type = icqsol_utils.get_format_and_type(args.output_vtk_type)

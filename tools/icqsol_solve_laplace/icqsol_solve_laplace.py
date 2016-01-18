@@ -33,6 +33,10 @@ solver.setNormalElectricFieldJumpName(args.output_jump_electric_field_name)
 
 # In place operation, vtk_poly_data will be modified.
 normalEJump = solver.computeNormalElectricFieldJump(potName=args.input_potential_name)
+surfIntegral = shape_mgr.integrateSurfaceField(solver.getVtkPolyData(), args.output_jump_electric_field_name)
+print 'Surface integral of normal electric field jump: {0}'.format(surfIntegral)
+minVal, maxVal = shape_mgr.getFieldRange(solver.getVtkPolyData(), args.output_jump_electric_field_name)
+print 'min/max values of normal electrc field jump: {0}/{1}'.format(minVal, maxVal)
 
 # Define the output file format and type (the output_format can only be 'vtk').
 output_format, output_file_type = icqsol_utils.get_format_and_type(args.output_vtk_type)
