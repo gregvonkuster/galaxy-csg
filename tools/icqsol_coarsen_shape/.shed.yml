@@ -1,0 +1,12 @@
+name: icqsol_coarsen_shape
+owner: greg
+description: |
+  Contains a tool that coarsens a shape to a specified level resulting in a less detailed shape.
+homepage_url: https://github.com/gregvonkuster/galaxy-csg
+long_description: |
+  Contains a tool that coarsens a shape to a specified level resulting in a less detailed shape.
+  Cells which have area smaller than a given tolerance are merged with their neighbors.
+remote_repository_url: https://github.com/gregvonkuster/galaxy-csg
+type: unrestricted
+categories:
+- Constructive Solid Geometry
