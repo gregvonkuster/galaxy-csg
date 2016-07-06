@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<tool id="icqsol_coarsen_shape" name="Coarsen shape" version="@WRAPPER_VERSION@.0">
+    <description></description>
+    <macros>
+        <import>icqsol_macros.xml</import>
+    </macros>
+    <expand macro="requirements" />
+    <command>
+<![CDATA[
+    python $__tool_directory__/icqsol_coarsen_shape.py
+    --input "$input"
+    --input_file_format_and_type $input.ext
+    --input_dataset_type $input.metadata.dataset_type
+    --max_cell_area $max_cell_area
+    --output "$output"
+    --output_vtk_type $output_vtk_type
+]]>
+    </command>
+    <inputs>
+        <param name="input" type="data" format="plyascii,plybinary,vtkascii,vtkbinary" label="Shape">
+            <validator type="dataset_ok_validator" />
+        </param>
+        <param name="max_cell_area" type="float" value="0.1" label="Minimum cell area" help="Coarsen shape by ensuring that cells' area are bigger than a given tolerance (except on the edge of the domain).">
+            <validator type="in_range" min="0" exclude_min="true" />
+        </param>
+        <expand macro="output_vtk_type_params" />
+    </inputs>
+    <outputs>
+        <data name="output" format="vtkascii" label="${tool.name} ${on_string} Min cell area: ${min_cell_area}">
+            <actions>
+                <action type="format">
+                    <option type="from_param" name="output_vtk_type" />
+                </action>
+            </actions>
+        </data>
+    </outputs>
+    <tests>
+        <test>
+            <param name="input" value="box_with_surface_field.vtkascii" ftype="vtkascii" />
+            <param name="input_file_format_and_type" value="vtkascii" />
+            <param name="input_dataset_type" value="POLYDATA" />
+            <param name="min_cell_area" value="0.5" />
+            <output name="output" file="box_coarsened.vtkascii" ftype="vtkascii" />
+            <param name="output_vtk_type" value="vtkascii" />
+        </test>
+    </tests>
+    <help>
+**What it does**
+
+Coarsens a shape by ensuring that cells are larger than a given tolerance, resulting in a more less detailed shape.
+
+* **Shape** - Shape to be coarsened.
+* **Minimum cell area** - The shape's cells that have area smaller than this number will be merged.
+
+    </help>
+    <expand macro="citations" />
+</tool>
