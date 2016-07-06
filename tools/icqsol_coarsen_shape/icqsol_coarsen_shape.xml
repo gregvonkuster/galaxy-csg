@@ -20,7 +20,7 @@
         <param name="input" type="data" format="plyascii,plybinary,vtkascii,vtkbinary" label="Shape">
             <validator type="dataset_ok_validator" />
         </param>
-        <param name="max_cell_area" type="float" value="0.1" label="Minimum cell area" help="Coarsen shape by ensuring that cells' area are bigger than a given tolerance (except on the edge of the domain).">
+        <param name="max_cell_area" type="float" value="0.5" label="Minimum cell area" help="Coarsen shape by ensuring that cells' area are bigger than a given tolerance (except on the edge of the domain).">
             <validator type="in_range" min="0" exclude_min="true" />
         </param>
         <expand macro="output_vtk_type_params" />
@@ -47,7 +47,7 @@
     <help>
 **What it does**
 
-Coarsens a shape by ensuring that cells are larger than a given tolerance, resulting in a more less detailed shape.
+Coarsens a shape by ensuring that cells are larger than a given tolerance, resulting in a less detailed shape.
 
 * **Shape** - Shape to be coarsened.
 * **Minimum cell area** - The shape's cells that have area smaller than this number will be merged.

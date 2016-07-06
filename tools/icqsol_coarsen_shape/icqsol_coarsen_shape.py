@@ -24,7 +24,7 @@ shape_mgr = icqsol_utils.get_shape_manager(input_format, args.input_dataset_type
 # Get the vtk polydata from the input dataset.
 vtk_poly_data = shape_mgr.loadAsVtkPolyData(args.input)
 
-# Refine the shape if requested.
+# Coarsen the shape if requested.
 vtk_poly_data = shape_mgr.coarsenVtkPolyData(vtk_poly_data, min_cell_area=args.min_cell_area)
 
 # Define the output file format and type (the output_format can only be 'vtk').
