@@ -36,7 +36,7 @@
     </outputs>
     <tests>
         <test>
-            <param name="input" value="box_with_surface_field.vtkascii" ftype="vtkascii" />
+            <param name="input" value="box_refined_with_surface_field.vtkascii" ftype="vtkascii" />
             <param name="input_file_format_and_type" value="vtkascii" />
             <param name="input_dataset_type" value="POLYDATA" />
             <param name="min_cell_area" value="0.5" />
