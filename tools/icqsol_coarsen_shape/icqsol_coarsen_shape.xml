@@ -11,7 +11,7 @@
     --input "$input"
     --input_file_format_and_type $input.ext
     --input_dataset_type $input.metadata.dataset_type
-    --max_cell_area $max_cell_area
+    --min_cell_area $min_cell_area
     --output "$output"
     --output_vtk_type $output_vtk_type
 ]]>
@@ -20,7 +20,7 @@
         <param name="input" type="data" format="plyascii,plybinary,vtkascii,vtkbinary" label="Shape">
             <validator type="dataset_ok_validator" />
         </param>
-        <param name="max_cell_area" type="float" value="0.5" label="Minimum cell area" help="Coarsen shape by ensuring that cells' area are bigger than a given tolerance (except on the edge of the domain).">
+        <param name="min_cell_area" type="float" value="0.5" label="Minimum cell area" help="Coarsen shape by ensuring that cells' area are bigger than a given tolerance (except on the edge of the domain).">
             <validator type="in_range" min="0" exclude_min="true" />
         </param>
         <expand macro="output_vtk_type_params" />
