@@ -23,6 +23,7 @@ Tool Highlights
   * [Add texture](./tools/icqsol_add_texture/icqsol_add_texture.xml) - Adds a texture to a shape by projecting an image onto the surface of the shape.
  * [Add surface field](./tools/icqsol_add_surface_field_from_expression/icqsol_add_surface_field_from_expression.xml) - Adds a surface field to a selected shape based on a given mathematical expression consisting of variables x, y, z (shape point coordinates) and t (time).
  * [Color surface field](./tools/icqsol_color_surface_field/icqsol_color_surface_field.xml) - Colors a shape's surface field using a selected color map.
+ * [Solve Laplace equation](./tools/icqsol_solve_laplace/icqsol_solve_laplace.xml)  - Solve the Laplace equation given prescribed Dirichlet boundary conditions applied as a surface field. The resulting field corresponds to the electric field in an electrostatic problem.
 
 Other repositories with high quality tools
 ------------------------------------------
