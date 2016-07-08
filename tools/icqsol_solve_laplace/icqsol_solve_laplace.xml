@@ -25,7 +25,7 @@
                 <validator type="no_options" message="The selected shape has no surface fields." />
             </options>
         </param>
-        <param name="output_jump_electric_field_name" type="text" value="jumpEn" label="Output flux field name" help="Name of the jump of normal electric field name in the output file." />
+        <param name="output_jump_electric_field_name" type="text" value="jumpEn" label="Output flux field name" help="Name of the jump of normal electric field in the output file." />
         <expand macro="output_vtk_type_params" />
     </inputs>
     <outputs>

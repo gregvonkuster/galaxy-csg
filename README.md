@@ -3,13 +3,11 @@
 Galaxy tools for Constructive Solid Geometry
 ============================================
 
-This repository contains tools and a CSG Viewer visualization plug-in that can be used within Galaxy for creating, manipulating and studying 3-dimensional shapes.  These tools are written in Python and based upon the following packages.
+This repository contains tools and a CSG Viewer visualization plug-in that can be used within Galaxy for creating, assembling and to a limited extent, solving equations on 3-dimensional shapes. These tools are written in Python and based upon the following packages.
 
  * [Python version 2.7.x](https://www.python.org)
  * [Numpy version 1.9](http://www.numpy.org)
- * [VTK version 6.2.0](http://www.vtk.org)
- * [pycsg version 0.3.0](https://github.com/timknip/pycsg)
- * [pytriangle version 1.0](https://github.com/pletzer/pytriangle)
+ * [VTK version 6.3.0](http://www.vtk.org)
  * [icqsol version 1.0](https://github.com/pletzer/icqsol)
 
 All of these tools should soon be available in the [Galaxy Tool Shed](https://toolshed.g2.bx.psu.edu/), at which time they can be automatically installed into Galaxy.
@@ -20,9 +18,12 @@ Tool Highlights
 ---------------
  * [Create 3D shape](./tools/icqsol_create_shape/icqsol_create_shape.xml) - Creates a selected primitive shape where shapes are Box, Cone, Cylinder and Sphere.
  * [Compose 3D shapes](./tools/icqsol_compose_shapes/icqsol_compose_shapes.xml) - Creates a shape composed of any number of selected shapes where the composition is based on a mathematical expression consisting of +, - and * operations.  The + results in a union of shapes, the - operator removes a shape and the * operator results in an intersection of shapes.
- * [Refine shape](./tools/icqsol_refine_shape/icqsol_refine_shape.xml) - Refines a shape by limiting all edges to a specified length, resulting in a more detailed shape.
+ * [Refine shape](./tools/icqsol_refine_shape/icqsol_refine_shape.xml) - Refines the discrete, triangulated surface representation of a shape using a maximum edge length criterion, breaking triangles into smaller ones where necessary.
+  * [Coarsen shape](./tools/icqsol_coarsen_shape/icqsol_coarsen_shape.xml) - Coarsens the discrete, triangulated surface representation of a shape using a minimum cell area criterion, merging triangles into larger ones where necessary.
+  * [Add texture](./tools/icqsol_add_texture/icqsol_add_texture.xml) - Adds a texture to a shape by projecting an image onto the surface of the shape.
  * [Add surface field](./tools/icqsol_add_surface_field_from_expression/icqsol_add_surface_field_from_expression.xml) - Adds a surface field to a selected shape based on a given mathematical expression consisting of variables x, y, z (shape point coordinates) and t (time).
- * [Color surface field](./tools/icqsol_color_surface_field/icqsol_color_surface_field.xml) - Colors a shape's selected surface field using a selected color map.
+ * [Color surface field](./tools/icqsol_color_surface_field/icqsol_color_surface_field.xml) - Colors a shape's surface field using a selected color map.
+ * [Solve Laplace equation](./tools/icqsol_solve_laplace/icqsol_solve_laplace.xml)  - Solve the Laplace equation given prescribed Dirichlet boundary conditions applied as a surface field. The resulting field corresponds to the electric field in an electrostatic problem.
 
 Other repositories with high quality tools
 ------------------------------------------

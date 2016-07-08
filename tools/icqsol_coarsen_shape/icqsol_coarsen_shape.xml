@@ -20,7 +20,7 @@
         <param name="input" type="data" format="plyascii,plybinary,vtkascii,vtkbinary" label="Shape">
             <validator type="dataset_ok_validator" />
         </param>
-        <param name="min_cell_area" type="float" value="0.5" label="Minimum cell area" help="Coarsen shape by ensuring that cells' area are bigger than a given tolerance (except on the edge of the domain).">
+        <param name="min_cell_area" type="float" value="0.5" label="Minimum cell area" help="Coarsen shape by ensuring that cell area are bigger than a given tolerance (except at the edge of the domain).">
             <validator type="in_range" min="0" exclude_min="true" />
         </param>
         <expand macro="output_vtk_type_params" />
