@@ -52,6 +52,7 @@
             <param name="input_file_format_and_type" value="vtkascii" />
             <param name="input_dataset_type" value="POLYDATA" />
             <param name="input_texture" value="sandstone.jpg" ftype="jpg" />
+            <param name="refine_shape" value="yes" />
             <param name="max_edge_length" value="0.1" />
             <output name="output" file="shaft_with_texture.vtkascii" ftype="vtkascii" />
             <param name="output_vtk_type" value="vtkascii" />
