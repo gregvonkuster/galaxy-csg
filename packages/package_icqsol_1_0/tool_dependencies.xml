@@ -16,9 +16,9 @@
                         </repository>
                     </action>
 
-                    <action type="shell_command">bash Anaconda-2.3.0-Linux-x86_64.sh -b -f -p $INSTALL_DIR</action>
+                    <action type="shell_command">bash Anaconda-2.3.0-Linux-x86_64.sh -b -f -p $INSTALL_DIR/anaconda</action>
 
-                    <!-- Install VTK 6.2.0 into the above Python -->
+                    <!-- Install VTK 6.3.0 into the above Python -->
                     <action type="make_directory">$TMP_WORK_DIR/vtk</action>
                     <action type="change_directory">$TMP_WORK_DIR/vtk</action>
                     <action type="download_file" target_filename="VTK-6.3.0.tar.gz">http://www.vtk.org/files/release/6.3/VTK-6.3.0.tar.gz</action>
@@ -26,9 +26,9 @@
                     <action type="change_directory">VTK-6.3.0</action>
                     <action type="shell_command">
                         <![CDATA[
-                            export PATH=$INSTALL_DIR/bin:$PATH &&
-                            export PYTHONPATH=$INSTALL_DIR:$PYTHONPATH &&
-                            export PKG_CONFIG_PATH=$INSTALL_DIR/lib/pkgconfig:$PKG_CONFIG_PATH &&
+                            export PATH=$INSTALL_DIR/anaconda/bin:$PATH &&
+                            export PYTHONPATH=$INSTALL_DIR/anaconda:$PYTHONPATH &&
+                            export PKG_CONFIG_PATH=$INSTALL_DIR/anaconda/lib/pkgconfig:$PKG_CONFIG_PATH &&
                             cmake \
                             -DCMAKE_BUILD_TYPE:STRING=Release \
                             -DCMAKE_INSTALL_PREFIX:PATH=$INSTALL_DIR/vtk \
@@ -55,26 +55,14 @@
                             -DModule_vtkIOLegacy:BOOL=ON \
                             -DModule_vtkWrappingPythonCore:BOOL=ON \
                             -DModule_vtkIOPLY:BOOL=ON \
-                            -DVTK_INSTALL_PYTHON_MODULE_DIR:PATH=$INSTALL_DIR/lib/python2.7/site-packages \
-                            -DPYTHON_EXECUTABLE:PATH=$INSTALL_DIR/bin/python \
-                            -DPYTHON_LIBRARY:PATH=$INSTALL_DIR/lib/libpython2.7.so \
-                            -DPYTHON_INCLUDE_DIR:PATH=$INSTALL_DIR/include/python2.7 . &&
+                            -DVTK_INSTALL_PYTHON_MODULE_DIR:PATH=$INSTALL_DIR/anaconda/lib/python2.7/site-packages \
+                            -DPYTHON_EXECUTABLE:PATH=$INSTALL_DIR/anaconda/bin/python \
+                            -DPYTHON_LIBRARY:PATH=$INSTALL_DIR/anaconda/lib/libpython2.7.so \
+                            -DPYTHON_INCLUDE_DIR:PATH=$INSTALL_DIR/anaconda/include/python2.7 . &&
                             make &&
                             make install
                         ]]>
                     </action>
-                     <action type="move_directory_files">
-                         <source_directory>../build/bin</source_directory>
-                         <destination_directory>$INSTALL_DIR/bin</destination_directory>
-                     </action>
-                     <action type="move_directory_files">
-                         <source_directory>../build/include</source_directory>
-                         <destination_directory>$INSTALL_DIR/include</destination_directory>
-                     </action>
-                     <action type="move_directory_files">
-                         <source_directory>../build/lib</source_directory>
-                         <destination_directory>$INSTALL_DIR/lib</destination_directory>
-                     </action>
 
                     <!-- Install and compile icqsol version 1.0 as a package in the above Python -->
                     <action type="make_directory">$TMP_WORK_DIR/icqsol</action>
@@ -83,11 +71,14 @@
                     <action type="change_directory">icqsol</action>
                     <action type="shell_command">
                         <![CDATA[
-                            export PATH=$INSTALL_DIR/bin:$PATH && 
+                            export PATH=$INSTALL_DIR/anaconda/bin:$INSTALL_DIR/vtk/bin:$PATH &&
                             export VTK_INCLUDE_DIR=$INSTALL_DIR/vtk/include/vtk-6.3 &&
+                            export C_INCLUDE_PATH=$INSTALL_DIR/vtk/include/vtk-6.3 &&
+                            export CPLUS_INCLUDE_PATH=$INSTALL_DIR/vtk/include/vtk-6.3 &&
                             export VTK_LIBRARY_DIR=$INSTALL_DIR/vtk/lib &&
-                            $INSTALL_DIR/bin/python setup.py develop --prefix=$INSTALL_DIR
-                            $INSTALL_DIR/bin/python setup.py install --prefix=$INSTALL_DIR
+                            export LD_LIBRARY_PATH=$INSTALL_DIR/vtk/lib &&
+                            $INSTALL_DIR/anaconda/bin/python setup.py develop --prefix=$INSTALL_DIR/anaconda
+                            $INSTALL_DIR/anaconda/bin/python setup.py install --prefix=$INSTALL_DIR/anaconda
                         ]]>
                     </action>
 
@@ -96,8 +87,8 @@
                         Only the PATH environment variable needs to be modified for an Anaconda environment so that it gets
                         the right Python from the environment bin directory.
                         -->
-                        <environment_variable action="prepend_to" name="PATH">$INSTALL_DIR/bin</environment_variable>
-                        <environment_variable action="prepend_to" name="LD_LIBRARY_PATH">$INSTALL_DIR/lib</environment_variable>
+                        <environment_variable action="prepend_to" name="PATH">$INSTALL_DIR/anaconda/bin</environment_variable>
+                        <environment_variable action="prepend_to" name="LD_LIBRARY_PATH">$INSTALL_DIR/vtk/lib</environment_variable>
                         <environment_variable action="set_to" name="ICQSOL_ROOT_DIR">$INSTALL_DIR</environment_variable>
                     </action>
                 </actions>
@@ -112,21 +103,21 @@
                         </repository>
                     </action>
 
-                    <action type="shell_command">bash Anaconda-2.3.0-MacOSX-x86_64.sh -b -f -p $INSTALL_DIR</action>
+                    <action type="shell_command">bash Anaconda-2.3.0-MacOSX-x86_64.sh -b -f -p $INSTALL_DIR/anaconda</action>
 
-                    <!-- Install and compile VTK 6.2.0 as a package in the above Python -->
+                    <!-- Install and compile VTK 6.3.0 as a package in the above Python -->
                     <action type="make_directory">$TMP_WORK_DIR/vtk</action>
                     <action type="change_directory">$TMP_WORK_DIR/vtk</action>
-                    <action type="download_file" target_filename="VTK-6.2.0.tar.gz">http://www.vtk.org/files/release/6.2/VTK-6.2.0.tar.gz</action>
-                    <action type="shell_command">tar xfvz VTK-6.2.0.tar.gz</action>
-                    <action type="change_directory">VTK-6.2.0</action>
+                    <action type="download_file" target_filename="VTK-6.3.0.tar.gz">http://www.vtk.org/files/release/6.3/VTK-6.3.0.tar.gz</action>
+                    <action type="shell_command">tar xfvz VTK-6.3.0.tar.gz</action>
+                    <action type="change_directory">VTK-6.3.0</action>
                     <action type="shell_command">
                         <![CDATA[
-                            export PATH=$INSTALL_DIR/bin:$INSTALL_DIR/bin:$PATH &&
-                            export PKG_CONFIG_PATH=$INSTALL_DIR/lib/pkgconfig:$PKG_CONFIG_PATH &&
+                            export PATH=$INSTALL_DIR/anaconda/bin:$PATH &&
+                            export PKG_CONFIG_PATH=$INSTALL_DIR/anaconda/lib/pkgconfig:$PKG_CONFIG_PATH &&
                             cmake \
                             -DCMAKE_BUILD_TYPE:STRING=Release \
-                            -DCMAKE_INSTALL_PREFIX:PATH=`pwd`/../build \
+                            -DCMAKE_INSTALL_PREFIX:PATH=$INSTALL_DIR/vtk \
                             -DVTK_WRAP_PYTHON:BOOL=ON \
                             -DVTK_Group_StandAlone:BOOL=OFF \
                             -DVTK_Group_Rendering:BOOL=OFF \
@@ -150,26 +141,14 @@
                             -DModule_vtkIOLegacy:BOOL=ON \
                             -DModule_vtkWrappingPythonCore:BOOL=ON \
                             -DModule_vtkIOPLY:BOOL=ON \
-                            -DVTK_INSTALL_PYTHON_MODULE_DIR:PATH=$INSTALL_DIR/lib/python2.7/site-packages \
-                            -DPYTHON_EXECUTABLE:PATH=$INSTALL_DIR/bin/python \
-                            -DPYTHON_LIBRARY:PATH=$INSTALL_DIR/lib/libpython2.7.dylib \
-                            -DPYTHON_INCLUDE_DIR:PATH=$INSTALL_DIR/include/python2.7 . &&
+                            -DVTK_INSTALL_PYTHON_MODULE_DIR:PATH=$INSTALL_DIR/anaconda/lib/python2.7/site-packages \
+                            -DPYTHON_EXECUTABLE:PATH=$INSTALL_DIR/anaconda/bin/python \
+                            -DPYTHON_LIBRARY:PATH=$INSTALL_DIR/anaconda/lib/libpython2.7.dylib \
+                            -DPYTHON_INCLUDE_DIR:PATH=$INSTALL_DIR/anaconda/include/python2.7 . &&
                             make &&
                             make install
                         ]]>
                     </action>
-                     <action type="move_directory_files">
-                         <source_directory>../build/bin</source_directory>
-                         <destination_directory>$INSTALL_DIR/bin</destination_directory>
-                     </action>
-                     <action type="move_directory_files">
-                         <source_directory>../build/include</source_directory>
-                         <destination_directory>$INSTALL_DIR/include</destination_directory>
-                     </action>
-                     <action type="move_directory_files">
-                         <source_directory>../build/lib</source_directory>
-                         <destination_directory>$INSTALL_DIR/lib</destination_directory>
-                     </action>
 
                     <!-- Install and compile icqsol version 1.0 as a package in the above Python -->
                     <action type="make_directory">$TMP_WORK_DIR/icqsol</action>
@@ -178,9 +157,14 @@
                     <action type="change_directory">icqsol</action>
                     <action type="shell_command">
                         <![CDATA[
-                            export PATH=$INSTALL_DIR/bin:$PATH &&
-                            $INSTALL_DIR/bin/python setup.py develop --prefix=$INSTALL_DIR &&
-                            $INSTALL_DIR/bin/python setup.py install --prefix=$INSTALL_DIR
+                            export PATH=$INSTALL_DIR/anaconda/bin:$INSTALL_DIR/vtk/bin:$PATH &&
+                            export VTK_INCLUDE_DIR=$INSTALL_DIR/vtk/include/vtk-6.3 &&
+                            export C_INCLUDE_PATH=$INSTALL_DIR/vtk/include/vtk-6.3 &&
+                            export CPLUS_INCLUDE_PATH=$INSTALL_DIR/vtk/include/vtk-6.3 &&
+                            export VTK_LIBRARY_DIR=$INSTALL_DIR/vtk/lib &&
+                            export DYLD_LIBRARY_PATH=$INSTALL_DIR/vtk/lib &&
+                            $INSTALL_DIR/anaconda/bin/python setup.py develop --prefix=$INSTALL_DIR/anaconda
+                            $INSTALL_DIR/anaconda/bin/python setup.py install --prefix=$INSTALL_DIR/anaconda
                         ]]>
                     </action>
 
@@ -194,8 +178,8 @@
                         binary in the environment already searches the site-packages in the environment, and the lib of the
                         environment, and so on.
                         -->
-                        <environment_variable action="prepend_to" name="PATH">$INSTALL_DIR/bin</environment_variable>
-                        <environment_variable action="prepend_to" name="DYLD_LIBRARY_PATH">$INSTALL_DIR/lib</environment_variable>
+                        <environment_variable action="prepend_to" name="PATH">$INSTALL_DIR/anaconda/bin</environment_variable>
+                        <environment_variable action="prepend_to" name="DYLD_LIBRARY_PATH">$INSTALL_DIR/vtk/lib</environment_variable>
                         <environment_variable action="set_to" name="ICQSOL_ROOT_DIR">$INSTALL_DIR</environment_variable>
                     </action>
                 </actions>
