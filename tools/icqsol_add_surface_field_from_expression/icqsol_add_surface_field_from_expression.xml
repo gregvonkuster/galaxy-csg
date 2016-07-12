@@ -66,6 +66,7 @@
             <param name="input_file_format_and_type" value="vtkascii" />
             <param name="input_dataset_type" value="POLYDATA" />
             <param name="field_name" value="surface_field" />
+            <param name="location" value="cell" />
             <param name="expression" value="(x**2 * sin(y*pi) + z**4) * exp(t)" />
             <repeat name="time_points">
                 <param name="time_point" value="0.1" />
