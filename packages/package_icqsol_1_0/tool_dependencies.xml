@@ -114,6 +114,7 @@
                     <action type="shell_command">
                         <![CDATA[
                             export PATH=$INSTALL_DIR/anaconda/bin:$PATH &&
+                            export PYTHONPATH=$INSTALL_DIR/anaconda:$PYTHONPATH &&
                             export PKG_CONFIG_PATH=$INSTALL_DIR/anaconda/lib/pkgconfig:$PKG_CONFIG_PATH &&
                             cmake \
                             -DCMAKE_BUILD_TYPE:STRING=Release \
