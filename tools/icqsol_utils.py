@@ -3,7 +3,7 @@ import sys
 import tempfile
 
 from icqsol.shapes.icqShapeManager import ShapeManager
-from icqsol.bem.icqLaplaceMatrices import LaplaceMatrices
+from icqsol.bem.icqLaplacesSolver import LaplaceSolver
 
 PLY = 'ply'
 POLYDATA = 'POLYDATA'
@@ -43,7 +43,7 @@ def get_input_file_path(tmp_dir, input_file, format):
 
 
 def get_laplace_solver(shape_data, max_edge_length=float('inf')):
-    return LaplaceMatrices(shape_data, max_edge_length=max_edge_length)
+    return LaplaceSolver(shape_data, max_edge_length=max_edge_length)
 
 
 def get_shape_manager(format=None, dataset_type=None):
