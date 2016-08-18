@@ -1,5 +1,5 @@
 name: icqsol_solve_laplace
-owner: greg
+owner: iuc
 description: |
   Contains a tool that computes the jump of normal electric field given a
   potential field on the surface of a shape.

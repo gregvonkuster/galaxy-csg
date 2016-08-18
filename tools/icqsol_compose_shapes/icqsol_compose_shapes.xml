@@ -6,15 +6,15 @@
     </macros>
     <expand macro="requirements" />
     <command>
-<![CDATA[
-    python $__tool_directory__/icqsol_compose_shapes.py
-    --expression "$expression"
-    #for $i in $input_shapes:
-        --shape_dataset "${i.expression_var}" "${i.input_shape}" "${i.input_shape.ext}" "${i.input_shape.metadata.dataset_type}"
-    #end for
-    --output "$output"
-    --output_vtk_type $output_vtk_type
-]]>
+        <![CDATA[
+            python $__tool_directory__/icqsol_compose_shapes.py
+            --expression "$expression"
+            #for $i in $input_shapes:
+                --shape_dataset "${i.expression_var}" "${i.input_shape}" "${i.input_shape.ext}" "${i.input_shape.metadata.dataset_type}"
+            #end for
+            --output "$output"
+            --output_vtk_type $output_vtk_type
+        ]]>
     </command>
     <inputs>
         <param name="expression" type="text" value="" label="Composition expression" help="Example: A + B - C * D"/>

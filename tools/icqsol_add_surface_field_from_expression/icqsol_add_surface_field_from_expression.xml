@@ -6,23 +6,23 @@
     </macros>
     <expand macro="requirements" />
     <command>
-<![CDATA[
-    python $__tool_directory__/icqsol_add_surface_field_from_expression.py
-    --input "$input"
-    --input_file_format_and_type $input.ext
-    --input_dataset_type $input.metadata.dataset_type
-    --field_name "$field_name"
-    --location $location
-    --expression "$expression"
-    #for $tp in $time_points:
-        --time_point ${tp.time_point}
-    #end for
-    #if $refine_shape_cond.refine_shape == "yes":
-        --max_edge_length $refine_shape_cond.max_edge_length
-    #end if
-    --output "$output"
-    --output_vtk_type $output_vtk_type
-]]>
+        <![CDATA[
+            python $__tool_directory__/icqsol_add_surface_field_from_expression.py
+            --input "$input"
+            --input_file_format_and_type $input.ext
+            --input_dataset_type $input.metadata.dataset_type
+            --field_name "$field_name"
+            --location $location
+            --expression "$expression"
+            #for $tp in $time_points:
+                --time_point ${tp.time_point}
+            #end for
+            #if $refine_shape_cond.refine_shape == "yes":
+                --max_edge_length $refine_shape_cond.max_edge_length
+            #end if
+            --output "$output"
+            --output_vtk_type $output_vtk_type
+        ]]>
     </command>
     <inputs>
         <param name="input" type="data" format="plyascii,plybinary,vtkascii,vtkbinary" label="Shape">

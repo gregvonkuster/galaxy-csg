@@ -6,17 +6,17 @@
     </macros>
     <expand macro="requirements" />
     <command>
-<![CDATA[
-    python $__tool_directory__/icqsol_scale_shape.py
-    --input "$input"
-    --input_file_format_and_type $input.ext
-    --input_dataset_type $input.metadata.dataset_type
-    --scale_x $scale_x
-    --scale_y $scale_y
-    --scale_z $scale_z
-    --output "$output"
-    --output_vtk_type $output_vtk_type
-]]>
+        <![CDATA[
+            python $__tool_directory__/icqsol_scale_shape.py
+            --input "$input"
+            --input_file_format_and_type $input.ext
+            --input_dataset_type $input.metadata.dataset_type
+            --scale_x $scale_x
+            --scale_y $scale_y
+            --scale_z $scale_z
+            --output "$output"
+            --output_vtk_type $output_vtk_type
+        ]]>
     </command>
     <inputs>
         <param name="input" type="data" format="plyascii,plybinary,vtkascii,vtkbinary" label="Shape">

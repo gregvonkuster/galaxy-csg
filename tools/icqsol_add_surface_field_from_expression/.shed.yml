@@ -1,5 +1,5 @@
 name: icqsol_add_surface_field_from_expression
-owner: greg
+owner: iuc
 description: |
   Contains a tool that adds a surface field to a selected shape based on a given mathematical
   expression consisting of variables x, y, z (shape point coordinates) and t (time).

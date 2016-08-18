@@ -6,51 +6,51 @@
     </macros>
     <expand macro="requirements" />
     <command>
-<![CDATA[
-    python $__tool_directory__/icqsol_create_shape.py
-    --create_process $create_process_cond.create_process
-    #if $create_process_cond.create_process == 'create':
-        --shape $create_process_cond.shape_cond.shape
-        #if $create_process_cond.shape_cond.shape == 'box':
-            @origin_cmd_args@
-            @lengths_cmd_args@
-        #else if $create_process_cond.shape_cond.shape == 'cone':
-            @radius_cmd_args@
-            @origin_cmd_args@
-            @lengths_cmd_args@
-            @n_theta_cmd_args@
-        #else if $create_process_cond.shape_cond.shape == 'cylinder':
-            @radius_cmd_args@
-            @origin_cmd_args@
-            @lengths_cmd_args@
-            @n_theta_cmd_args@
-        #else if $create_process_cond.shape_cond.shape == 'sphere':
-            @radius_cmd_args@
-            @origin_cmd_args@
-            @n_theta_cmd_args@
-            @n_phi_cmd_args@
-        #end if
-        --output_vtk_type $create_process_cond.output_vtk_type
-        --output "$output_create"
-    #else:
-        --shape_input "$create_process_cond.shape_input"
-        --rotate $create_process_cond.rotate_cond.rotate
-        #if $create_process_cond.rotate_cond.rotate == 'yes':
-            --rotation_axis_x $create_process_cond.rotate_cond.rotation_axis_x
-            --rotation_axis_y $create_process_cond.rotate_cond.rotation_axis_y
-            --rotation_axis_z $create_process_cond.rotate_cond.rotation_axis_z
-            --rotation_degree $create_process_cond.rotate_cond.rotation_degree
-        #end if
-        #if $create_process_cond.translate_cond.translate == 'yes':
-            --translate $create_process_cond.translate_cond.translate
-            --origin_x $create_process_cond.translate_cond.translate_origin_x
-            --origin_y $create_process_cond.translate_cond.translate_origin_y
-            --origin_z $create_process_cond.translate_cond.translate_origin_z
-        #end if
-        --output_vtk_type $create_process_cond.shape_input.ext
-        --output "$output_clone"
-    #end if
-]]>
+        <![CDATA[
+            python $__tool_directory__/icqsol_create_shape.py
+            --create_process $create_process_cond.create_process
+            #if $create_process_cond.create_process == 'create':
+                --shape $create_process_cond.shape_cond.shape
+                #if $create_process_cond.shape_cond.shape == 'box':
+                    @origin_cmd_args@
+                    @lengths_cmd_args@
+                #else if $create_process_cond.shape_cond.shape == 'cone':
+                    @radius_cmd_args@
+                    @origin_cmd_args@
+                    @lengths_cmd_args@
+                    @n_theta_cmd_args@
+                #else if $create_process_cond.shape_cond.shape == 'cylinder':
+                    @radius_cmd_args@
+                    @origin_cmd_args@
+                    @lengths_cmd_args@
+                    @n_theta_cmd_args@
+                #else if $create_process_cond.shape_cond.shape == 'sphere':
+                    @radius_cmd_args@
+                    @origin_cmd_args@
+                    @n_theta_cmd_args@
+                    @n_phi_cmd_args@
+                #end if
+                --output_vtk_type $create_process_cond.output_vtk_type
+                --output "$output_create"
+            #else:
+                --shape_input "$create_process_cond.shape_input"
+                --rotate $create_process_cond.rotate_cond.rotate
+                #if $create_process_cond.rotate_cond.rotate == 'yes':
+                    --rotation_axis_x $create_process_cond.rotate_cond.rotation_axis_x
+                    --rotation_axis_y $create_process_cond.rotate_cond.rotation_axis_y
+                    --rotation_axis_z $create_process_cond.rotate_cond.rotation_axis_z
+                    --rotation_degree $create_process_cond.rotate_cond.rotation_degree
+                #end if
+                #if $create_process_cond.translate_cond.translate == 'yes':
+                    --translate $create_process_cond.translate_cond.translate
+                    --origin_x $create_process_cond.translate_cond.translate_origin_x
+                    --origin_y $create_process_cond.translate_cond.translate_origin_y
+                    --origin_z $create_process_cond.translate_cond.translate_origin_z
+                #end if
+                --output_vtk_type $create_process_cond.shape_input.ext
+                --output "$output_clone"
+            #end if
+        ]]>
     </command>
     <inputs>
         <conditional name="create_process_cond">

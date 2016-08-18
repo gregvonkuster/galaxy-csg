@@ -1,5 +1,5 @@
 name: icqsol_compose_shapes
-owner: greg
+owner: iuc
 description: |
   Contains a tool that creates a shape composed of any number of selected shapes.
 homepage_url: https://github.com/gregvonkuster/galaxy-csg

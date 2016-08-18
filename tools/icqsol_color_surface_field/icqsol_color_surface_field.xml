@@ -6,17 +6,17 @@
     </macros>
     <expand macro="requirements" />
     <command>
-<![CDATA[
-    python $__tool_directory__/icqsol_color_surface_field.py
-    --input "$input"
-    --input_file_format_and_type $input.ext
-    --input_dataset_type $input.metadata.dataset_type
-    --field_name $field_name
-    --field_component_index $field_component_index
-    --color_map $color_map
-    --output "$output"
-    --output_vtk_type $output_vtk_type
-]]>
+        <![CDATA[
+            python $__tool_directory__/icqsol_color_surface_field.py
+            --input "$input"
+            --input_file_format_and_type $input.ext
+            --input_dataset_type $input.metadata.dataset_type
+            --field_name $field_name
+            --field_component_index $field_component_index
+            --color_map $color_map
+            --output "$output"
+            --output_vtk_type $output_vtk_type
+        ]]>
     </command>
     <inputs>
         <param name="input" type="data" format="vtkascii,vtkbinary" label="Shape with uncolored surface field">

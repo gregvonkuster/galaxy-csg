@@ -1,5 +1,5 @@
 name: icqsol_color_surface_field
-owner: greg
+owner: iuc
 description: |
   Contains a tool that colors a shape's selected surface field using a selected color map.
 homepage_url: https://github.com/gregvonkuster/galaxy-csg

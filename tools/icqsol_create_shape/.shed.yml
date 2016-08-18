@@ -1,5 +1,5 @@
 name: icqsol_create_shape
-owner: greg
+owner: iuc
 description: |
   Contains a tool that creates a new selected primitive shape or a clone of a selected
   shape.

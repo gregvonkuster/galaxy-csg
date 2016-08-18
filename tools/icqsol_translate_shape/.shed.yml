@@ -1,5 +1,5 @@
 name: icqsol_translate_shape
-owner: greg
+owner: iuc
 description: Contains a tool that translates a shape to a new position.
 homepage_url: https://github.com/gregvonkuster/galaxy-csg
 long_description: |

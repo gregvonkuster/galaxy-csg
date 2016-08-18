@@ -1,5 +1,5 @@
 name: icqsol_coarsen_shape
-owner: greg
+owner: iuc
 description: |
   Contains a tool that coarsens a shape to a specified level resulting in a less detailed shape.
 homepage_url: https://github.com/gregvonkuster/galaxy-csg

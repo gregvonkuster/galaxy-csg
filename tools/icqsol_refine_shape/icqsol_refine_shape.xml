@@ -6,15 +6,15 @@
     </macros>
     <expand macro="requirements" />
     <command>
-<![CDATA[
-    python $__tool_directory__/icqsol_refine_shape.py
-    --input "$input"
-    --input_file_format_and_type $input.ext
-    --input_dataset_type $input.metadata.dataset_type
-    --max_edge_length $max_edge_length
-    --output "$output"
-    --output_vtk_type $output_vtk_type
-]]>
+        <![CDATA[
+            python $__tool_directory__/icqsol_refine_shape.py
+            --input "$input"
+            --input_file_format_and_type $input.ext
+            --input_dataset_type $input.metadata.dataset_type
+            --max_edge_length $max_edge_length
+            --output "$output"
+            --output_vtk_type $output_vtk_type
+        ]]>
     </command>
     <inputs>
         <param name="input" type="data" format="plyascii,plybinary,vtkascii,vtkbinary" label="Shape">
