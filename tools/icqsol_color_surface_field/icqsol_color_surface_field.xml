@@ -5,6 +5,7 @@
         <import>icqsol_macros.xml</import>
     </macros>
     <expand macro="requirements" />
+    <code file="icqsol_tool_form_utils.py" />
     <command>
         <![CDATA[
             python $__tool_directory__/icqsol_color_surface_field.py
@@ -53,7 +54,6 @@
             <output name="output" file="box_with_surface_field_colored.vtkascii" ftype="vtkascii" />
         </test>
     </tests>
-    <code file="icqsol_tool_form_utils.py" />
     <help>
 **What it does**
 
