@@ -3,7 +3,7 @@ import sys
 import tempfile
 
 from icqsol.shapes.icqShapeManager import ShapeManager
-from icqsol.bem.icqLaplacesSolver import LaplaceSolver
+from icqsol.bem.icqLaplaceSolver import LaplaceSolver
 
 PLY = 'ply'
 POLYDATA = 'POLYDATA'
