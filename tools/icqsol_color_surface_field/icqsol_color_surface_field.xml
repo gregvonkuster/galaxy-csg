@@ -53,6 +53,7 @@
             <output name="output" file="box_with_surface_field_colored.vtkascii" ftype="vtkascii" />
         </test>
     </tests>
+    <code file="icqsol_tool_form_utils.py" />
     <help>
 **What it does**
 
@@ -64,7 +65,6 @@ input shapes to only those that have at least one surface field.
 * **Color map** - Color map to be used when coloring the surface field.
 
     </help>
-    <code file="icqsol_tool_form_utils.py" />
     <options refresh="True" />
     <expand macro="citations" />
 </tool>
