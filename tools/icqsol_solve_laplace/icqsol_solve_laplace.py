@@ -29,10 +29,11 @@ vtk_poly_data = shape_mgr.loadAsVtkPolyData(args.input)
 solver = icqsol_utils.get_laplace_solver(vtk_poly_data)
 
 # Set the output field names.
-solver.setNormalElectricFieldJumpName(args.output_jump_electric_field_name)
+solver.setResponseFieldName(args.output_jump_electric_field_name)
 
 # In place operation, vtk_poly_data will be modified.
-normalEJump = solver.computeNormalElectricFieldJump(potName=args.input_potential_name)
+solver.setSourceFieldName(args.input_potential_name)
+normalEJump = solver.computeResponseField()
 surfIntegral = shape_mgr.integrateSurfaceField(solver.getVtkPolyData(), args.output_jump_electric_field_name)
 print 'Surface integral of normal electric field jump: {0}'.format(surfIntegral)
 minVal, maxVal = shape_mgr.getFieldRange(solver.getVtkPolyData(), args.output_jump_electric_field_name)
