@@ -34,30 +34,30 @@ Tool Highlights
 Creating shapes
 ---------------
 This is the Create 3D shape tool.  It allows you to create 4 primitive shapes, boxes, cones, cylinders and spheres.  Here we're creating a cylinder.
-![Create 3D shape](https://github.com/gregvonkuster/galaxy-csg/tree/master/images/create_cylinder.png?raw=true)
+![Create 3D shape](https://raw.githubusercontent.com/gregvonkuster/galaxy-csg/tree/master/images/create_cylinder.png)
 
 We can view and manipulate the cylinder using the Galaxy CSG Viewer plug-in.
-![CSG Viewer plug-in](https://github.com/gregvonkuster/galaxy-csg/tree/master/images/csg_viewer.png?raw=true)
+![CSG Viewer plug-in](https://raw.githubusercontent.com/gregvonkuster/galaxy-csg/tree/master/images/csg_viewer.png)
 
 The plug-in renders the 3D image in Galaxy.
-![View shape](https://github.com/gregvonkuster/galaxy-csg/tree/master/images/cylinder.png?raw=true)
+![View shape](https://raw.githubusercontent.com/gregvonkuster/galaxy-csg/tree/master/images/cylinder.png)
 
 We can create a cone...
-![Create 3D shape](https://github.com/gregvonkuster/galaxy-csg/tree/master/images/create_cone.png?raw=true)
+![Create 3D shape](https://raw.githubusercontent.com/gregvonkuster/galaxy-csg/tree/master/images/create_cone.png)
 ...and a box.
-![Create 3D shape](https://github.com/gregvonkuster/galaxy-csg/tree/master/images/create_box.png?raw=true)
+![Create 3D shape](https://raw.githubusercontent.com/gregvonkuster/galaxy-csg/tree/master/images/create_box.png)
 
 The Create 3D shape tool allows you to create a shape by cloning another shape.  Options include rotating or translating the cloned shape.  Here we clone the box we just created, rotating it 90 degrees around the X axis.
-![Create 3D shape](https://github.com/gregvonkuster/galaxy-csg/tree/master/images/clone_box.png?raw=true)
+![Create 3D shape](https://raw.githubusercontent.com/gregvonkuster/galaxy-csg/tree/master/images/clone_box.png)
 
 Composing shapes
 ----------------
 This is the Compose shapes tool.  This tool creates a shape composed of any number of selected shapes where the composition is based on a mathematical expression consisting of +, - and * operations.  The + operator results in a union of shapes, the - operator removes a shape and the * operator results in an intersection of shapes.
 Here we are composing the four primitive shapes we just created, adding the cone to the cylinder and subtracting both boxes.
-![Compose 3D shapes](https://github.com/gregvonkuster/galaxy-csg/tree/master/images/compose_shapes.png?raw=true)
+![Compose 3D shapes](https://raw.githubusercontent.com/gregvonkuster/galaxy-csg/tree/master/images/compose_shapes.png)
 
 Our composed shapes produce a bolt.
-![Composed 3D shapes](https://github.com/gregvonkuster/galaxy-csg/tree/master/images/bolt.png?raw=true)
+![Composed 3D shapes](https://raw.githubusercontent.com/gregvonkuster/galaxy-csg/tree/master/images/bolt.png)
 
 Texture
 -------
