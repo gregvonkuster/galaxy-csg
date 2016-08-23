@@ -31,41 +31,41 @@ Tool Highlights
  * [Color surface field](./tools/icqsol_color_surface_field/icqsol_color_surface_field.xml) - Colors a shape's surface field using a selected color map.
  * [Solve Laplace equation](./tools/icqsol_solve_laplace/icqsol_solve_laplace.xml) - Solve the Laplace equation given prescribed Dirichlet boundary conditions applied as a surface field.  The resulting field corresponds to the electric field in an electrostatic problem.
 
-Some Examples
--------------
-
 Creating shapes
+---------------
 This is the Create 3D shape tool.  It allows you to create 4 primitive shapes, boxes, cones, cylinders and spheres.  Here we're creating a cylinder.
-![Create 3D shape](https://github.com/gregvonkuster/galaxy-csg/tree/master/images/create_cylinder.png "Create cylinder")
+![Create 3D shape](https://github.com/gregvonkuster/galaxy-csg/tree/master/images/create_cylinder.png?raw=true "Create cylinder")
 
 We can view and manipulate the cylinder using the Galaxy CSG Viewer plug-in.
-![CSG Viewer plug-in](https://github.com/gregvonkuster/galaxy-csg/tree/master/images/csg_viewer.png "CSG Viewer plug-in")
+![CSG Viewer plug-in](https://github.com/gregvonkuster/galaxy-csg/tree/master/images/csg_viewer.png?raw=true "CSG Viewer plug-in")
 
 The plug-in renders the 3D image in Galaxy.
-![View shape](https://github.com/gregvonkuster/galaxy-csg/tree/master/images/cylinder.png "View cylinder")
+![View shape](https://github.com/gregvonkuster/galaxy-csg/tree/master/images/cylinder.png?raw=true "View cylinder")
 
 We can create a cone...
-![Create 3D shape](https://github.com/gregvonkuster/galaxy-csg/tree/master/images/create_cone.png "Create cone")
+![Create 3D shape](https://github.com/gregvonkuster/galaxy-csg/tree/master/images/create_cone.png?raw=true "Create cone")
 ...and a box.
-![Create 3D shape](https://github.com/gregvonkuster/galaxy-csg/tree/master/images/create_box.png "Create box")
+![Create 3D shape](https://github.com/gregvonkuster/galaxy-csg/tree/master/images/create_box.png?raw=true "Create box")
 
 The Create 3D shape tool allows you to create a shape by cloning another shape.  Options include rotating or translating the cloned shape.  Here we clone the box we just created, rotating it 90 degrees around the X axis.
-![Create 3D shape](https://github.com/gregvonkuster/galaxy-csg/tree/master/images/clone_box.png "Clone box")
+![Create 3D shape](https://github.com/gregvonkuster/galaxy-csg/tree/master/images/clone_box.png?raw=true "Clone box")
 
 Composing shapes
+----------------
 This is the Compose shapes tool.  This tool creates a shape composed of any number of selected shapes where the composition is based on a mathematical expression consisting of +, - and * operations.  The + operator results in a union of shapes, the - operator removes a shape and the * operator results in an intersection of shapes.
 Here we are composing the four primitive shapes we just created, adding the cone to the cylinder and subtracting both boxes.
-![Compose 3D shapes](https://github.com/gregvonkuster/galaxy-csg/tree/master/images/compose_shapes.png "Compose shapes")
+![Compose 3D shapes](https://github.com/gregvonkuster/galaxy-csg/tree/master/images/compose_shapes.png?raw=true "Compose shapes")
 
 Our composed shapes produce a bolt.
-![Composed 3D shapes](https://github.com/gregvonkuster/galaxy-csg/tree/master/images/bolt.png "View bolt")
+![Composed 3D shapes](https://github.com/gregvonkuster/galaxy-csg/tree/master/images/bolt.png?raw=true "View bolt")
 
 Texture
+-------
 This is the Add texture to shape tool.  It allows you to select an image dataset from your history and project it onto the shape's surface.
-![Add texture](https://github.com/gregvonkuster/galaxy-csg/tree/master/images/add_texture.png "Add texture")
+![Add texture](https://github.com/gregvonkuster/galaxy-csg/tree/master/images/add_texture.png?raw=true "Add texture")
 
 Here is our shiny bolt.
-![Shiny bolt](https://github.com/gregvonkuster/galaxy-csg/tree/master/images/shiny_bolt.png "Shiny bolt")
+![Shiny bolt](https://github.com/gregvonkuster/galaxy-csg/tree/master/images/shiny_bolt.png?raw=true "Shiny bolt")
 
 Other repositories with high quality tools
 ------------------------------------------
