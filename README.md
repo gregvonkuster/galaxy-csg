@@ -35,48 +35,48 @@ Creating shapes
 ---------------
 This is the Create 3D shape tool.  It allows you to create 4 primitive shapes, boxes, cones, cylinders and spheres.  Here we're creating a cylinder.
 
-<img src="images/create_cylinder.png width="738" height="1108" />
+<img src="https://github.com/gregvonkuster/galaxy-csg/images/create_cylinder.png width="738" height="1108" />
 
 We can view and manipulate the cylinder using the Galaxy CSG Viewer plug-in.
 
-<img src="images/csg_viewer.png width="298" height="308" />
+<img src="https://github.com/gregvonkuster/galaxy-csg/images/csg_viewer.png width="298" height="308" />
 
 The plug-in renders the 3D image in Galaxy.
 
-<img src="images/cylinder.png width="538" height="252" />
+<img src="https://github.com/gregvonkuster/galaxy-csg/images/cylinder.png width="538" height="252" />
 
 We can create a cone...
 
-<img src="images/create_cone.png width="728" height="1102" />
+<img src="https://github.com/gregvonkuster/galaxy-csg/images/create_cone.png width="728" height="1102" />
 
 ...and a box.
 
-<img src="images/create_box.png width="728" height="906" />
+<img src="https://github.com/gregvonkuster/galaxy-csg/images/create_box.png width="728" height="906" />
 
 The Create 3D shape tool allows you to create a shape by cloning another shape.  Options include rotating or translating the cloned shape.  Here we clone the box we just created, rotating it 90 degrees around the X axis.
 
-<img src="images/clone_box.png width="728" height="834" />
+<img src="https://github.com/gregvonkuster/galaxy-csg/images/clone_box.png width="728" height="834" />
 
 Composing shapes
 ----------------
 This is the Compose shapes tool.  This tool creates a shape composed of any number of selected shapes where the composition is based on a mathematical expression consisting of +, - and * operations.  The + operator results in a union of shapes, the - operator removes a shape and the * operator results in an intersection of shapes.
 Here we are composing the four primitive shapes we just created, adding the cone to the cylinder and subtracting both boxes.
 
-<img src="images/compose_shapes.png width="626" height="1324" />
+<img src="https://github.com/gregvonkuster/galaxy-csg/images/compose_shapes.png width="626" height="1324" />
 
 Our composed shapes produce a bolt.
 
-<img src="images/bolt.png width="608" height="392" />
+<img src="https://github.com/gregvonkuster/galaxy-csg/images/bolt.png width="608" height="392" />
 
 Texture
 -------
 This is the Add texture to shape tool.  It allows you to select an image dataset from your history and project it onto the shape's surface.
 
-<img src="images/add_texture.png width="652" height="636" />
+<img src="https://github.com/gregvonkuster/galaxy-csg/images/add_texture.png width="652" height="636" />
 
 Here is our shiny bolt.
 
-<img src="images/shiny_bolt.png width="6" height="1108" />
+<img src="https://github.com/gregvonkuster/galaxy-csg/images/shiny_bolt.png width="600" height="412" />
 
 Other repositories with high quality tools
 ------------------------------------------
