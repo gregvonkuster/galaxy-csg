@@ -35,7 +35,7 @@ Creating shapes
 ---------------
 This is the Create 3D shape tool.  It allows you to create 4 primitive shapes, boxes, cones, cylinders and spheres.  Here we're creating a cylinder.
 
-![Create 3D shape](images/create_cylinder.png?raw=true){:height="738px" width="1108px"}
+![Create 3D shape](images/create_cylinder.png?raw=true)
 
 We can view and manipulate the cylinder using the Galaxy CSG Viewer plug-in.
 
