@@ -76,7 +76,7 @@ This is the Add texture to shape tool.  It allows you to select an image dataset
 
 Here is our shiny bolt.
 
-<img src="images/shiny_bolt.png width="600" height="412" />
+<img src="images/shiny_bolt.png width="6" height="1108" />
 
 Other repositories with high quality tools
 ------------------------------------------
