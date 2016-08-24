@@ -5,17 +5,18 @@ Galaxy tools for Constructive Solid Geometry
 
 This repository contains tools that can be used within Galaxy for creating, assembling and solving equations on 3-dimensional shapes.
 Galaxy includes a CSG Viewer [Visualization plug-in](https://wiki.galaxyproject.org/Develop/Visualizations) for viewing the shapes
-produced by these tools.  Here is the [CSG Viewer plug-in](https://github.com/galaxyproject/galaxy/tree/dev/config/plugins/visualizations/csg).
+produced by these tools.  The CSG Viewer plug-in is available [here](https://github.com/galaxyproject/galaxy/tree/dev/config/plugins/visualizations/csg)
+in the Galaxy code.
 
-These tools are written in Python and based upon the following packages.
+These tools are written in Python and use the following packages.
 
  * [Python version 2.7.x](https://www.python.org)
  * [VTK version 6.3.0](http://www.vtk.org)
  * [icqsol version 0.3.26](https://github.com/pletzer/icqsol)
 
-All of these tools are available in the [Galaxy Tool Shed](https://toolshed.g2.bx.psu.edu/), so they can be automatically installed into Galaxy.
+All of these tools are available in the [Galaxy Tool Shed](https://toolshed.g2.bx.psu.edu/repository/browse_categories?sort=name&operation=repositories_by_category&id=589548af7e391bcf), so they can be automatically installed into Galaxy.
 
-Wrapping tools for use in Galaxy is easy!  If you want to start, see the [Galaxy wiki](https://wiki.galaxyproject.org/Admin/Tools/AddToolTutorial).
+The docker container for the Galaxy CSG flavor is available [here](https://hub.docker.com/r/gregvonkuster/docker-galaxy-csg/)
 
 Tool Highlights
 ---------------
@@ -68,13 +69,13 @@ Our composed shapes produce a bolt.
 
 ![Composed 3D shapes](images/bolt.png?raw=true)
 
-Texture
--------
+Adding texture
+--------------
 This is the Add texture to shape tool.  It allows you to select an image dataset from your history and project it onto the shape's surface.
 
 ![Add texture](images/add_texture.png?raw=true)
 
-Here is our shiny bolt.
+Our bolt is shiny after adding the texture.
 
 ![Shiny bolt](images/shiny_bolt.png?raw=true)
 
