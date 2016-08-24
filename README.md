@@ -1,7 +1,5 @@
-# galaxy-csg
-
-Galaxy tools for Constructive Solid Geometry
-============================================
+Galaxy tools for Constructive Solid Geometry (Galaxy CSG flavor)
+================================================================
 
 This repository contains tools that can be used within Galaxy for creating, assembling and solving equations on 3-dimensional shapes.
 Galaxy includes a CSG Viewer [Visualization plug-in](https://wiki.galaxyproject.org/Develop/Visualizations) for viewing the shapes
@@ -10,13 +8,13 @@ in the Galaxy code.
 
 These tools are written in Python and use the following packages.
 
- * [Python version 2.7.x](https://www.python.org)
- * [VTK version 6.3.0](http://www.vtk.org)
- * [icqsol version 0.3.26](https://github.com/pletzer/icqsol)
+ * [Python](https://www.python.org)
+ * [VTK](http://www.vtk.org)
+ * [icqsol](https://github.com/pletzer/icqsol)
 
 All of these tools are available in the [Galaxy Tool Shed](https://toolshed.g2.bx.psu.edu/repository/browse_categories?sort=name&operation=repositories_by_category&id=589548af7e391bcf), so they can be automatically installed into Galaxy.
 
-The docker container for the Galaxy CSG flavor is available [here](https://hub.docker.com/r/gregvonkuster/docker-galaxy-csg/)
+The docker container for the Galaxy CSG flavor is available [here](https://github.com/gregvonkuster/docker-galaxy-csg)
 
 Tool Highlights
 ---------------
